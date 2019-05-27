@@ -1,0 +1,13 @@
+name = "JuMPTutorials"
+uuid = "767a2c38-803a-11e9-191e-47b580bc80c9"
+authors = ["Arpit Bhatia <arpit16229@iiitd.ac.in>"]
+version = "0.1.0"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
