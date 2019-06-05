@@ -3,6 +3,11 @@ uuid = "767a2c38-803a-11e9-191e-47b580bc80c9"
 authors = ["Arpit Bhatia <arpit16229@iiitd.ac.in>"]
 version = "0.1.0"
 
+[deps]
+GLPK = "60bf3e95-4087-53dc-ae20-288a0d20c6a6"
+JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
+Weave = "44d3d7a6-8a23-5bf8-98c5-b353f8df5ec9"
+
 [compat]
 julia = "1"
 
