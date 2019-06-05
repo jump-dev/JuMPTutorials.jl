@@ -94,3 +94,8 @@ optimize!(model)
 @show value(x)
 @show value(y)
 @show objective_value(model)
+
+#+ echo = false; eval = false
+
+using Test
+@test objective_value(model) ≈ 205

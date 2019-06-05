@@ -43,3 +43,7 @@ optimize!(model)
 @show value(y)
 @show objective_value(model)
 
+
+using Test
+@test objective_value(model) ≈ 205
+

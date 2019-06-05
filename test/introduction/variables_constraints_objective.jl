@@ -15,9 +15,6 @@ has_upper_bound(altx)
 upper_bound(altx)
 
 
-lower_bound(freex)
-
-
 @variable(model, a[1:2, 1:2])
 
 
