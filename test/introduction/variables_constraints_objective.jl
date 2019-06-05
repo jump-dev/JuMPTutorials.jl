@@ -43,13 +43,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 @variable(model, v[i=1:9; mod(i, 3)==0])
 
 
-@variable(model, intx, Int)
-
-
 @variable(model, intx, integer=true)
-
-
-@variable(model, binx, Bin)
 
 
 @variable(model, binx, binary=true)

@@ -63,9 +63,6 @@ A * x
 A * x == b
 
 
-b * b
-
-
 @show b' * b
 @show b * b';
 
@@ -207,20 +204,4 @@ println("immutable_type: $(immutable_type)")
 
 using Random
 [rand() for i in 1:10]
-
-
-using Pkg
-Pkg.add("JuMP")
-
-
-using Pkg
-Pkg.add("https://github.com/user-name/MyPackage.jl.git")
-
-
-import Pkg
-Pkg.activate(@__DIR__)
-Pkg.instantiate()
-
-
-ceil(1.2 + 2.3im)
 

@@ -103,6 +103,7 @@ A * x
 A * x == b
  
 #' Note that when multiplying vectors and matrices, dimensions matter. For example, you can't multiply a vector by a vector:
+#+ tangle = false
 
 b * b
 
@@ -299,21 +300,21 @@ using Random
 
 #' The Package Manager is used to install packages that are not part of Julia's standard library. 
 #' For example the following can be used to install JuMP,
-#+ eval=false
+#+ eval=false; tangle = false
 
 using Pkg
 Pkg.add("JuMP")
 
 #' For a complete list of registed Julia packages see the package listing at https://pkg.julialang.org/.
 #' From time to you may wish to use a Julia package that is not registered.  In this case a git repository URL can be used to install the package.
-#+ eval=false
+#+ eval=false; tangle = false
 
 using Pkg
 Pkg.add("https://github.com/user-name/MyPackage.jl.git")
 
 #' Note that for clarity this example uses the package manager `Pkg`.  Julia 1.0 includes an interactive package manager that can be accessed using `]`.  [This video](https://youtu.be/76KL8aSz0Sg) gives an overview of using the interactive package manager environment. 
 #' The state of installed packages can also be saved in two files: `Project.toml` and `Manifest.toml`. If these files are stored in the same directory than a notebook, the state of the packages can be recovered by running
-#+ eval=false
+#+ eval=false; tangle = false
 import Pkg
 Pkg.activate(@__DIR__)
 Pkg.instantiate()
@@ -324,5 +325,6 @@ Pkg.instantiate()
 #' ## Some Common Gotchas 
 #' ### MethodError
 #' A common error in Julia is `MethodError`, which indicates that the function is not defined for the given value.  For example, by default the `ceil` function is not defined for complex numbers.  The "closest candidates" list suggest some Julia types that the function is defined for.
+#+ tangle = false
 
 ceil(1.2 + 2.3im)

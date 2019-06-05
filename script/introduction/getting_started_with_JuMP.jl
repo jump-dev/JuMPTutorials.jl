@@ -14,7 +14,7 @@
 
 #' # Installing JuMP
 #' JuMP is a package for Julia. From Julia, JuMP is installed by using the built-in package manager.
-#+ eval = false
+#+ eval = false; tangle = false
 
 import Pkg
 Pkg.add("JuMP")

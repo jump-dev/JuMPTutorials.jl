@@ -31,6 +31,7 @@ has_upper_bound(altx)
 upper_bound(altx)
 
 #' Note querying the value of a bound that does not exist will result in an error.
+#+ tangle = false
 
 lower_bound(freex)
 
@@ -89,7 +90,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 
 #' ### Integer Variables
 #' Integer optimization variables are constrained to the set $x \in {Z}$
-#+ eval = false
+#+ eval = false; tangle = false
 
 @variable(model, intx, Int)
 
@@ -99,7 +100,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 
 #' ### Binary Variables
 #' Binary optimization variables are constrained to the set $x \in \{0, 1\}$. 
-#+ eval = false
+#+ eval = false; tangle = false
 
 @variable(model, binx, Bin)
 

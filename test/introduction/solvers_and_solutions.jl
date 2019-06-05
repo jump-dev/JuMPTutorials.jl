@@ -69,21 +69,3 @@ display(typeof(MOI.FEASIBLE_POINT))
 @show value(y)           
 @show objective_value(model_auto)
 
-
-model_nosol = Model(with_optimizer(GLPK.Optimizer))
-@variable(model_nosol, 0 <= x <= 1)
-@variable(model_nosol, 0 <= y <= 1)
-@constraint(model_nosol, x + y >= 3)
-@objective(model_nosol, Max, x + 2y)
-optimize!(model_nosol)
-
-if termination_status(model_nosol) == MOI.OPTIMAL
-    optimal_solution = value(x)
-    optimal_objective = objective_value(model_nosol)
-elseif termination_status(model_nosol) == MOI.TIME_LIMIT && has_values(model_nosol)
-    suboptimal_solution = value(x)
-    suboptimal_objective = objective_value(model_nosol)
-else
-    error("The model was not solved correctly.")
-end
-

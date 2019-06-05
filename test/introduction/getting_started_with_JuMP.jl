@@ -1,8 +1,4 @@
 
-import Pkg
-Pkg.add("JuMP")
-
-
 using JuMP
 using GLPK
 

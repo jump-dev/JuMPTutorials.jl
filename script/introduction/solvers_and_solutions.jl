@@ -144,6 +144,7 @@ display(typeof(MOI.FEASIBLE_POINT))
 
 #' Since it is possible that no solution is available to be queried from the model, calls to `value` may throw errors.
 #' Hence, it is recommended to check for the presence of solutions.
+#+ tangle = false
 
 model_nosol = Model(with_optimizer(GLPK.Optimizer))
 @variable(model_nosol, 0 <= x <= 1)
