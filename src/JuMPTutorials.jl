@@ -13,28 +13,28 @@ function weave_file(folder,file)
     notebookpath = joinpath(repo_directory, "notebook", folder, string(filename, ".ipynb"))
 
     if mtime(srcpath) > mtime(testpath) || mtime(testpath)==0
-        @warn "Updating tests for $filename as it has been updated since the least weave."
+        @warn "Updating tests for $filename as it has been updated since the last weave."
         tangle(srcpath, out_path=testpath)
     else
         @warn "Skipping tests for $filename as it has not been updated."
     end
 
     if mtime(srcpath) > mtime(htmlpath) || mtime(htmlpath)==0
-        @warn "Weaving $filename to HTML as it has been updated since the least weave."
+        @warn "Weaving $filename to HTML as it has been updated since the last weave."
         weave(srcpath, doctype="md2html", out_path=htmlpath)
     else
         @warn "Skipping HTML for $filename as it has not been updated."
     end
 
     if mtime(srcpath) > mtime(pdfpath) || mtime(pdfpath)==0
-        @warn "Weaving $filename to PDF as it has been updated since the least weave."
+        @warn "Weaving $filename to PDF as it has been updated since the last weave."
         weave(srcpath, doctype="md2pdf", out_path=pdfpath)
     else
         @warn "Skipping PDF for $filename as it has not been updated."
     end
 
     if mtime(srcpath) > mtime(notebookpath) || mtime(notebookpath)==0
-        @warn "Weaving $filename to Jupyter Notebook as it has been updated since the least weave."
+        @warn "Weaving $filename to Jupyter Notebook as it has been updated since the last weave."
         convert_doc(srcpath, notebookpath)
     else
         @warn "Skipping Jupyter Notebook for $filename as it has not been updated."
