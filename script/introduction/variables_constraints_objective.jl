@@ -19,7 +19,7 @@ model = Model()
 
 #' While creating a variable, instead of using the <= and >= syntax, we can also use the `lower_bound` and `upper_bound` keyword arguments.
 
-@variable(model, altx, lower_bound=1, upper_bound=2)
+@variable(model, altx, lower_bound = 1, upper_bound = 2)
 
 #' We can query whether a variable has a bound using the `has_lower_bound` and `has_upper_bound` functions. The values of the bound can be obtained 
 #' using the `lower_bound` and `upper_bound` functions.
@@ -55,11 +55,11 @@ n = 10
 l = [1; 2; 3; 4; 5; 6; 7; 8; 9; 10]
 u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 
-@variable(model, l[i] <= x[i=1:n] <= u[i])
+@variable(model, l[i] <= x[i = 1:n] <= u[i])
 
 #' Note that while working with Containers, we can also create variable bounds depending upon the indices
 
-@variable(model, y[i=1:2, j=1:2] >= 2i + j)
+@variable(model, y[i = 1:2, j = 1:2] >= 2i + j)
 
 #' ### DenseAxisArrays
 #' DenseAxisArrays are used when the required indices are not one-based integer ranges. The syntax is similar except with an 
@@ -67,7 +67,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 
 #' An example where the indices are integers but do not start with one.
 
-@variable(model, z[i=2:3, j=1:2:3] >= 0)
+@variable(model, z[i = 2:3, j = 1:2:3] >= 0)
 
 #' Another example where the indices are an arbitrary vector.
 
@@ -77,12 +77,12 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 #' SparseAxisArrays are created when the indices do not form a rectangular set. For example, this applies when indices have a 
 #' dependence upon previous indices (called triangular indexing). 
 
-@variable(model, u[i=1:3, j=i:5])
+@variable(model, u[i = 1:3, j = i:5])
 
 #' We can also conditionally create variables by adding a comparison check that depends upon the named indices and is separated 
 #' from the indices by a semi-colon (;).
 
-@variable(model, v[i=1:9; mod(i, 3)==0])
+@variable(model, v[i = 1:9; mod(i, 3) == 0])
 
 #' ## Variable Types
 
@@ -96,7 +96,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 
 #' or
 
-@variable(model, intx, integer=true)
+@variable(model, intx, integer = true)
 
 #' ### Binary Variables
 #' Binary optimization variables are constrained to the set $x \in \{0, 1\}$. 
@@ -106,7 +106,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 
 #' or
 
-@variable(model, binx, binary=true)
+@variable(model, binx, binary = true)
 
 #' ### Semidefinite variables
 #' JuMP also supports modeling with semidefinite variables. A square symmetric matrix X is positive semidefinite if all eigenvalues 
@@ -152,12 +152,12 @@ model = Model()
 #' We can add constraints using regular Julia loops
 
 for i in 1:3
-    @constraint(model, 6*x + 4*y >= 5*i)
+    @constraint(model, 6x + 4y >= 5i)
 end
 
 #' or use for each loops inside the `@constraint` macro
 
-@constraint(model, conRef3[i in 1:3], 6*x + 4*y >= 5*i)
+@constraint(model, conRef3[i in 1:3], 6x + 4y >= 5i)
 
 #' We can also created constraints such as ``$\sum _{i = 1}^{10} z_i \leq 1$``
 
@@ -208,8 +208,8 @@ objective_function_type(mymodel)
 
 vectormodel = Model(with_optimizer(GLPK.Optimizer))
 
-A= [ 1 1 9 5;
-     3 5 0 8;
+A= [ 1 1 9  5;
+     3 5 0  8;
      2 0 6 13]
 
 b = [7; 3; 5]
