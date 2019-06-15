@@ -39,7 +39,7 @@ using Colors
 #' \end{align*}
 #' $$
 
-Graph2 = [
+G = [
 0 1 0 0 0 0;
 1 0 1 1 0 0;
 0 1 0 0 1 1;
@@ -48,16 +48,16 @@ Graph2 = [
 0 0 1 0 0 0
 ]
 
-g2 = SimpleGraph(Graph2)
+g = SimpleGraph(G)
        
-gplot(g2)
+gplot(g)
 
 #'
 
 vertex_cover = Model(with_optimizer(GLPK.Optimizer))
 
-@variable(vertex_cover, y[1:nv(g2)], Bin)
-@constraint(vertex_cover, con[i = 1:nv(g2), j = 1:nv(g2); Graph2[i,j] == 1], y[i] + y[j] >= 1)
+@variable(vertex_cover, y[1:nv(g)], Bin)
+@constraint(vertex_cover, [i = 1:nv(g), j = 1:nv(g); G[i,j] == 1], y[i] + y[j] >= 1)
 @objective(vertex_cover, Min, sum(y))
 
 optimize!(vertex_cover)
@@ -66,10 +66,10 @@ optimize!(vertex_cover)
 #'
 
 membership = convert(Array{Int},value.(y)) # Change to Int 
-membership = membership + ones(Int, nv(g2)) # Make the color groups one indexed
+membership = membership + ones(Int, nv(g)) # Make the color groups one indexed
 nodecolor = [colorant"red", colorant"blue"] # Blue to represent vertices in the cover
 nodefillc = nodecolor[membership]
-gplot(g2, nodefillc=nodefillc)
+gplot(g, nodefillc = nodefillc)
 
 #' # Dominating Set
 #' A dominating set in a graph $G = (V, E)$ is a set $S \subset V$ such that 
@@ -87,7 +87,7 @@ gplot(g2, nodefillc=nodefillc)
 #' \end{align*}
 #' $$
 
-Graph3 = [
+G = [
 0 1 0 0 0 0 0 0 0 1 0 ;
 1 0 1 0 0 0 0 0 0 0 1;
 0 1 0 1 0 1 0 0 0 0 0;
@@ -101,16 +101,16 @@ Graph3 = [
 0 1 0 0 0 0 0 1 1 1 0
 ]
 
-g3 = SimpleGraph(Graph3)
+g = SimpleGraph(G)
        
-gplot(g3)
+gplot(g)
 
 #'
 
 dominating_set = Model(with_optimizer(GLPK.Optimizer))
 
-@variable(dominating_set, x[1:nv(g3)], Bin)
-@constraint(dominating_set, con[i = 1:nv(g3)], sum(Graph3[i,:] .* x) >= 1)
+@variable(dominating_set, x[1:nv(g)], Bin)
+@constraint(dominating_set, [i = 1:nv(g)], sum(G[i,:] .* x) >= 1)
 @objective(dominating_set, Min, sum(x))
 
 optimize!(dominating_set)
@@ -119,10 +119,10 @@ optimize!(dominating_set)
 #'
 
 membership = convert(Array{Int},value.(x)) # Change to Int 
-membership = membership + ones(Int, nv(g3)) # Make the color groups one indexed
-nodecolor = [colorant"red", colorant"blue"]
+membership = membership + ones(Int, nv(g)) # Make the color groups one indexed
+nodecolor = [colorant"red", colorant"blue"] # Blue to represent vertices in the set
 nodefillc = nodecolor[membership]
-gplot(g3, nodefillc=nodefillc)
+gplot(g, nodefillc = nodefillc)
 
 
 #' # Maximum Matching Problem
@@ -142,7 +142,7 @@ gplot(g3, nodefillc=nodefillc)
 
 #' Let's now use JuMP to solve this problem for a sample graph.
 
-Graph1 = [
+G = [
 0 0 0 0 1 0 0 0;
 0 0 0 0 0 1 0 0;
 0 0 0 0 0 0 1 0;
@@ -153,18 +153,18 @@ Graph1 = [
 0 0 0 1 1 0 1 0;
 ]
 
-g1 = SimpleGraph(Graph1)
+g = SimpleGraph(G)
        
-gplot(g1, nodelabel=1:nv(g1))
+gplot(g)
 
 #'
 
 matching = Model(with_optimizer(GLPK.Optimizer))
 
-@variable(matching, x[i = 1:nv(g1), j = 1:nv(g1)], Bin)
-@constraint(matching, con[i = 1:nv(g1)], sum(x[i,:]) <= 1)
-@constraint(matching, edge[i = 1:nv(g1), j = 1:nv(g1); Graph1[i,j] == 0], x[i,j] == 0)
-@constraint(matching, mirror[i = 1:nv(g1), j = 1:nv(g1)], x[i,j] == x[j,i])
+@variable(matching, x[i = 1:nv(g), j = 1:nv(g)], Bin)
+@constraint(matching, [i = 1:nv(g)], sum(x[i,:]) <= 1)
+@constraint(matching, [i = 1:nv(g), j = 1:nv(g); G[i,j] == 0], x[i,j] == 0)
+@constraint(matching, [i = 1:nv(g), j = 1:nv(g)], x[i,j] == x[j,i])
 @objective(matching, Max, sum(x))
 
 optimize!(matching)
@@ -193,7 +193,7 @@ optimize!(matching)
 #' \end{align*}
 #' $$
 
-Graph4 = [
+G = [
 0 1 0 0 1 1 0 0 0 0;
 1 0 1 0 0 0 1 0 0 0;
 0 1 0 1 0 0 0 1 0 0;
@@ -206,21 +206,21 @@ Graph4 = [
 0 0 0 0 1 1 0 0 1 0;
 ]
 
-g4 = SimpleGraph(Graph4)
+g = SimpleGraph(G)
        
-gplot(g4)
+gplot(g)
 
 #'
 
-k = nv(g4)
+k = nv(g)
 
 k_colouring = Model(with_optimizer(GLPK.Optimizer))
 
 @variable(k_colouring, y[1:k], Bin)
-@variable(k_colouring, c[1:nv(g4),1:k], Bin)
-@constraint(k_colouring, colour[i = 1:nv(g4)], sum(c[i,:]) == 1)
-@constraint(k_colouring, neighbours[i = 1:nv(g4), j = 1:nv(g4), l = 1:k; Graph4[i,j]==1], c[i,l] + c[j,l] <= 1)
-@constraint(k_colouring, mincol[i = 1:nv(g4), l = 1:k], c[i,l] <= y[l])
+@variable(k_colouring, c[1:nv(g),1:k], Bin)
+@constraint(k_colouring, [i = 1:nv(g)], sum(c[i,:]) == 1)
+@constraint(k_colouring, [i = 1:nv(g), j = 1:nv(g), l = 1:k; G[i,j] == 1], c[i,l] + c[j,l] <= 1)
+@constraint(k_colouring, [i = 1:nv(g), l = 1:k], c[i,l] <= y[l])
 
 @objective(k_colouring, Min, sum(y))
 
@@ -231,9 +231,9 @@ optimize!(k_colouring)
 #'
 
 c = value.(c)
-membership = zeros(nv(g4))
-for i = 1:nv(g4)
-    for j = 1:k
+membership = zeros(nv(g))
+for i in 1:nv(g)
+    for j in 1:k
         if c[i,j] == 1
             membership[i] = j
             break
@@ -242,6 +242,6 @@ for i = 1:nv(g4)
 end
 membership = convert(Array{Int},membership)
 
-nodecolor = distinguishable_colors(nv(g4), colorant"green")
+nodecolor = distinguishable_colors(nv(g), colorant"green")
 nodefillc = nodecolor[membership]
-gplot(g4, nodefillc=nodefillc)
+gplot(g, nodefillc = nodefillc)
