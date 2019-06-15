@@ -65,27 +65,27 @@ objective_value(model_auto_no)
 #' API. On the other side, nothing happens silently, which might give the user more control. It requires attaching the solver 
 #' before the solve step using the `MOIU.attach_optimizer()` function.
 
-model_man = Model(with_optimizer(GLPK.Optimizer),caching_mode = MOIU.MANUAL)
-@variable(model_man, 0 <= x <= 1)
-@variable(model_man, 0 <= y <= 1)
-@constraint(model_man, x + y <= 1)
-@objective(model_man, Max, x + 2y)
-MOIU.attach_optimizer(model_man)
-optimize!(model_man)
-objective_value(model_man)
+model_manual = Model(with_optimizer(GLPK.Optimizer),caching_mode = MOIU.MANUAL)
+@variable(model_manual, 0 <= x <= 1)
+@variable(model_manual, 0 <= y <= 1)
+@constraint(model_manual, x + y <= 1)
+@objective(model_manual, Max, x + 2y)
+MOIU.attach_optimizer(model_manual)
+optimize!(model_manual)
+objective_value(model_manual)
 
 #' ## `DIRECT` Mode
 #' Some solvers are able to handle the problem data directly. This is common for LP/MIP solver but not very common for 
 #' open-source conic solvers. In this case we do not set a optimizer, we set a backend which is more generic and is able
 #' to hold data and not only solving a model.
 
-model_dir = direct_model(GLPK.Optimizer())
-@variable(model_dir, 0 <= x <= 1)
-@variable(model_dir, 0 <= y <= 1)
-@constraint(model_dir, x + y <= 1)
-@objective(model_dir, Max, x + 2y)
-optimize!(model_dir)
-objective_value(model_dir)
+model_direct = direct_model(GLPK.Optimizer())
+@variable(model_direct, 0 <= x <= 1)
+@variable(model_direct, 0 <= y <= 1)
+@constraint(model_direct, x + y <= 1)
+@objective(model_direct, Max, x + 2y)
+optimize!(model_direct)
+objective_value(model_direct)
 
 #' ## Solver Options
 #' Many of the solvers also allow options to be passed in. However, these options are solver-specific. To find out the various
@@ -96,17 +96,17 @@ using Cbc
 #' To turn off printing (i.e. silence the solver),
 #+ results = "hidden"
 
-model1 = Model(with_optimizer(Cbc.Optimizer, logLevel = 0))
+model = Model(with_optimizer(Cbc.Optimizer, logLevel = 0))
 
 #' To increase the maximum number of iterations
 #+ results = "hidden"
 
-model2 = Model(with_optimizer(Cbc.Optimizer, max_iters = 10000))
+model = Model(with_optimizer(Cbc.Optimizer, max_iters = 10000))
 
 #' To set the solution timeout limit
 #+ results = "hidden"
 
-model3 = Model(with_optimizer(Cbc.Optimizer, seconds = 5))
+model = Model(with_optimizer(Cbc.Optimizer, seconds = 5))
 
 #' # Querying Solutions
 #' So far we have seen all the elements and constructs related to writing a JuMP optimization model. In this section we 
@@ -146,19 +146,19 @@ display(typeof(MOI.FEASIBLE_POINT))
 #' Hence, it is recommended to check for the presence of solutions.
 #+ tangle = false
 
-model_nosol = Model(with_optimizer(GLPK.Optimizer))
-@variable(model_nosol, 0 <= x <= 1)
-@variable(model_nosol, 0 <= y <= 1)
-@constraint(model_nosol, x + y >= 3)
-@objective(model_nosol, Max, x + 2y)
-optimize!(model_nosol)
+model_no_solution = Model(with_optimizer(GLPK.Optimizer))
+@variable(model_no_solution, 0 <= x <= 1)
+@variable(model_no_solution, 0 <= y <= 1)
+@constraint(model_no_solution, x + y >= 3)
+@objective(model_no_solution, Max, x + 2y)
+optimize!(model_no_solution)
 
-if termination_status(model_nosol) == MOI.OPTIMAL
+if termination_status(model_no_solution) == MOI.OPTIMAL
     optimal_solution = value(x)
-    optimal_objective = objective_value(model_nosol)
-elseif termination_status(model_nosol) == MOI.TIME_LIMIT && has_values(model_nosol)
+    optimal_objective = objective_value(model_no_solution)
+elseif termination_status(model_no_solution) == MOI.TIME_LIMIT && has_values(model_no_solution)
     suboptimal_solution = value(x)
-    suboptimal_objective = objective_value(model_nosol)
+    suboptimal_objective = objective_value(model_no_solution)
 else
     error("The model was not solved correctly.")
 end
