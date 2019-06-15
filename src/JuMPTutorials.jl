@@ -8,8 +8,6 @@ function weave_file(folder,file)
     filename = split(file, ".")[1]
     srcpath = joinpath(repo_directory, "script", folder, file)
     testpath = joinpath(repo_directory, "test", folder, file)
-    htmlpath = joinpath(repo_directory, "html", folder, string(filename, ".html"))
-    pdfpath = joinpath(repo_directory, "pdf", folder, string(filename, ".pdf"))
     notebookpath = joinpath(repo_directory, "notebook", folder, string(filename, ".ipynb"))
 
     if mtime(srcpath) > mtime(testpath) || mtime(testpath)==0
@@ -21,14 +19,14 @@ function weave_file(folder,file)
 
     if mtime(srcpath) > mtime(htmlpath) || mtime(htmlpath)==0
         @warn "Weaving $filename to HTML as it has been updated since the last weave."
-        weave(srcpath, doctype="md2html", out_path=htmlpath)
+        weave(srcpath, doctype="md2html")
     else
         @warn "Skipping HTML for $filename as it has not been updated."
     end
 
     if mtime(srcpath) > mtime(pdfpath) || mtime(pdfpath)==0
         @warn "Weaving $filename to PDF as it has been updated since the last weave."
-        weave(srcpath, doctype="md2pdf", out_path=pdfpath)
+        weave(srcpath, doctype="md2pdf")
     else
         @warn "Skipping PDF for $filename as it has not been updated."
     end

@@ -1,6 +1,11 @@
 #' ---
 #' title: Network Flows
 #' author: Arpit Bhatia
+#' options:
+#'     md2html:
+#'         out_path : ../../html/modelling
+#'     md2pdf:
+#'         out_path : ../../pdf/modelling
 #' ---
 
 #' In graph theory, a flow network (also known as a transportation network) is a directed graph where 

@@ -1,6 +1,11 @@
 #' ---
 #' title: Problems on Graphs
 #' author: Arpit Bhatia
+#' options:
+#'     md2html:
+#'         out_path : ../../html/modelling
+#'     md2pdf:
+#'         out_path : ../../pdf/modelling
 #' ---
 
 #' In the mathematical discipline of graph theory, a number of problems can be solved by modelling them as optimization problems.
