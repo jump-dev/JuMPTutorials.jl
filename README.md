@@ -12,7 +12,12 @@ There are also some older notebooks available at [juliaopt-notebooks](https://gi
 ## Table of Contents
 
 - Introduction
-  - [An Introduction to Julia](http://arpitbhatia.me/JuMPTutorials.jl//html/introduction/an_introduction_to_julia.html)
-  - [Getting Started with JuMP](http://arpitbhatia.me/JuMPTutorials.jl//html/introduction/getting_started_with_JuMP.html)
-  - [Variables, Constraints and Objective](http://arpitbhatia.me/JuMPTutorials.jl//html/introduction/variables_constraints_objective.html)
-  - [Solvers and Solutions](http://arpitbhatia.me/JuMPTutorials.jl//html/introduction/solvers_and_solutions.html)
+  - [An Introduction to Julia](http://arpitbhatia.me/JuMPTutorials.jl/html/introduction/an_introduction_to_julia.html)
+  - [Getting Started with JuMP](http://arpitbhatia.me/JuMPTutorials.jl/html/introduction/getting_started_with_JuMP.html)
+  - [Variables, Constraints and Objective](http://arpitbhatia.me/JuMPTutorials.jl/html/introduction/variables_constraints_objective.html)
+  - [Solvers and Solutions](http://arpitbhatia.me/JuMPTutorials.jl/html/introduction/solvers_and_solutions.html)
+- Using JuMP
+  - [Reading From Data Files](http://arpitbhatia.me/JuMPTutorials.jl/html/using_JuMP/reading_from_data_files.html)
+- Modelling Examples
+  - [Problems on Graphs](http://arpitbhatia.me/JuMPTutorials.jl/html/modelling/problems_on_graphs.html)
+  - [Network Flows](http://arpitbhatia.me/JuMPTutorials.jl/html/modelling/network_flows.html)
