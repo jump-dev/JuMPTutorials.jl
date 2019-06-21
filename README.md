@@ -17,7 +17,8 @@ There are also some older notebooks available at [juliaopt-notebooks](https://gi
   - [Variables, Constraints and Objective](http://arpitbhatia.me/JuMPTutorials.jl/html/introduction/variables_constraints_objective.html)
   - [Solvers and Solutions](http://arpitbhatia.me/JuMPTutorials.jl/html/introduction/solvers_and_solutions.html)
 - Using JuMP
-  - [Reading From Data Files](http://arpitbhatia.me/JuMPTutorials.jl/html/using_JuMP/reading_from_data_files.html)
+  - [Reading From Data Files](http://arpitbhatia.me/JuMPTutorials.jl/html/using_JuMP/reading_from_data_files.html) 
+  - [Exploiting Sparsity](http://arpitbhatia.me/JuMPTutorials.jl/html/using_JuMP/exploiting_sparsity.html)
 - Modelling Examples
   - [Problems on Graphs](http://arpitbhatia.me/JuMPTutorials.jl/html/modelling/problems_on_graphs.html)
   - [Network Flows](http://arpitbhatia.me/JuMPTutorials.jl/html/modelling/network_flows.html)
