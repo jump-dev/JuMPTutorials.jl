@@ -7,7 +7,76 @@
 #' this tutorial covers other JuMP features for integer programming along with some modelling techniques.
 
 using JuMP
-using GLPK
+
+#' # Modelling Logical Conditions
+#' Generally, in a mathematical programming problem, all constraints must hold. 
+#' However, we might want to have conditions where we have some logical conditions between constraints.
+#' In such cases, we can use binary variables for modelling logical conditions between constraints.
+
+#' ## Disjunctive Constraints (OR)
+#' Suppose that we are given two constraints $a'x \geq b$ and $c' x \geq d$, 
+#' in which all components of $a$ and $c$ are non-negative. 
+#' We would like to model a requirement that at least one of the two constraints is satisfied. 
+#' For this, we defined a binary variable $y$ and impose the constraints:
+
+#' $$
+#' \begin{align*}
+#' a' x \geq y b \\
+#' c' x \geq (1 - y) d \\
+#' y \in \{0,1\}
+#' \end{align*}
+#' $$
+
+a = rand(1:100,5,5)
+c = rand(1:100,5,5)
+b = rand(1:100,5)
+d = rand(1:100,5)
+
+model = Model()
+@variable(model, x[1:5])
+@variable(model, y, Bin)
+@constraint(model, a * x .>= y .* b)
+@constraint(model, c * x .>= (1 - y) .* d)
+
+#' ## Conditional Constraints ($\implies$)
+#' Suppose we want to model that a certain linear inequality must be satisfied when some other event occurs. 
+#' i.e. for a binary variable $z$, we want to model the implication
+
+#' $$
+#' \begin{align*}
+#' z = 1 \implies a^Tx\leq b
+#' \end{align*}
+#' $$
+
+#' If we know in advance an upper bound $a^Tx\leq b$. Then we can write the above as a linear inequality
+
+#' $$
+#' \begin{align*}
+#' a^Tx\leq b + M(1-z)
+#' \end{align*}
+#' $$
+
+a = rand(1:100,5,5)
+b = rand(1:100,5)
+m = rand(10000:11000,5)
+
+model = Model()
+@variable(model, x[1:5])
+@variable(model, z, Bin)
+@constraint(model, a * x .<=  b .+ (m .* (1 - z))) 
+# If z was a regular Julia variable, we would not have had to use the vectorized dot operator
+
+#' ## Boolean Operators on Binary Variables
+#' The following table is useful when we want to model boolean operators in the form of 
+#' linear inequalities that can be given to a solver.
+
+#' | Boolean Expression | Constraint                           | 
+#' |:----------         |                           ----------:|
+#' | $z=x \lor y$       | $x \leq z,  y \leq z,  z \leq x+y$   |
+#' | $z=x \land y$      | $x \geq z,  y \geq z,  z+1 \geq x+y$ | 
+#' | $z= \neg x$        | $z = 1 − x$                          | 
+#' | $x \implies y$     | $x \leq y$                           | 
+#' | $x \iff y$         | $x = y$                              | 
 
 #' # Modelling Integer Variables
 
@@ -80,72 +149,3 @@ upper_bound = 34
 #' * Non-consecutive
 #'   * (`x[1]` and `x[2]`) as they correspond to 3 and 1 resp. and thus cannot be non-zero
 
-#' # Modelling Logical Conditions
-#' Generally, in a mathematical programming problem, all constraints must hold. 
-#' However, we might want to have conditions where we have some logical conditions between constraints.
-#' In such cases, we can use binary variables for modelling logical conditions between constraints.
-
-#' ## Disjunctive Constraints (OR)
-#' Suppose that we are given two constraints $a'x \geq b$ and $c' x \geq d$, 
-#' in which all components of $a$ and $c$ are non-negative. 
-#' We would like to model a requirement that at least one of the two constraints is satisfied. 
-#' For this, we defined a binary variable $y$ and impose the constraints:
-
-#' $$
-#' \begin{align*}
-#' a' x \geq y b \\
-#' c' x \geq (1 - y) d \\
-#' y \in \{0,1\}
-#' \end{align*}
-#' $$
-
-a = rand(1:100,5,5)
-c = rand(1:100,5,5)
-b = rand(1:100,5)
-d = rand(1:100,5)
-
-model = Model()
-@variable(model, x[1:5])
-@variable(model, y, Bin)
-@constraint(model, a * x .>= y .* b)
-@constraint(model, c * x .>= (1 - y) .* d)
-
-#' ## Conditional Constraints ($\implies$)
-#' Suppose we want to model that a certain linear inequality must be satisfied when some other event occurs. 
-#' i.e. for a binary variable $z$, we want to model the implication
-
-#' $$
-#' \begin{align*}
-#' z = 1 \implies a^Tx\leq b
-#' \end{align*}
-#' $$
-
-#' If we know in advance an upper bound $a^Tx\leq b$. Then we can write the above as a linear inequality
-
-#' $$
-#' \begin{align*}
-#' a^Tx\leq b + M(1-z)
-#' \end{align*}
-#' $$
-
-a = rand(1:100,5,5)
-b = rand(1:100,5)
-m = rand(10000:11000,5)
-
-model = Model()
-@variable(model, x[1:5])
-@variable(model, z, Bin)
-@constraint(model, a * x .<=  b .+ (m .* (1 - z))) 
-# If z was a regular Julia variable, we would not have had to use the vectorized dot operator
-
-#' ## Boolean Operators on Binary Variables
-#' The following table is useful when we want to model boolean operators in the form of 
-#' linear inequalities that can be given to a solver.
-
-#' | Boolean Expression | Constraint                           | 
-#' |:----------         |                           ----------:|
-#' | $z=x \lor y$       | $x \leq z,  y \leq z,  z \leq x+y$   |
-#' | $z=x \land y$      | $x \geq z,  y \geq z,  z+1 \geq x+y$ | 
-#' | $z= \neg x$        | $z=1−x$                              | 
-#' | $x \implies y$     | $x \leq y$                           | 
-#' | $x \iff y$         | $x = y$                              | 

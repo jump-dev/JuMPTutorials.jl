@@ -666,11 +666,88 @@ div.title {text-align: center;}
 
 
 <pre class='hljl'>
-<span class='hljl-k'>using</span><span class='hljl-t'> </span><span class='hljl-n'>JuMP</span><span class='hljl-t'>
-</span><span class='hljl-k'>using</span><span class='hljl-t'> </span><span class='hljl-n'>GLPK</span>
+<span class='hljl-k'>using</span><span class='hljl-t'> </span><span class='hljl-n'>JuMP</span>
 </pre>
 
 
+
+<h1>Modelling Logical Conditions</h1>
+<p>Generally, in a mathematical programming problem, all constraints must hold.  However, we might want to have conditions where we have some logical conditions between constraints. In such cases, we can use binary variables for modelling logical conditions between constraints.</p>
+
+<h2>Disjunctive Constraints &#40;OR&#41;</h2>
+<p>Suppose that we are given two constraints <span class="math">$a'x \geq b$</span> and <span class="math">$c' x \geq d$</span>,  in which all components of <span class="math">$a$</span> and <span class="math">$c$</span> are non-negative.  We would like to model a requirement that at least one of the two constraints is satisfied.  For this, we defined a binary variable <span class="math">$y$</span> and impose the constraints:</p>
+
+<p class="math">\[
+\begin{align*}
+a' x \geq y b \\
+c' x \geq (1 - y) d \\
+y \in \{0,1\}
+\end{align*}
+\]</p>
+
+
+<pre class='hljl'>
+<span class='hljl-n'>a</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>100</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-n'>c</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>100</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-n'>b</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>100</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-n'>d</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>100</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>)</span><span class='hljl-t'>
+
+</span><span class='hljl-n'>model</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>Model</span><span class='hljl-p'>()</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@variable</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>x</span><span class='hljl-p'>[</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>5</span><span class='hljl-p'>])</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@variable</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>y</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>Bin</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@constraint</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>a</span><span class='hljl-t'> </span><span class='hljl-oB'>*</span><span class='hljl-t'> </span><span class='hljl-n'>x</span><span class='hljl-t'> </span><span class='hljl-oB'>.&gt;=</span><span class='hljl-t'> </span><span class='hljl-n'>y</span><span class='hljl-t'> </span><span class='hljl-oB'>.*</span><span class='hljl-t'> </span><span class='hljl-n'>b</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@constraint</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>c</span><span class='hljl-t'> </span><span class='hljl-oB'>*</span><span class='hljl-t'> </span><span class='hljl-n'>x</span><span class='hljl-t'> </span><span class='hljl-oB'>.&gt;=</span><span class='hljl-t'> </span><span class='hljl-p'>(</span><span class='hljl-ni'>1</span><span class='hljl-t'> </span><span class='hljl-oB'>-</span><span class='hljl-t'> </span><span class='hljl-n'>y</span><span class='hljl-p'>)</span><span class='hljl-t'> </span><span class='hljl-oB'>.*</span><span class='hljl-t'> </span><span class='hljl-n'>d</span><span class='hljl-p'>)</span>
+</pre>
+
+
+<pre class="output">
+5-element Array&#123;JuMP.ConstraintRef&#123;JuMP.Model,MathOptInterface.ConstraintIn
+dex&#123;MathOptInterface.ScalarAffineFunction&#123;Float64&#125;,MathOptInterface.Greater
+Than&#123;Float64&#125;&#125;,JuMP.ScalarShape&#125;,1&#125;:
+ 33 x&#91;1&#93; &#43; 68 x&#91;2&#93; &#43; 46 x&#91;3&#93; &#43; 45 x&#91;4&#93; &#43; 16 x&#91;5&#93; &#43; 95 y ≥ 95.0
+ 24 x&#91;1&#93; &#43; 70 x&#91;2&#93; &#43; 66 x&#91;3&#93; &#43; 30 x&#91;4&#93; &#43; 18 x&#91;5&#93; &#43; 51 y ≥ 51.0
+ 94 x&#91;1&#93; &#43; 51 x&#91;2&#93; &#43; 26 x&#91;3&#93; &#43; 94 x&#91;4&#93; &#43; 41 x&#91;5&#93; &#43; 43 y ≥ 43.0
+ 67 x&#91;1&#93; &#43; 37 x&#91;2&#93; &#43; 61 x&#91;3&#93; &#43; 56 x&#91;4&#93; &#43; 62 x&#91;5&#93; &#43; 78 y ≥ 78.0
+ 57 x&#91;1&#93; &#43; 42 x&#91;2&#93; &#43; 76 x&#91;3&#93; &#43; 17 x&#91;4&#93; &#43; 2 x&#91;5&#93; &#43; 17 y ≥ 17.0
+</pre>
+
+
+<h2>Conditional Constraints &#40;<span class="math">$\implies$</span>&#41;</h2>
+<p>Suppose we want to model that a certain linear inequality must be satisfied when some other event occurs.  i.e. for a binary variable <span class="math">$z$</span>, we want to model the implication</p>
+
+<p class="math">\[
+\begin{align*}
+z = 1 \implies a^Tx\leq b
+\end{align*}
+\]</p>
+
+<p>If we know in advance an upper bound <span class="math">$a^Tx\leq b$</span>. Then we can write the above as a linear inequality</p>
+
+<p class="math">\[
+\begin{align*}
+a^Tx\leq b + M(1-z)
+\end{align*}
+\]</p>
+
+
+<pre class='hljl'>
+<span class='hljl-n'>a</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>100</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-n'>b</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>100</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-n'>m</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>10000</span><span class='hljl-oB'>:</span><span class='hljl-ni'>11000</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>)</span><span class='hljl-t'>
+
+</span><span class='hljl-n'>model</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>Model</span><span class='hljl-p'>()</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@variable</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>x</span><span class='hljl-p'>[</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>5</span><span class='hljl-p'>])</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@variable</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>z</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>Bin</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@constraint</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>a</span><span class='hljl-t'> </span><span class='hljl-oB'>*</span><span class='hljl-t'> </span><span class='hljl-n'>x</span><span class='hljl-t'> </span><span class='hljl-oB'>.&lt;=</span><span class='hljl-t'>  </span><span class='hljl-n'>b</span><span class='hljl-t'> </span><span class='hljl-oB'>.+</span><span class='hljl-t'> </span><span class='hljl-p'>(</span><span class='hljl-n'>m</span><span class='hljl-t'> </span><span class='hljl-oB'>.*</span><span class='hljl-t'> </span><span class='hljl-p'>(</span><span class='hljl-ni'>1</span><span class='hljl-t'> </span><span class='hljl-oB'>-</span><span class='hljl-t'> </span><span class='hljl-n'>z</span><span class='hljl-p'>)))</span><span class='hljl-t'> 
+</span><span class='hljl-cs'># If z was a regular Julia variable, we would not have had to use the vectorized dot operator</span>
+</pre>
+
+
+
+<h2>Boolean Operators on Binary Variables</h2>
+<p>The following table is useful when we want to model boolean operators in the form of  linear inequalities that can be given to a solver.</p>
+
+Markdown.Table&#40;Array&#123;Any,1&#125;&#91;&#91;Any&#91;&quot;Boolean Expression&quot;&#93;, Any&#91;&quot;Constraint&quot;&#93;&#93;, &#91;Any&#91;&#36;z&#61;x \lor y&#36;&#93;, Any&#91;&#36;x \leq z,  y \leq z,  z \leq x&#43;y&#36;&#93;&#93;, &#91;Any&#91;&#36;z&#61;x \land y&#36;&#93;, Any&#91;&#36;x \geq z,  y \geq z,  z&#43;1 \geq x&#43;y&#36;&#93;&#93;, &#91;Any&#91;&#36;z&#61; \neg x&#36;&#93;, Any&#91;&#36;z &#61; 1 − x&#36;&#93;&#93;, &#91;Any&#91;&#36;x \implies y&#36;&#93;, Any&#91;&#36;x \leq y&#36;&#93;&#93;, &#91;Any&#91;&#36;x \iff y&#36;&#93;, Any&#91;&#36;x &#61; y&#36;&#93;&#93;&#93;, Symbol&#91;:l, :r&#93;&#41;
 
 <h1>Modelling Integer Variables</h1>
 
@@ -789,91 +866,13 @@ b ∈ MathOptInterface.Semiinteger&#123;Int64&#125;&#40;5, 34&#41;
 </li>
 </ul>
 
-<h1>Modelling Logical Conditions</h1>
-<p>Generally, in a mathematical programming problem, all constraints must hold.  However, we might want to have conditions where we have some logical conditions between constraints. In such cases, we can use binary variables for modelling logical conditions between constraints.</p>
-
-<h2>Disjunctive Constraints &#40;OR&#41;</h2>
-<p>Suppose that we are given two constraints <span class="math">$a'x \geq b$</span> and <span class="math">$c' x \geq d$</span>,  in which all components of <span class="math">$a$</span> and <span class="math">$c$</span> are non-negative.  We would like to model a requirement that at least one of the two constraints is satisfied.  For this, we defined a binary variable <span class="math">$y$</span> and impose the constraints:</p>
-
-<p class="math">\[
-\begin{align*}
-a' x \geq y b \\
-c' x \geq (1 - y) d \\
-y \in \{0,1\}
-\end{align*}
-\]</p>
-
-
-<pre class='hljl'>
-<span class='hljl-n'>a</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>100</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>)</span><span class='hljl-t'>
-</span><span class='hljl-n'>c</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>100</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>)</span><span class='hljl-t'>
-</span><span class='hljl-n'>b</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>100</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>)</span><span class='hljl-t'>
-</span><span class='hljl-n'>d</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>100</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>)</span><span class='hljl-t'>
-
-</span><span class='hljl-n'>model</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>Model</span><span class='hljl-p'>()</span><span class='hljl-t'>
-</span><span class='hljl-nd'>@variable</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>x</span><span class='hljl-p'>[</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>5</span><span class='hljl-p'>])</span><span class='hljl-t'>
-</span><span class='hljl-nd'>@variable</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>y</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>Bin</span><span class='hljl-p'>)</span><span class='hljl-t'>
-</span><span class='hljl-nd'>@constraint</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>a</span><span class='hljl-t'> </span><span class='hljl-oB'>*</span><span class='hljl-t'> </span><span class='hljl-n'>x</span><span class='hljl-t'> </span><span class='hljl-oB'>.&gt;=</span><span class='hljl-t'> </span><span class='hljl-n'>y</span><span class='hljl-t'> </span><span class='hljl-oB'>.*</span><span class='hljl-t'> </span><span class='hljl-n'>b</span><span class='hljl-p'>)</span><span class='hljl-t'>
-</span><span class='hljl-nd'>@constraint</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>c</span><span class='hljl-t'> </span><span class='hljl-oB'>*</span><span class='hljl-t'> </span><span class='hljl-n'>x</span><span class='hljl-t'> </span><span class='hljl-oB'>.&gt;=</span><span class='hljl-t'> </span><span class='hljl-p'>(</span><span class='hljl-ni'>1</span><span class='hljl-t'> </span><span class='hljl-oB'>-</span><span class='hljl-t'> </span><span class='hljl-n'>y</span><span class='hljl-p'>)</span><span class='hljl-t'> </span><span class='hljl-oB'>.*</span><span class='hljl-t'> </span><span class='hljl-n'>d</span><span class='hljl-p'>)</span>
-</pre>
-
-
-<pre class="output">
-5-element Array&#123;ConstraintRef&#123;Model,MathOptInterface.ConstraintIndex&#123;MathOp
-tInterface.ScalarAffineFunction&#123;Float64&#125;,MathOptInterface.GreaterThan&#123;Float
-64&#125;&#125;,ScalarShape&#125;,1&#125;:
- 95 x&#91;1&#93; &#43; x&#91;2&#93; &#43; 62 x&#91;3&#93; &#43; 30 x&#91;4&#93; &#43; 13 x&#91;5&#93; &#43; 82 y ≥ 82.0   
- 18 x&#91;1&#93; &#43; 92 x&#91;2&#93; &#43; 73 x&#91;3&#93; &#43; 20 x&#91;4&#93; &#43; 37 x&#91;5&#93; &#43; 8 y ≥ 8.0  
- 17 x&#91;1&#93; &#43; 60 x&#91;2&#93; &#43; 66 x&#91;3&#93; &#43; 91 x&#91;4&#93; &#43; 44 x&#91;5&#93; &#43; 43 y ≥ 43.0
- 5 x&#91;1&#93; &#43; 65 x&#91;2&#93; &#43; 47 x&#91;3&#93; &#43; 6 x&#91;4&#93; &#43; 19 x&#91;5&#93; &#43; 5 y ≥ 5.0    
- 13 x&#91;1&#93; &#43; 73 x&#91;2&#93; &#43; 91 x&#91;3&#93; &#43; 48 x&#91;4&#93; &#43; 7 x&#91;5&#93; &#43; 46 y ≥ 46.0
-</pre>
-
-
-<h2>Conditional Constraints &#40;<span class="math">$\implies$</span>&#41;</h2>
-<p>Suppose we want to model that a certain linear inequality must be satisfied when some other event occurs.  i.e. for a binary variable <span class="math">$z$</span>, we want to model the implication</p>
-
-<p class="math">\[
-\begin{align*}
-z = 1 \implies a^Tx\leq b
-\end{align*}
-\]</p>
-
-<p>If we know in advance an upper bound <span class="math">$a^Tx\leq b$</span>. Then we can write the above as a linear inequality</p>
-
-<p class="math">\[
-\begin{align*}
-a^Tx\leq b + M(1-z)
-\end{align*}
-\]</p>
-
-
-<pre class='hljl'>
-<span class='hljl-n'>a</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>100</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>)</span><span class='hljl-t'>
-</span><span class='hljl-n'>b</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>100</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>)</span><span class='hljl-t'>
-</span><span class='hljl-n'>m</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>10000</span><span class='hljl-oB'>:</span><span class='hljl-ni'>11000</span><span class='hljl-p'>,</span><span class='hljl-ni'>5</span><span class='hljl-p'>)</span><span class='hljl-t'>
-
-</span><span class='hljl-n'>model</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>Model</span><span class='hljl-p'>()</span><span class='hljl-t'>
-</span><span class='hljl-nd'>@variable</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>x</span><span class='hljl-p'>[</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>5</span><span class='hljl-p'>])</span><span class='hljl-t'>
-</span><span class='hljl-nd'>@variable</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>z</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>Bin</span><span class='hljl-p'>)</span><span class='hljl-t'>
-</span><span class='hljl-nd'>@constraint</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>a</span><span class='hljl-t'> </span><span class='hljl-oB'>*</span><span class='hljl-t'> </span><span class='hljl-n'>x</span><span class='hljl-t'> </span><span class='hljl-oB'>.&lt;=</span><span class='hljl-t'>  </span><span class='hljl-n'>b</span><span class='hljl-t'> </span><span class='hljl-oB'>.+</span><span class='hljl-t'> </span><span class='hljl-p'>(</span><span class='hljl-n'>m</span><span class='hljl-t'> </span><span class='hljl-oB'>.*</span><span class='hljl-t'> </span><span class='hljl-p'>(</span><span class='hljl-ni'>1</span><span class='hljl-t'> </span><span class='hljl-oB'>-</span><span class='hljl-t'> </span><span class='hljl-n'>z</span><span class='hljl-p'>)))</span><span class='hljl-t'> 
-</span><span class='hljl-cs'># If z was a regular Julia variable, we would not have had to use the vectorized dot operator</span>
-</pre>
-
-
-
-<h2>Boolean Operators on Binary Variables</h2>
-<p>The following table is useful when we want to model boolean operators in the form of  linear inequalities that can be given to a solver.</p>
-
-Markdown.Table&#40;Array&#123;Any,1&#125;&#91;&#91;Any&#91;&quot;Boolean Expression&quot;&#93;, Any&#91;&quot;Constraint&quot;&#93;&#93;, &#91;Any&#91;&#36;z&#61;x \lor y&#36;&#93;, Any&#91;&#36;x \leq z,  y \leq z,  z \leq x&#43;y&#36;&#93;&#93;, &#91;Any&#91;&#36;z&#61;x \land y&#36;&#93;, Any&#91;&#36;x \geq z,  y \geq z,  z&#43;1 \geq x&#43;y&#36;&#93;&#93;, &#91;Any&#91;&#36;z&#61; \neg x&#36;&#93;, Any&#91;&#36;z&#61;1−x&#36;&#93;&#93;, &#91;Any&#91;&#36;x \implies y&#36;&#93;, Any&#91;&#36;x \leq y&#36;&#93;&#93;, &#91;Any&#91;&#36;x \iff y&#36;&#93;, Any&#91;&#36;x &#61; y&#36;&#93;&#93;&#93;, Symbol&#91;:l, :r&#93;&#41;
-
 
 
           <HR/>
           <div class="footer"><p>
           Published from <a href="integer_programming.jl">integer_programming.jl</a> using
           <a href="http://github.com/mpastell/Weave.jl">Weave.jl</a>
-           on 2019-06-22.
+           on 2019-06-24.
           <p></div>
 
 
