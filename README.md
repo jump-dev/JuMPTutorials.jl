@@ -21,6 +21,7 @@ There are also some older notebooks available at [juliaopt-notebooks](https://gi
   - [Exploiting Sparsity](http://arpitbhatia.me/JuMPTutorials.jl/html/using_JuMP/exploiting_sparsity.html)
 - Optimization Concepts
   - [Integer Programming](http://arpitbhatia.me/JuMPTutorials.jl/html/optimization_concepts/integer_programming.html)
+  - [Conic Programming](http://arpitbhatia.me/JuMPTutorials.jl/html/optimization_concepts/conic_programming.html)
 - Modelling Examples
   - [Problems on Graphs](http://arpitbhatia.me/JuMPTutorials.jl/html/modelling/problems_on_graphs.html)
   - [Network Flows](http://arpitbhatia.me/JuMPTutorials.jl/html/modelling/network_flows.html)
