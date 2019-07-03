@@ -19,6 +19,7 @@ There are also some older notebooks available at [juliaopt-notebooks](https://gi
 - Using JuMP
   - [Reading From Data Files](http://arpitbhatia.me/JuMPTutorials.jl/html/using_JuMP/reading_from_data_files.html) 
   - [Exploiting Sparsity](http://arpitbhatia.me/JuMPTutorials.jl/html/using_JuMP/exploiting_sparsity.html)
+  - [Problem Modification](http://arpitbhatia.me/JuMPTutorials.jl/html/using_JuMP/problem_modification.html)
 - Optimization Concepts
   - [Integer Programming](http://arpitbhatia.me/JuMPTutorials.jl/html/optimization_concepts/integer_programming.html)
   - [Conic Programming](http://arpitbhatia.me/JuMPTutorials.jl/html/optimization_concepts/conic_programming.html)
