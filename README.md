@@ -26,4 +26,5 @@ There are also some older notebooks available at [juliaopt-notebooks](https://gi
 - Modelling Examples
   - [Problems on Graphs](http://arpitbhatia.me/JuMPTutorials.jl/html/modelling/problems_on_graphs.html)
   - [Network Flows](http://arpitbhatia.me/JuMPTutorials.jl/html/modelling/network_flows.html)
+  - [Finance](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/finance.ipynb)
   - [Geometric Problems](http://arpitbhatia.me/JuMPTutorials.jl/html/modelling/geometric_problems.html)
