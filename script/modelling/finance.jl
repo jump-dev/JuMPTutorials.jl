@@ -2,13 +2,14 @@
 #' title: Finance
 #' ---
 
+#' **Contributed by**: Arpit Bhatia
+
 #' Optimization models play an increasingly important role in financial decisions. 
 #' Many computational finance problems can be solved efficiently using modern optimization techniques.
 #' In this tutorial we will discuss 3 such examples. 
-#' The first two are taken from the book 
-#' [Optimization Methods in Finance](https://www.cambridge.org/core/books/optimization-methods-in-finance/8A4996C5DB2006224E4D983B5BC95E3B),
+#' The first two are taken from the book Optimization Methods in Finance[[1]](#c1),
 #' while the third is the famous Markowitz Portfolio Optimization problem with data from 
-#' Shabbir Ahmed's lecture [notes](https://www2.isye.gatech.edu/~sahmed/isye6669/).
+#' lecture notes from a course taught at Georgia Tech[[2]](#c2).
 
 using JuMP
 using GLPK
@@ -230,3 +231,9 @@ optimize!(model)
 
 @show objective_value(model)
 @show value.(x)
+
+#' ### References
+#' <a id='c1'></a>
+#' 1. Cornuéjols, G., Peña, J., & Tütüncü, R. (2018). <i>Optimization Methods in Finance</i>. Cambridge: Cambridge University Press. doi:10.1017/9781107297340
+#' <a id='c2'></a>
+#' 2. Ahmed, S. ISyE6669: Deterministic Optimization. Available at: https://www2.isye.gatech.edu/~sahmed/isye6669/
