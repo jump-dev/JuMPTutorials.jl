@@ -1,575 +1,22 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="generator" content="pandoc">
+<HTML lang = "en">
+<HEAD>
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <meta name="author" content="Arpit Bhatia">
   <title>Conic Programming</title>
+  
 
-<!-- TODO check if math works with plotly  -->
-<!-- Need to load plotly before Mathjax or pandoc equations don't work -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+      TeX: { equationNumbers: { autoNumber: "AMS" } }
+    });
+  </script>
 
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 
-<script type="text/javascript">
-  var fileref=document.createElement('script')
-  fileref.setAttribute("type","text/javascript")
-  fileref.setAttribute("src", "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML")
-  document.getElementsByTagName("head")[0].appendChild(fileref)
-</script>
-
-  <style type="text/css">
-  @font-face {
-    font-style: normal;
-    font-weight: 300;
-  }
-  @font-face {
-    font-style: normal;
-    font-weight: 400;
-  }
-  @font-face {
-    font-style: normal;
-    font-weight: 600;
-  }
-  html {
-    font-family: sans-serif; /* 1 */
-    -ms-text-size-adjust: 100%; /* 2 */
-    -webkit-text-size-adjust: 100%; /* 2 */
-  }
-  body {
-    margin: 0;
-  }
-  article,
-  aside,
-  details,
-  figcaption,
-  figure,
-  footer,
-  header,
-  hgroup,
-  main,
-  menu,
-  nav,
-  section,
-  summary {
-    display: block;
-  }
-  audio,
-  canvas,
-  progress,
-  video {
-    display: inline-block; /* 1 */
-    vertical-align: baseline; /* 2 */
-  }
-  audio:not([controls]) {
-    display: none;
-    height: 0;
-  }
-  [hidden],
-  template {
-    display: none;
-  }
-  a:active,
-  a:hover {
-    outline: 0;
-  }
-  abbr[title] {
-    border-bottom: 1px dotted;
-  }
-  b,
-  strong {
-    font-weight: bold;
-  }
-  dfn {
-    font-style: italic;
-  }
-  h1 {
-    font-size: 2em;
-    margin: 0.67em 0;
-  }
-  mark {
-    background: #ff0;
-    color: #000;
-  }
-  small {
-    font-size: 80%;
-  }
-  sub,
-  sup {
-    font-size: 75%;
-    line-height: 0;
-    position: relative;
-    vertical-align: baseline;
-  }
-  sup {
-    top: -0.5em;
-  }
-  sub {
-    bottom: -0.25em;
-  }
-  img {
-    border: 0;
-  }
-  svg:not(:root) {
-    overflow: hidden;
-  }
-  figure {
-    margin: 1em 40px;
-  }
-  hr {
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-    height: 0;
-  }
-  pre {
-    overflow: auto;
-  }
-  code,
-  kbd,
-  pre,
-  samp {
-    font-family: monospace, monospace;
-    font-size: 1em;
-  }
-  button,
-  input,
-  optgroup,
-  select,
-  textarea {
-    color: inherit; /* 1 */
-    font: inherit; /* 2 */
-    margin: 0; /* 3 */
-  }
-  button {
-    overflow: visible;
-  }
-  button,
-  select {
-    text-transform: none;
-  }
-  button,
-  html input[type="button"], /* 1 */
-  input[type="reset"],
-  input[type="submit"] {
-    -webkit-appearance: button; /* 2 */
-    cursor: pointer; /* 3 */
-  }
-  button[disabled],
-  html input[disabled] {
-    cursor: default;
-  }
-  button::-moz-focus-inner,
-  input::-moz-focus-inner {
-    border: 0;
-    padding: 0;
-  }
-  input {
-    line-height: normal;
-  }
-  input[type="checkbox"],
-  input[type="radio"] {
-    box-sizing: border-box; /* 1 */
-    padding: 0; /* 2 */
-  }
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
-    height: auto;
-  }
-  input[type="search"] {
-    -webkit-appearance: textfield; /* 1 */
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box; /* 2 */
-    box-sizing: content-box;
-  }
-  input[type="search"]::-webkit-search-cancel-button,
-  input[type="search"]::-webkit-search-decoration {
-    -webkit-appearance: none;
-  }
-  fieldset {
-    border: 1px solid #c0c0c0;
-    margin: 0 2px;
-    padding: 0.35em 0.625em 0.75em;
-  }
-  legend {
-    border: 0; /* 1 */
-    padding: 0; /* 2 */
-  }
-  textarea {
-    overflow: auto;
-  }
-  optgroup {
-    font-weight: bold;
-  }
-  table {
-    font-family: monospace, monospace;
-    font-size : 0.8em;
-    border-collapse: collapse;
-    border-spacing: 0;
-  }
-  td,
-  th {
-    padding: 0;
-  }
-  thead th {
-      border-bottom: 1px solid black;
-      background-color: white;
-  }
-  tr:nth-child(odd){
-    background-color: rgb(248,248,248);
-  }
   
-  /*
-  * Skeleton V2.0.4
-  * Copyright 2014, Dave Gamache
-  * www.getskeleton.com
-  * Free to use under the MIT license.
-  * http://www.opensource.org/licenses/mit-license.php
-  * 12/29/2014
-  */
-  .container {
-    position: relative;
-    width: 100%;
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 0 20px;
-    box-sizing: border-box; }
-  .column,
-  .columns {
-    width: 100%;
-    float: left;
-    box-sizing: border-box; }
-  @media (min-width: 400px) {
-    .container {
-      width: 85%;
-      padding: 0; }
-  }
-  @media (min-width: 550px) {
-    .container {
-      width: 80%; }
-    .column,
-    .columns {
-      margin-left: 4%; }
-    .column:first-child,
-    .columns:first-child {
-      margin-left: 0; }
-  
-    .one.column,
-    .one.columns                    { width: 4.66666666667%; }
-    .two.columns                    { width: 13.3333333333%; }
-    .three.columns                  { width: 22%;            }
-    .four.columns                   { width: 30.6666666667%; }
-    .five.columns                   { width: 39.3333333333%; }
-    .six.columns                    { width: 48%;            }
-    .seven.columns                  { width: 56.6666666667%; }
-    .eight.columns                  { width: 65.3333333333%; }
-    .nine.columns                   { width: 74.0%;          }
-    .ten.columns                    { width: 82.6666666667%; }
-    .eleven.columns                 { width: 91.3333333333%; }
-    .twelve.columns                 { width: 100%; margin-left: 0; }
-  
-    .one-third.column               { width: 30.6666666667%; }
-    .two-thirds.column              { width: 65.3333333333%; }
-  
-    .one-half.column                { width: 48%; }
-  
-    /* Offsets */
-    .offset-by-one.column,
-    .offset-by-one.columns          { margin-left: 8.66666666667%; }
-    .offset-by-two.column,
-    .offset-by-two.columns          { margin-left: 17.3333333333%; }
-    .offset-by-three.column,
-    .offset-by-three.columns        { margin-left: 26%;            }
-    .offset-by-four.column,
-    .offset-by-four.columns         { margin-left: 34.6666666667%; }
-    .offset-by-five.column,
-    .offset-by-five.columns         { margin-left: 43.3333333333%; }
-    .offset-by-six.column,
-    .offset-by-six.columns          { margin-left: 52%;            }
-    .offset-by-seven.column,
-    .offset-by-seven.columns        { margin-left: 60.6666666667%; }
-    .offset-by-eight.column,
-    .offset-by-eight.columns        { margin-left: 69.3333333333%; }
-    .offset-by-nine.column,
-    .offset-by-nine.columns         { margin-left: 78.0%;          }
-    .offset-by-ten.column,
-    .offset-by-ten.columns          { margin-left: 86.6666666667%; }
-    .offset-by-eleven.column,
-    .offset-by-eleven.columns       { margin-left: 95.3333333333%; }
-  
-    .offset-by-one-third.column,
-    .offset-by-one-third.columns    { margin-left: 34.6666666667%; }
-    .offset-by-two-thirds.column,
-    .offset-by-two-thirds.columns   { margin-left: 69.3333333333%; }
-  
-    .offset-by-one-half.column,
-    .offset-by-one-half.columns     { margin-left: 52%; }
-  
-  }
-  html {
-    font-size: 62.5%; }
-  body {
-    font-size: 1.5em; /* currently ems cause chrome bug misinterpreting rems on body element */
-    line-height: 1.6;
-    font-weight: 400;
-    font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #222; }
-  h1, h2, h3, h4, h5, h6 {
-    margin-top: 0;
-    margin-bottom: 2rem;
-    font-weight: 300; }
-  h1 { font-size: 3.6rem; line-height: 1.2;  letter-spacing: -.1rem;}
-  h2 { font-size: 3.4rem; line-height: 1.25; letter-spacing: -.1rem; }
-  h3 { font-size: 3.2rem; line-height: 1.3;  letter-spacing: -.1rem; }
-  h4 { font-size: 2.8rem; line-height: 1.35; letter-spacing: -.08rem; }
-  h5 { font-size: 2.4rem; line-height: 1.5;  letter-spacing: -.05rem; }
-  h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
-  
-  p {
-    margin-top: 0; }
-  a {
-    color: #1EAEDB; }
-  a:hover {
-    color: #0FA0CE; }
-  .button,
-  button,
-  input[type="submit"],
-  input[type="reset"],
-  input[type="button"] {
-    display: inline-block;
-    height: 38px;
-    padding: 0 30px;
-    color: #555;
-    text-align: center;
-    font-size: 11px;
-    font-weight: 600;
-    line-height: 38px;
-    letter-spacing: .1rem;
-    text-transform: uppercase;
-    text-decoration: none;
-    white-space: nowrap;
-    background-color: transparent;
-    border-radius: 4px;
-    border: 1px solid #bbb;
-    cursor: pointer;
-    box-sizing: border-box; }
-  .button:hover,
-  button:hover,
-  input[type="submit"]:hover,
-  input[type="reset"]:hover,
-  input[type="button"]:hover,
-  .button:focus,
-  button:focus,
-  input[type="submit"]:focus,
-  input[type="reset"]:focus,
-  input[type="button"]:focus {
-    color: #333;
-    border-color: #888;
-    outline: 0; }
-  .button.button-primary,
-  button.button-primary,
-  input[type="submit"].button-primary,
-  input[type="reset"].button-primary,
-  input[type="button"].button-primary {
-    color: #FFF;
-    background-color: #33C3F0;
-    border-color: #33C3F0; }
-  .button.button-primary:hover,
-  button.button-primary:hover,
-  input[type="submit"].button-primary:hover,
-  input[type="reset"].button-primary:hover,
-  input[type="button"].button-primary:hover,
-  .button.button-primary:focus,
-  button.button-primary:focus,
-  input[type="submit"].button-primary:focus,
-  input[type="reset"].button-primary:focus,
-  input[type="button"].button-primary:focus {
-    color: #FFF;
-    background-color: #1EAEDB;
-    border-color: #1EAEDB; }
-  input[type="email"],
-  input[type="number"],
-  input[type="search"],
-  input[type="text"],
-  input[type="tel"],
-  input[type="url"],
-  input[type="password"],
-  textarea,
-  select {
-    height: 38px;
-    padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
-    background-color: #fff;
-    border: 1px solid #D1D1D1;
-    border-radius: 4px;
-    box-shadow: none;
-    box-sizing: border-box; }
-  /* Removes awkward default styles on some inputs for iOS */
-  input[type="email"],
-  input[type="number"],
-  input[type="search"],
-  input[type="text"],
-  input[type="tel"],
-  input[type="url"],
-  input[type="password"],
-  textarea {
-    -webkit-appearance: none;
-       -moz-appearance: none;
-            appearance: none; }
-  textarea {
-    min-height: 65px;
-    padding-top: 6px;
-    padding-bottom: 6px; }
-  input[type="email"]:focus,
-  input[type="number"]:focus,
-  input[type="search"]:focus,
-  input[type="text"]:focus,
-  input[type="tel"]:focus,
-  input[type="url"]:focus,
-  input[type="password"]:focus,
-  textarea:focus,
-  select:focus {
-    border: 1px solid #33C3F0;
-    outline: 0; }
-  label,
-  legend {
-    display: block;
-    margin-bottom: .5rem;
-    font-weight: 600; }
-  fieldset {
-    padding: 0;
-    border-width: 0; }
-  input[type="checkbox"],
-  input[type="radio"] {
-    display: inline; }
-  label > .label-body {
-    display: inline-block;
-    margin-left: .5rem;
-    font-weight: normal; }
-  ul {
-    list-style: circle inside; }
-  ol {
-    list-style: decimal inside; }
-  ol, ul {
-    padding-left: 0;
-    margin-top: 0; }
-  ul ul,
-  ul ol,
-  ol ol,
-  ol ul {
-    margin: 1.5rem 0 1.5rem 3rem;
-    font-size: 90%; }
-  li {
-    margin-bottom: 1rem; }
-  th,
-  td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #E1E1E1; }
-  th:first-child,
-  td:first-child {
-    padding-left: 0; }
-  th:last-child,
-  td:last-child {
-    padding-right: 0; }
-  button,
-  .button {
-    margin-bottom: 1rem; }
-  input,
-  textarea,
-  select,
-  fieldset {
-    margin-bottom: 1.5rem; }
-  pre,
-  blockquote,
-  dl,
-  figure,
-  table,
-  p,
-  ul,
-  ol,
-  form {
-    margin-bottom: 2.5rem; }
-  .u-full-width {
-    width: 100%;
-    box-sizing: border-box; }
-  .u-max-full-width {
-    max-width: 100%;
-    box-sizing: border-box; }
-  .u-pull-right {
-    float: right; }
-  .u-pull-left {
-    float: left; }
-  hr {
-    margin-top: 3rem;
-    margin-bottom: 3.5rem;
-    border-width: 0;
-    border-top: 1px solid #E1E1E1; }
-  .container:after,
-  .row:after,
-  .u-cf {
-    content: "";
-    display: table;
-    clear: both; }
-  
-  pre {
-    display: block;
-    padding: 9.5px;
-    margin: 0 0 10px;
-    font-size: 13px;
-    line-height: 1.42857143;
-    color: #333;
-    word-break: break-all;
-    word-wrap: break-word;
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  pre.sourceCode.julia {
-    display: block;
-    padding: 9.5px;
-    margin: 0 0 10px;
-    font-size: 12px;
-    line-height: 1.42857143;
-    color: #333;
-    word-break: break-all;
-    word-wrap: break-word;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  pre.julia-error {
-    color : red
-  }
-  
-  code,
-  kbd,
-  pre,
-  samp {
-    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-  }
-  code {
-    background-color: #ffffff;
-    border-radius: 4px;
-  }
-  
-  code.sourceCode.julia {
-    background-color: #f5f5f5;
-    border-radius: 4px;
-  }
-  
-  
-  @media (min-width: 400px) {}
-  @media (min-width: 550px) {}
-  @media (min-width: 750px) {}
-  @media (min-width: 1000px) {}
-  @media (min-width: 1200px) {}
-  
-  h1.title {margin-top : 20px}
-  img {max-width : 100%}
-  </style>
-
-
 <style>
 pre.hljl {
     border: 1px solid #ccc;
@@ -658,167 +105,993 @@ pre.hljl > span.hljl-gt { }
 
 
 
-</head>
-<body>
-<div class="container">
-        <div class="row">
-            <div class="col-md-12 twelve columns">
+  <style type="text/css">
+  @font-face {
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-style: normal;
+  font-weight: 600;
+}
+html {
+  font-family: sans-serif; /* 1 */
+  -ms-text-size-adjust: 100%; /* 2 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+body {
+  margin: 0;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+audio,
+canvas,
+progress,
+video {
+  display: inline-block; /* 1 */
+  vertical-align: baseline; /* 2 */
+}
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+[hidden],
+template {
+  display: none;
+}
+a:active,
+a:hover {
+  outline: 0;
+}
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+b,
+strong {
+  font-weight: bold;
+}
+dfn {
+  font-style: italic;
+}
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+mark {
+  background: #ff0;
+  color: #000;
+}
+small {
+  font-size: 80%;
+}
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
+img {
+  border: 0;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+figure {
+  margin: 1em 40px;
+}
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+pre {
+  overflow: auto;
+}
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit; /* 1 */
+  font: inherit; /* 2 */
+  margin: 0; /* 3 */
+}
+button {
+  overflow: visible;
+}
+button,
+select {
+  text-transform: none;
+}
+button,
+html input[type="button"], /* 1 */
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button; /* 2 */
+  cursor: pointer; /* 3 */
+}
+button[disabled],
+html input[disabled] {
+  cursor: default;
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+input {
+  line-height: normal;
+}
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box; /* 1 */
+  padding: 0; /* 2 */
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+input[type="search"] {
+  -webkit-appearance: textfield; /* 1 */
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box; /* 2 */
+  box-sizing: content-box;
+}
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+legend {
+  border: 0; /* 1 */
+  padding: 0; /* 2 */
+}
+textarea {
+  overflow: auto;
+}
+optgroup {
+  font-weight: bold;
+}
+table {
+  font-family: monospace, monospace;
+  font-size : 0.8em;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+td,
+th {
+  padding: 0;
+}
+thead th {
+    border-bottom: 1px solid black;
+    background-color: white;
+}
+tr:nth-child(odd){
+  background-color: rgb(248,248,248);
+}
+
+
+/*
+* Skeleton V2.0.4
+* Copyright 2014, Dave Gamache
+* www.getskeleton.com
+* Free to use under the MIT license.
+* http://www.opensource.org/licenses/mit-license.php
+* 12/29/2014
+*/
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box; }
+.column,
+.columns {
+  width: 100%;
+  float: left;
+  box-sizing: border-box; }
+@media (min-width: 400px) {
+  .container {
+    width: 85%;
+    padding: 0; }
+}
+@media (min-width: 550px) {
+  .container {
+    width: 80%; }
+  .column,
+  .columns {
+    margin-left: 4%; }
+  .column:first-child,
+  .columns:first-child {
+    margin-left: 0; }
+
+  .one.column,
+  .one.columns                    { width: 4.66666666667%; }
+  .two.columns                    { width: 13.3333333333%; }
+  .three.columns                  { width: 22%;            }
+  .four.columns                   { width: 30.6666666667%; }
+  .five.columns                   { width: 39.3333333333%; }
+  .six.columns                    { width: 48%;            }
+  .seven.columns                  { width: 56.6666666667%; }
+  .eight.columns                  { width: 65.3333333333%; }
+  .nine.columns                   { width: 74.0%;          }
+  .ten.columns                    { width: 82.6666666667%; }
+  .eleven.columns                 { width: 91.3333333333%; }
+  .twelve.columns                 { width: 100%; margin-left: 0; }
+
+  .one-third.column               { width: 30.6666666667%; }
+  .two-thirds.column              { width: 65.3333333333%; }
+
+  .one-half.column                { width: 48%; }
+
+  /* Offsets */
+  .offset-by-one.column,
+  .offset-by-one.columns          { margin-left: 8.66666666667%; }
+  .offset-by-two.column,
+  .offset-by-two.columns          { margin-left: 17.3333333333%; }
+  .offset-by-three.column,
+  .offset-by-three.columns        { margin-left: 26%;            }
+  .offset-by-four.column,
+  .offset-by-four.columns         { margin-left: 34.6666666667%; }
+  .offset-by-five.column,
+  .offset-by-five.columns         { margin-left: 43.3333333333%; }
+  .offset-by-six.column,
+  .offset-by-six.columns          { margin-left: 52%;            }
+  .offset-by-seven.column,
+  .offset-by-seven.columns        { margin-left: 60.6666666667%; }
+  .offset-by-eight.column,
+  .offset-by-eight.columns        { margin-left: 69.3333333333%; }
+  .offset-by-nine.column,
+  .offset-by-nine.columns         { margin-left: 78.0%;          }
+  .offset-by-ten.column,
+  .offset-by-ten.columns          { margin-left: 86.6666666667%; }
+  .offset-by-eleven.column,
+  .offset-by-eleven.columns       { margin-left: 95.3333333333%; }
+
+  .offset-by-one-third.column,
+  .offset-by-one-third.columns    { margin-left: 34.6666666667%; }
+  .offset-by-two-thirds.column,
+  .offset-by-two-thirds.columns   { margin-left: 69.3333333333%; }
+
+  .offset-by-one-half.column,
+  .offset-by-one-half.columns     { margin-left: 52%; }
+
+}
+html {
+  font-size: 62.5%; }
+body {
+  font-size: 1.5em; /* currently ems cause chrome bug misinterpreting rems on body element */
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #222; }
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-weight: 300; }
+h1 { font-size: 3.6rem; line-height: 1.2;  letter-spacing: -.1rem;}
+h2 { font-size: 3.4rem; line-height: 1.25; letter-spacing: -.1rem; }
+h3 { font-size: 3.2rem; line-height: 1.3;  letter-spacing: -.1rem; }
+h4 { font-size: 2.8rem; line-height: 1.35; letter-spacing: -.08rem; }
+h5 { font-size: 2.4rem; line-height: 1.5;  letter-spacing: -.05rem; }
+h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
+
+p {
+  margin-top: 0; }
+a {
+  color: #1EAEDB; }
+a:hover {
+  color: #0FA0CE; }
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  display: inline-block;
+  height: 38px;
+  padding: 0 30px;
+  color: #555;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  cursor: pointer;
+  box-sizing: border-box; }
+.button:hover,
+button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover,
+.button:focus,
+button:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="button"]:focus {
+  color: #333;
+  border-color: #888;
+  outline: 0; }
+.button.button-primary,
+button.button-primary,
+input[type="submit"].button-primary,
+input[type="reset"].button-primary,
+input[type="button"].button-primary {
+  color: #FFF;
+  background-color: #33C3F0;
+  border-color: #33C3F0; }
+.button.button-primary:hover,
+button.button-primary:hover,
+input[type="submit"].button-primary:hover,
+input[type="reset"].button-primary:hover,
+input[type="button"].button-primary:hover,
+.button.button-primary:focus,
+button.button-primary:focus,
+input[type="submit"].button-primary:focus,
+input[type="reset"].button-primary:focus,
+input[type="button"].button-primary:focus {
+  color: #FFF;
+  background-color: #1EAEDB;
+  border-color: #1EAEDB; }
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea,
+select {
+  height: 38px;
+  padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
+  background-color: #fff;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box; }
+/* Removes awkward default styles on some inputs for iOS */
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none; }
+textarea {
+  min-height: 65px;
+  padding-top: 6px;
+  padding-bottom: 6px; }
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  border: 1px solid #33C3F0;
+  outline: 0; }
+label,
+legend {
+  display: block;
+  margin-bottom: .5rem;
+  font-weight: 600; }
+fieldset {
+  padding: 0;
+  border-width: 0; }
+input[type="checkbox"],
+input[type="radio"] {
+  display: inline; }
+label > .label-body {
+  display: inline-block;
+  margin-left: .5rem;
+  font-weight: normal; }
+ul {
+  list-style: circle; }
+ol {
+  list-style: decimal; }
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  margin: 1.5rem 0 1.5rem 3rem;
+  font-size: 90%; }
+li > p {margin : 0;}
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #E1E1E1; }
+th:first-child,
+td:first-child {
+  padding-left: 0; }
+th:last-child,
+td:last-child {
+  padding-right: 0; }
+button,
+.button {
+  margin-bottom: 1rem; }
+input,
+textarea,
+select,
+fieldset {
+  margin-bottom: 1.5rem; }
+pre,
+blockquote,
+dl,
+figure,
+table,
+p,
+ul,
+ol,
+form {
+  margin-bottom: 1.0rem; }
+.u-full-width {
+  width: 100%;
+  box-sizing: border-box; }
+.u-max-full-width {
+  max-width: 100%;
+  box-sizing: border-box; }
+.u-pull-right {
+  float: right; }
+.u-pull-left {
+  float: left; }
+hr {
+  margin-top: 3rem;
+  margin-bottom: 3.5rem;
+  border-width: 0;
+  border-top: 1px solid #E1E1E1; }
+.container:after,
+.row:after,
+.u-cf {
+  content: "";
+  display: table;
+  clear: both; }
+
+pre {
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  word-break: break-all;
+  word-wrap: break-word;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+pre.hljl {
+  margin: 0 0 10px;
+  display: block;
+  background: #f5f5f5;
+  border-radius: 4px;
+  padding : 5px;
+}
+
+pre.output {
+  background: #ffffff;
+}
+
+pre.code {
+  background: #ffffff;
+}
+
+pre.julia-error {
+  color : red
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: 13px;
+}
+
+
+@media (min-width: 400px) {}
+@media (min-width: 550px) {}
+@media (min-width: 750px) {}
+@media (min-width: 1000px) {}
+@media (min-width: 1200px) {}
+
+h1.title {margin-top : 20px}
+img {max-width : 100%}
+div.title {text-align: center;}
+
+  </style>
 
 
 
-<h1 class="title">Conic Programming</h1>
+</HEAD>
+  <BODY>
+    <div class ="container">
+      <div class = "row">
+        <div class = "col-md-12 twelve columns">
 
-<p><strong>Author:</strong>
-Arpit Bhatia
-<br />
+          <div class="title">
+            <h1 class="title">Conic Programming</h1>
+            <h5>Arpit Bhatia</h5>
+            
+          </div>
 
-</p>
-
+          
 <p>This tutorial is aimed at providing a simplistic introduction to conic programming using JuMP.</p>
-<h1 id="what-is-a-cone">What is a Cone?</h1>
-<p>A subset <span class="math inline">\(C\)</span> of a vector space <span class="math inline">\(V\)</span> is a cone if <span class="math inline">\(\forall x \in C\)</span> and positive scalars <span class="math inline">\(\alpha\)</span>, the product <span class="math inline">\(\alpha x \in C\)</span>. A cone C is a convex cone if <span class="math inline">\(\alpha x + \beta y \in C\)</span>, for any positive scalars <span class="math inline">\(\alpha, \beta\)</span>, and any <span class="math inline">\(x, y \in C\)</span>.</p>
-<h1 id="conic-programming">Conic Programming</h1>
-<p>Conic programming problems are convex optimization problems in which a convex function is minimized over the intersection of an affine subspace and a convex cone. A primal-dual pair of cone optimization problems is illustrated below.</p>
-<p><span class="math display">\[
-{\qquad \begin{aligned} 
-&amp; \operatorname{minimize} \hspace{0.25cm} c^{T} x &amp; \text { maximize }-b^{T} y \\ 
-&amp; \text { s.t. }  A x+s=b &amp; \text { s.t. }-A^{T} y+r=c \\ 
-&amp;(x, s) \in \mathbb{R}^{n} \times \mathcal{K} &amp;(r, y) \in\{0\}^{n} \times \mathcal{K}^{*} \end{aligned}}
-\]</span></p>
-<p>Here <span class="math inline">\(x \in \mathbb{R}^{n}\)</span> and <span class="math inline">\(s \in \mathbb{R}^{m}\)</span> (with <span class="math inline">\(n \leq m )\)</span> are the primal variables, and <span class="math inline">\(r \in \mathbb{R}^{n}\)</span> and <span class="math inline">\(y \in \mathbb{R}^{m}\)</span> are the dual variables We refer to <span class="math inline">\(x\)</span> as the primal variable, <span class="math inline">\(s\)</span> as the primal slack variable, <span class="math inline">\(y\)</span> as the dual variable, and <span class="math inline">\(r\)</span> as the dual residual. The set <span class="math inline">\(\mathcal{K}\)</span> is a nonempty, closed, convex cone with dual cone <span class="math inline">\(\mathcal{K}^{*},\)</span> and <span class="math inline">\(\{0\}^{n}\)</span> is the dual cone of <span class="math inline">\(\mathbb{R}^{n},\)</span> so the cones <span class="math inline">\(\mathbb{R}^{n} \times \mathcal{K}\)</span> and <span class="math inline">\(\{0\}^{n} \times \mathcal{K}^{*}\)</span> are duals of each other. The problem data are <span class="math inline">\(A \in \mathbb{R}^{m \times n}, b \in \mathbb{R}^{m}, c \in \mathbb{R}^{n},\)</span> and the cone <span class="math inline">\(\mathcal{K}\)</span>. (We consider all vectors to be column vectors.)</p>
-<h1 id="some-of-the-types-of-cones-supported-by-jump">Some of the Types of Cones Supported by JuMP</h1>
-<pre class="hljl">
-<span class="hljl-k">using</span><span class="hljl-t"> </span><span class="hljl-n">JuMP</span><span class="hljl-t">
-</span><span class="hljl-k">using</span><span class="hljl-t"> </span><span class="hljl-n">ECOS</span><span class="hljl-t">
-</span><span class="hljl-k">using</span><span class="hljl-t"> </span><span class="hljl-n">CSDP</span>
+
+<h1>What is a Cone?</h1>
+<p>A subset <span class="math">$C$</span> of a vector space <span class="math">$V$</span> is a cone if <span class="math">$\forall x \in C$</span> and positive scalars <span class="math">$\alpha$</span>,  the product <span class="math">$\alpha x \in C$</span>. A cone C is a convex cone if <span class="math">$\alpha x + \beta y \in C$</span>,  for any positive scalars <span class="math">$\alpha, \beta$</span>, and any <span class="math">$x, y \in C$</span>.</p>
+
+<h1>Conic Programming</h1>
+<p>Conic programming problems are convex optimization problems in which a convex function is minimized over the intersection of an affine subspace and a convex cone.  An example of a conic-form minimization problems, in the primal form is:</p>
+
+<p class="math">\[
+\begin{align}
+& \min_{x \in \mathbb{R}^n} & a_0^T x + b_0 \\
+& \;\;\text{s.t.} & A_i x + b_i & \in \mathcal{C}_i & i = 1 \ldots m
+\end{align}
+\]</p>
+
+<p>The corresponding dual problem is:</p>
+
+<p class="math">\[
+\begin{align}
+& \max_{y_1, \ldots, y_m} & -\sum_{i=1}^m b_i^T y_i + b_0 \\
+& \;\;\text{s.t.} & a_0 - \sum_{i=1}^m A_i^T y_i & = 0 \\
+& & y_i & \in \mathcal{C}_i^* & i = 1 \ldots m
+\end{align}
+\]</p>
+
+<p>where each <span class="math">$\mathcal{C}_i$</span> is a closed convex cone and <span class="math">$\mathcal{C}_i^*$</span> is its dual cone.</p>
+
+<h1>Some of the Types of Cones Supported by JuMP</h1>
+
+
+<pre class='hljl'>
+<span class='hljl-k'>using</span><span class='hljl-t'> </span><span class='hljl-n'>JuMP</span><span class='hljl-t'>
+</span><span class='hljl-k'>using</span><span class='hljl-t'> </span><span class='hljl-n'>ECOS</span><span class='hljl-t'>
+</span><span class='hljl-k'>using</span><span class='hljl-t'> </span><span class='hljl-n'>CSDP</span>
 </pre>
-<p>By this point we have used quite a few different solvers. To find out all the different solvers and their supported problem types, check out the <a href="http://www.juliaopt.org/JuMP.jl/v0.19.0/installation/#Getting-Solvers-1">solver table</a> in the docs.</p>
-<h2 id="second-order-cone">Second-Order Cone</h2>
-<p>The Second-Order Cone (or Lorenz Cone) of dimension <span class="math inline">\(n\)</span> is of the form:</p>
-<p><span class="math display">\[
+
+
+
+<p>By this point we have used quite a few different solvers.  To find out all the different solvers and their supported problem types, check out the  <a href="http://www.juliaopt.org/JuMP.jl/v0.19.0/installation/#Getting-Solvers-1">solver table</a> in the docs.</p>
+
+<h2>Second-Order Cone</h2>
+<p>The Second-Order Cone &#40;or Lorenz Cone&#41; of dimension <span class="math">$n$</span> is of the form:</p>
+
+<p class="math">\[
 Q^n = \{ (t,x) \in \mathbb{R}^\mbox{n} : t \ge ||x||_2 \}
-\]</span></p>
-<p>A Second-Order Cone rotated by <span class="math inline">\(\pi/4\)</span> in the <span class="math inline">\((x_1,x_2)\)</span> plane is called a Rotated Second-Order Cone. It is of the form:</p>
-<p><span class="math display">\[
+\]</p>
+
+<p>A Second-Order Cone rotated by <span class="math">$\pi/4$</span> in the <span class="math">$(x_1,x_2)$</span> plane is called a Rotated Second-Order Cone. It is of the form:</p>
+
+<p class="math">\[
 Q_r^n = \{ (t,u,x) \in \mathbb{R}^\mbox{n} : 2tu \ge ||x||_2^2, t,u \ge 0 \}
-\]</span></p>
+\]</p>
+
 <p>These cones are represented in JuMP using the MOI sets <code>SecondOrderCone</code> and <code>RotatedSecondOrderCone</code>.</p>
-<h3 id="example-euclidean-norm">Example: Euclidean Norm</h3>
-<p>We can model the problem of finding the Euclidean norm(L2 norm) of a vector <span class="math inline">\(x\)</span> as the following conic program:</p>
-<p><span class="math display">\[
-\begin{align*}
-\| x \|_2 = \min t \\
-\text { s.t. } (t, x) \in Q^{n+1}
-\end{align*}
-\]</span></p>
-<pre class="hljl">
-<span class="hljl-n">x</span><span class="hljl-t"> </span><span class="hljl-oB">=</span><span class="hljl-t"> </span><span class="hljl-p">[</span><span class="hljl-ni">1</span><span class="hljl-t"> </span><span class="hljl-ni">1</span><span class="hljl-t"> </span><span class="hljl-ni">1</span><span class="hljl-t"> </span><span class="hljl-ni">1</span><span class="hljl-t"> </span><span class="hljl-ni">1</span><span class="hljl-t"> </span><span class="hljl-ni">1</span><span class="hljl-t"> </span><span class="hljl-ni">1</span><span class="hljl-t"> </span><span class="hljl-ni">1</span><span class="hljl-t"> </span><span class="hljl-ni">1</span><span class="hljl-p">]</span><span class="hljl-t">
-</span><span class="hljl-n">model</span><span class="hljl-t"> </span><span class="hljl-oB">=</span><span class="hljl-t"> </span><span class="hljl-nf">Model</span><span class="hljl-p">(</span><span class="hljl-nf">with_optimizer</span><span class="hljl-p">(</span><span class="hljl-n">ECOS</span><span class="hljl-oB">.</span><span class="hljl-n">Optimizer</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">printlevel</span><span class="hljl-t"> </span><span class="hljl-oB">=</span><span class="hljl-t"> </span><span class="hljl-ni">0</span><span class="hljl-p">))</span><span class="hljl-t">
-</span><span class="hljl-nd">@variable</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">t</span><span class="hljl-p">)</span><span class="hljl-t">
-</span><span class="hljl-nd">@objective</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">Min</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">t</span><span class="hljl-p">)</span><span class="hljl-t">
-</span><span class="hljl-nd">@constraint</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-p">[</span><span class="hljl-n">t</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">x</span><span class="hljl-oB">...</span><span class="hljl-p">]</span><span class="hljl-t"> </span><span class="hljl-kp">in</span><span class="hljl-t"> </span><span class="hljl-nf">SecondOrderCone</span><span class="hljl-p">())</span><span class="hljl-t">
 
-</span><span class="hljl-nf">optimize!</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">)</span>
-</pre>
-<pre class="hljl">
-<span class="hljl-nf">objective_value</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">)</span>
-</pre>
-<p>2.9999999976093386</p>
-<p>An equivalent formulation using a Rotated Second-Order Cone is the following:</p>
-<p><span class="math display">\[
-\begin{align*}
-\| x \|_2^2 = \min t \\
-\text { s.t. } (1/2, t, x)\in Q_r^{n+2}
-\end{align*}
-\]</span></p>
-<pre class="hljl">
-<span class="hljl-n">x</span><span class="hljl-t"> </span><span class="hljl-oB">=</span><span class="hljl-t"> </span><span class="hljl-p">[</span><span class="hljl-ni">1</span><span class="hljl-t"> </span><span class="hljl-ni">1</span><span class="hljl-t"> </span><span class="hljl-ni">1</span><span class="hljl-t"> </span><span class="hljl-ni">1</span><span class="hljl-t"> </span><span class="hljl-ni">1</span><span class="hljl-t"> </span><span class="hljl-ni">1</span><span class="hljl-t"> </span><span class="hljl-ni">1</span><span class="hljl-t"> </span><span class="hljl-ni">1</span><span class="hljl-t"> </span><span class="hljl-ni">1</span><span class="hljl-p">]</span><span class="hljl-t">
-</span><span class="hljl-n">model</span><span class="hljl-t"> </span><span class="hljl-oB">=</span><span class="hljl-t"> </span><span class="hljl-nf">Model</span><span class="hljl-p">(</span><span class="hljl-nf">with_optimizer</span><span class="hljl-p">(</span><span class="hljl-n">ECOS</span><span class="hljl-oB">.</span><span class="hljl-n">Optimizer</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">printlevel</span><span class="hljl-t"> </span><span class="hljl-oB">=</span><span class="hljl-t"> </span><span class="hljl-ni">0</span><span class="hljl-p">))</span><span class="hljl-t">
-</span><span class="hljl-nd">@variable</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">t</span><span class="hljl-p">)</span><span class="hljl-t">
-</span><span class="hljl-nd">@objective</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">Min</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">t</span><span class="hljl-p">)</span><span class="hljl-t">
-</span><span class="hljl-nd">@constraint</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-p">[</span><span class="hljl-n">t</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-nfB">0.5</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">x</span><span class="hljl-oB">...</span><span class="hljl-p">]</span><span class="hljl-t"> </span><span class="hljl-kp">in</span><span class="hljl-t"> </span><span class="hljl-nf">RotatedSecondOrderCone</span><span class="hljl-p">())</span><span class="hljl-t">
+<h3>Example: Euclidean Projection on a Hyperplane</h3>
+<p>For a given point <span class="math">$u_{0}$</span> and a set <span class="math">$K$</span>, we refer to any point <span class="math">$u \in K$</span>  which is closest to <span class="math">$u_{0}$</span> as a projection of <span class="math">$u_{0}$</span> on <span class="math">$K$</span>.  The projection of a point <span class="math">$u_{0}$</span> on a hyperplane <span class="math">$K = \{u | p' \cdot u = q\}$</span> is given by</p>
 
-</span><span class="hljl-nf">optimize!</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">)</span>
+<p class="math">\[
+\begin{align*}
+\min && ||u - u_{0}|| \\
+s.t. && p' \cdot u = q 
+\end{align*}
+\]</p>
+
+
+<pre class='hljl'>
+<span class='hljl-n'>u0</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>10</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-n'>p</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-ni'>10</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-n'>q</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>();</span>
 </pre>
-<pre class="hljl">
-<span class="hljl-nf">objective_value</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">)</span>
+
+
+
+<p>We can model the above problem as the following conic program:</p>
+
+<p class="math">\[
+\begin{align*}
+\min t \\
+\text { s.t. }  p' \cdot u = q \\
+(t, u - u_{0}) \in Q^{n+1}
+\end{align*}
+\]</p>
+
+<p>On comparing this with the primal form of a conic problem we saw above,</p>
+
+<p class="math">\[
+\begin{align*}
+x = (t , u) \\
+a_0 = e_1 \\
+b_0 = 0 \\
+A_1 = (0, p) \\
+b_1 = -q \\
+C_1 = \mathbb{R}_- \\
+A_2 = 1 \\
+b_2 = -(0, u_0) \\
+C_2 = Q^{n+1} 
+\end{align*}
+\]</p>
+
+<p>Thus, we can obtain the dual problem as:</p>
+
+<p class="math">\[
+\begin{align*}
+\max q  y_1 + (0, u_0)^T y_2 \\
+\text { s.t. } e_1 - (0,p)^T y_1 - y_2 = 0 \\
+y_1 \in ? \\
+y_2 \in Q^{n+1} 
+\end{align*}
+\]</p>
+
+
+<pre class='hljl'>
+<span class='hljl-n'>model</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>Model</span><span class='hljl-p'>(</span><span class='hljl-nf'>with_optimizer</span><span class='hljl-p'>(</span><span class='hljl-n'>ECOS</span><span class='hljl-oB'>.</span><span class='hljl-n'>Optimizer</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>printlevel</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-ni'>0</span><span class='hljl-p'>))</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@variable</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>u</span><span class='hljl-p'>[</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>10</span><span class='hljl-p'>])</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@variable</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>t</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@objective</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>Min</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>t</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@constraint</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-p'>[</span><span class='hljl-n'>t</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-p'>(</span><span class='hljl-n'>u</span><span class='hljl-t'> </span><span class='hljl-oB'>-</span><span class='hljl-t'> </span><span class='hljl-n'>u0</span><span class='hljl-p'>)</span><span class='hljl-oB'>...</span><span class='hljl-p'>]</span><span class='hljl-t'> </span><span class='hljl-kp'>in</span><span class='hljl-t'> </span><span class='hljl-nf'>SecondOrderCone</span><span class='hljl-p'>())</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@constraint</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>u</span><span class='hljl-oB'>&#39;</span><span class='hljl-t'> </span><span class='hljl-oB'>*</span><span class='hljl-t'> </span><span class='hljl-n'>p</span><span class='hljl-t'> </span><span class='hljl-oB'>==</span><span class='hljl-t'> </span><span class='hljl-n'>q</span><span class='hljl-p'>)</span><span class='hljl-t'> 
+</span><span class='hljl-nf'>optimize!</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>)</span>
 </pre>
-<p>8.999999759613525</p>
-<h2 id="positive-semidefinite-cone">Positive Semidefinite Cone</h2>
-<p>The set of Positive Semidefinite Matrices of dimension <span class="math inline">\(n\)</span> form a cone in <span class="math inline">\(\mathbb{R}^n\)</span>. We write this set mathematically as</p>
-<p><span class="math display">\[
+
+
+
+
+<pre class='hljl'>
+<span class='hljl-nd'>@show</span><span class='hljl-t'> </span><span class='hljl-n'>value</span><span class='hljl-oB'>.</span><span class='hljl-p'>(</span><span class='hljl-n'>u</span><span class='hljl-p'>)</span>
+</pre>
+
+
+<pre class="output">
+value.&#40;u&#41; &#61; &#91;0.422211, 0.127741, 0.516284, -0.112396, -0.357554, -0.182886,
+ -0.354587, 0.389738, 0.393039, 0.469985&#93;
+10-element Array&#123;Float64,1&#125;:
+  0.42221124070502   
+  0.1277405395048927 
+  0.5162838767103125 
+ -0.11239560348066903
+ -0.35755398675306327
+ -0.1828857795334842 
+ -0.35458664052662553
+  0.3897375947603207 
+  0.39303871672068563
+  0.46998476259042066
+</pre>
+
+
+<p>We can also have an equivalent formulation using a Rotated Second-Order Cone:</p>
+
+<p class="math">\[
+\begin{align*}
+\min t \\
+\text { s.t. }  p' \cdot u = q \\
+(t, 1/2, u - u_{0})\in Q_r^{n+2}
+\end{align*}
+\]</p>
+
+
+<pre class='hljl'>
+<span class='hljl-n'>model</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>Model</span><span class='hljl-p'>(</span><span class='hljl-nf'>with_optimizer</span><span class='hljl-p'>(</span><span class='hljl-n'>ECOS</span><span class='hljl-oB'>.</span><span class='hljl-n'>Optimizer</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>printlevel</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-ni'>0</span><span class='hljl-p'>))</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@variable</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>u</span><span class='hljl-p'>[</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-ni'>10</span><span class='hljl-p'>])</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@variable</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>t</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@objective</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>Min</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>t</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@constraint</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-p'>[</span><span class='hljl-n'>t</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-nfB'>0.5</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-p'>(</span><span class='hljl-n'>u</span><span class='hljl-t'> </span><span class='hljl-oB'>-</span><span class='hljl-t'> </span><span class='hljl-n'>u0</span><span class='hljl-p'>)</span><span class='hljl-oB'>...</span><span class='hljl-p'>]</span><span class='hljl-t'> </span><span class='hljl-kp'>in</span><span class='hljl-t'> </span><span class='hljl-nf'>RotatedSecondOrderCone</span><span class='hljl-p'>())</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@constraint</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>u</span><span class='hljl-oB'>&#39;</span><span class='hljl-t'> </span><span class='hljl-oB'>*</span><span class='hljl-t'> </span><span class='hljl-n'>p</span><span class='hljl-t'> </span><span class='hljl-oB'>==</span><span class='hljl-t'> </span><span class='hljl-n'>q</span><span class='hljl-p'>)</span><span class='hljl-t'> 
+</span><span class='hljl-nf'>optimize!</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>)</span>
+</pre>
+
+
+
+
+<pre class='hljl'>
+<span class='hljl-nd'>@show</span><span class='hljl-t'> </span><span class='hljl-n'>value</span><span class='hljl-oB'>.</span><span class='hljl-p'>(</span><span class='hljl-n'>u</span><span class='hljl-p'>)</span>
+</pre>
+
+
+<pre class="output">
+value.&#40;u&#41; &#61; &#91;0.422211, 0.127741, 0.516284, -0.112396, -0.357554, -0.182886,
+ -0.354587, 0.389738, 0.393039, 0.469985&#93;
+10-element Array&#123;Float64,1&#125;:
+  0.4222112406735368 
+  0.12774053947449365
+  0.5162838766850497 
+ -0.11239560352842427
+ -0.357553986809809  
+ -0.18288577960077998
+ -0.3545866405990713 
+  0.38973759475858016
+  0.3930387166861845 
+  0.46998476297645003
+</pre>
+
+
+<p>The difference here is that the objective in the case of the Second-Order Cone is <span class="math">$||u - u_{0}||_2$</span>, while in the case of a Rotated Second-Order Cone is <span class="math">$||u - u_{0}||_2^2$</span>. However, the value of x is the same for both.</p>
+
+<h2>Exponential Cone</h2>
+
+<p>An Exponential Cone is a set of the form:</p>
+
+<p class="math">\[
+K_{exp} = \{ (x,y,z) \in \mathbb{R}^3 : y \exp (x/y) \le z, y > 0 \}
+\]</p>
+
+<p>It is represented in JuMP using the MOI set <code>ExponentialCone</code>.</p>
+
+<h3>Example: Entropy Maximization</h3>
+<p>As the name suggests, the entropy maximization problem consists of maximizing the entropy function, <span class="math">$H(x) = -x\log{x}$</span> subject to linear inequality constraints.</p>
+
+<p class="math">\[
+\begin{align*}
+\max - \sum_{i=1}^n x_i \log x_i \\
+\text { s.t. } \mathbf{1}' x = 1 \\
+Ax \leq b
+\end{align*}
+\]</p>
+
+<p>We can model this problem using an exponential cone by using the following transformation:</p>
+
+<p class="math">\[
+t\leq -x\log{x} \iff t\leq x\log(1/x)  \iff (1, x, t) \in K_{exp}
+\]</p>
+
+<p>Thus, our problem becomes,</p>
+
+<p class="math">\[
+\begin{align*}
+\max 1^Tt \\
+\text { s.t. } Ax \leq b \\
+1^T x = 1 \\
+(1, x_i, t_i) \in K_{exp} && \forall i = 1 \ldots n
+\end{align*}
+\]</p>
+
+
+<pre class='hljl'>
+<span class='hljl-cs'># Cannot use the exponential cone directly in JuMP, hence we import MOI to specify the set.</span><span class='hljl-t'>
+</span><span class='hljl-k'>using</span><span class='hljl-t'> </span><span class='hljl-n'>MathOptInterface</span><span class='hljl-t'>
+</span><span class='hljl-kd'>const</span><span class='hljl-t'> </span><span class='hljl-n'>MOI</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-n'>MathOptInterface</span><span class='hljl-t'>
+
+</span><span class='hljl-n'>n</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-ni'>15</span><span class='hljl-p'>;</span><span class='hljl-t'>
+</span><span class='hljl-n'>m</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-ni'>10</span><span class='hljl-p'>;</span><span class='hljl-t'>
+</span><span class='hljl-n'>A</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>randn</span><span class='hljl-p'>(</span><span class='hljl-n'>m</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>n</span><span class='hljl-p'>);</span><span class='hljl-t'> 
+</span><span class='hljl-n'>b</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>rand</span><span class='hljl-p'>(</span><span class='hljl-n'>m</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-ni'>1</span><span class='hljl-p'>);</span><span class='hljl-t'>
+
+</span><span class='hljl-n'>model</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>Model</span><span class='hljl-p'>(</span><span class='hljl-nf'>with_optimizer</span><span class='hljl-p'>(</span><span class='hljl-n'>ECOS</span><span class='hljl-oB'>.</span><span class='hljl-n'>Optimizer</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>printlevel</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-ni'>0</span><span class='hljl-p'>))</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@variable</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>t</span><span class='hljl-p'>[</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-n'>n</span><span class='hljl-p'>])</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@variable</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>x</span><span class='hljl-p'>[</span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-n'>n</span><span class='hljl-p'>])</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@objective</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>Max</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-nf'>sum</span><span class='hljl-p'>(</span><span class='hljl-n'>t</span><span class='hljl-p'>))</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@constraint</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-nf'>sum</span><span class='hljl-p'>(</span><span class='hljl-n'>x</span><span class='hljl-p'>)</span><span class='hljl-t'> </span><span class='hljl-oB'>==</span><span class='hljl-t'> </span><span class='hljl-ni'>1</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@constraint</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>A</span><span class='hljl-t'> </span><span class='hljl-oB'>*</span><span class='hljl-t'> </span><span class='hljl-n'>x</span><span class='hljl-t'> </span><span class='hljl-oB'>.&lt;=</span><span class='hljl-t'> </span><span class='hljl-n'>b</span><span class='hljl-t'> </span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@constraint</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>con</span><span class='hljl-p'>[</span><span class='hljl-n'>i</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-ni'>1</span><span class='hljl-oB'>:</span><span class='hljl-n'>n</span><span class='hljl-p'>],</span><span class='hljl-t'> </span><span class='hljl-p'>[</span><span class='hljl-ni'>1</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>x</span><span class='hljl-p'>[</span><span class='hljl-n'>i</span><span class='hljl-p'>],</span><span class='hljl-t'> </span><span class='hljl-n'>t</span><span class='hljl-p'>[</span><span class='hljl-n'>i</span><span class='hljl-p'>]]</span><span class='hljl-t'> </span><span class='hljl-kp'>in</span><span class='hljl-t'> </span><span class='hljl-n'>MOI</span><span class='hljl-oB'>.</span><span class='hljl-nf'>ExponentialCone</span><span class='hljl-p'>())</span><span class='hljl-t'>
+
+</span><span class='hljl-nf'>optimize!</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>);</span>
+</pre>
+
+
+<pre class="output">
+ECOS 2.0.5 - &#40;C&#41; embotech GmbH, Zurich Switzerland, 2012-15. Web: www.embot
+ech.com/ECOS
+
+It     pcost       dcost      gap   pres   dres    k/t    mu     step   sig
+ma     IR    |   BT
+ 0  &#43;0.000e&#43;00  -0.000e&#43;00  &#43;1e&#43;01  4e-01  3e-04  1e&#43;00  6e&#43;00    ---    --
+-    1  1  - |  -  - 
+ 1  &#43;2.679e-01  &#43;2.733e-01  &#43;1e&#43;00  6e-02  3e-05  1e-01  6e-01  0.8966  1e-
+03   2  1  2 |  0  0
+ 2  &#43;1.228e&#43;00  &#43;1.254e&#43;00  &#43;7e-02  5e-03  2e-06  3e-02  5e-02  0.9672  5e-
+02   2  2  2 |  0  0
+ 3  &#43;1.263e&#43;00  &#43;1.264e&#43;00  &#43;7e-04  5e-05  2e-08  4e-04  6e-04  0.9890  1e-
+04   1  1  1 |  0  0
+ 4  &#43;1.264e&#43;00  &#43;1.264e&#43;00  &#43;8e-06  6e-07  2e-10  4e-06  6e-06  0.9890  1e-
+04   1  1  1 |  0  0
+ 5  &#43;1.264e&#43;00  &#43;1.264e&#43;00  &#43;9e-08  6e-09  3e-12  5e-08  7e-08  0.9890  1e-
+04   2  1  1 |  0  0
+ 6  &#43;1.264e&#43;00  &#43;1.264e&#43;00  &#43;1e-09  7e-11  3e-14  5e-10  8e-10  0.9890  1e-
+04   2  1  1 |  0  0
+
+OPTIMAL &#40;within feastol&#61;7.0e-11, reltol&#61;7.9e-10, abstol&#61;1.0e-09&#41;.
+Runtime: 0.000133 seconds.
+
+
+ECOS 2.0.5 - &#40;C&#41; embotech GmbH, Zurich Switzerland, 2012-15. Web: www.embot
+ech.com/ECOS
+
+It     pcost       dcost      gap   pres   dres    k/t    mu     step   sig
+ma     IR    |   BT
+ 0  -3.275e-17  -3.591e-02  &#43;9e&#43;00  4e-01  2e-02  1e&#43;00  5e&#43;00    ---    --
+-    1  1  - |  -  - 
+ 1  &#43;6.368e-02  &#43;6.689e-02  &#43;8e-01  5e-02  2e-03  1e-01  5e-01  0.9031  7e-
+04   1  1  1 |  0  0
+ 2  &#43;1.076e&#43;00  &#43;1.544e&#43;00  &#43;5e-01  1e-01  3e-03  6e-01  3e-01  0.6885  5e-
+01   2  2  2 |  0  0
+ 3  &#43;1.550e&#43;00  &#43;1.568e&#43;00  &#43;8e-03  2e-03  6e-05  2e-02  5e-03  0.9825  1e-
+04   2  1  1 |  0  0
+ 4  &#43;1.580e&#43;00  &#43;1.584e&#43;00  &#43;1e-03  4e-04  1e-05  5e-03  9e-04  0.8378  1e-
+02   2  1  2 |  0  0
+ 5  &#43;1.592e&#43;00  &#43;1.595e&#43;00  &#43;4e-04  2e-04  5e-06  3e-03  3e-04  0.8245  2e-
+01   2  2  2 |  0  0
+ 6  &#43;1.596e&#43;00  &#43;1.596e&#43;00  &#43;8e-05  4e-05  9e-07  6e-04  6e-05  0.8214  1e-
+02   2  1  1 |  0  0
+ 7  &#43;1.597e&#43;00  &#43;1.597e&#43;00  &#43;2e-05  7e-06  2e-07  1e-04  1e-05  0.8893  1e-
+01   2  2  2 |  0  0
+ 8  &#43;1.597e&#43;00  &#43;1.597e&#43;00  &#43;3e-06  1e-06  3e-08  2e-05  3e-06  0.8223  2e-
+02   2  1  1 |  0  0
+ 9  &#43;1.597e&#43;00  &#43;1.597e&#43;00  &#43;6e-07  3e-07  8e-09  6e-06  6e-07  0.8889  1e-
+01   2  1  2 |  0  0
+10  &#43;1.597e&#43;00  &#43;1.597e&#43;00  &#43;1e-07  6e-08  2e-09  1e-06  1e-07  0.8176  2e-
+02   2  1  1 |  0  0
+11  &#43;1.597e&#43;00  &#43;1.597e&#43;00  &#43;2e-08  1e-08  3e-10  3e-07  2e-08  0.8957  1e-
+01   2  1  1 |  0  0
+12  &#43;1.597e&#43;00  &#43;1.597e&#43;00  &#43;5e-09  3e-09  6e-11  5e-08  5e-09  0.8174  2e-
+02   2  1  1 |  0  0
+
+OPTIMAL &#40;within feastol&#61;2.6e-09, reltol&#61;3.0e-09, abstol&#61;4.8e-09&#41;.
+Runtime: 0.000126 seconds.
+
+
+ECOS 2.0.5 - &#40;C&#41; embotech GmbH, Zurich Switzerland, 2012-15. Web: www.embot
+ech.com/ECOS
+
+It     pcost       dcost      gap   pres   dres    k/t    mu     step   sig
+ma     IR    |   BT
+ 0  &#43;0.000e&#43;00  &#43;5.331e&#43;00  &#43;6e&#43;01  1e&#43;00  8e-01  1e&#43;00  1e&#43;00    ---    --
+-    0  0  - |  -  - 
+ 1  &#43;3.359e&#43;00  &#43;2.301e&#43;01  &#43;3e&#43;01  3e&#43;00  2e&#43;00  9e&#43;00  5e-01  0.5537  1e-
+01   1  1  1 |  1  1
+ 2  -4.834e&#43;01  &#43;1.726e&#43;01  &#43;1e&#43;01  1e&#43;00  1e&#43;00  6e&#43;01  3e-01  0.9791  5e-
+01   1  1  1 |  2  0
+ 3  -1.856e&#43;02  &#43;3.281e&#43;01  &#43;7e&#43;00  2e&#43;00  1e&#43;00  2e&#43;02  1e-01  0.6027  1e-
+01   1  1  1 |  2  2
+ 4  -8.230e&#43;02  &#43;6.921e&#43;01  &#43;2e&#43;00  2e&#43;00  1e&#43;00  9e&#43;02  5e-02  0.7833  2e-
+01   1  1  1 |  3  1
+ 5  -3.598e&#43;03  &#43;9.682e&#43;01  &#43;5e-01  2e&#43;00  1e&#43;00  4e&#43;03  1e-02  0.7833  1e-
+02   1  1  1 |  1  1
+ 6  -7.335e&#43;04  -2.111e&#43;03  &#43;2e-02  2e&#43;00  9e-01  7e&#43;04  3e-04  0.9765  1e-
+02   1  1  1 |  1  0
+ 7  -4.349e&#43;06  -2.925e&#43;05  &#43;1e-03  4e&#43;00  3e&#43;00  4e&#43;06  2e-05  0.9481  9e-
+04   2  1  1 |  0  0
+ 8  -1.313e&#43;07  -1.338e&#43;06  &#43;2e-04  4e&#43;00  2e&#43;00  1e&#43;07  3e-06  0.7833  1e-
+02   2  1  1 |  1  1
+ 9  -4.046e&#43;07  -5.239e&#43;06  &#43;3e-05  3e&#43;00  2e&#43;00  4e&#43;07  7e-07  0.7833  1e-
+02   2  1  1 |  1  1
+10  -7.888e&#43;07  -1.198e&#43;07  &#43;1e-05  4e&#43;00  2e&#43;00  7e&#43;07  3e-07  0.6266  1e-
+01   2  0  0 |  3  2
+11  -2.592e&#43;08  -5.411e&#43;07  &#43;4e-06  6e&#43;00  3e&#43;00  2e&#43;08  7e-08  0.9791  3e-
+01   2  0  0 |  5  0
+12  -4.811e&#43;08  -1.197e&#43;08  &#43;1e-06  6e&#43;00  3e&#43;00  4e&#43;08  3e-08  0.6266  1e-
+01   1  0  0 |  3  2
+13  -1.580e&#43;09  -5.111e&#43;08  &#43;4e-07  1e&#43;01  4e&#43;00  1e&#43;09  7e-09  0.9791  3e-
+01   1  0  0 |  5  0
+14  -3.538e&#43;09  -1.250e&#43;09  &#43;1e-07  9e&#43;00  3e&#43;00  2e&#43;09  3e-09  0.6266  5e-
+02   1  0
+</pre>
+
+
+
+<pre class='hljl'>
+<span class='hljl-nf'>objective_value</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>)</span>
+</pre>
+
+
+<pre class="output">
+2.1346011858856228e10
+</pre>
+
+
+<h2>Positive Semidefinite Cone</h2>
+<p>The set of Positive Semidefinite Matrices of dimension <span class="math">$n$</span> form a cone in <span class="math">$\mathbb{R}^n$</span>. We write this set mathematically as </p>
+
+<p class="math">\[
 \mathcal{S}_{+}^n = \{ X \in \mathcal{S}^n \mid z^T X z \geq 0, \: \forall z\in \mathbb{R}^n \}.
-\]</span></p>
-<p>A PSD cone is represented in JuMP using the MOI sets <code>PositiveSemidefiniteConeTriangle</code> (for upper triangle of a PSD matrix) and <code>PositiveSemidefiniteConeSquare</code> (for a complete PSD matrix). However, it is prefferable to use the <code>PSDCone</code> shortcut as illustrated below.</p>
-<h3 id="example-largest-eigenvalue-of-a-symmetric-matrix">Example: Largest Eigenvalue of a Symmetric Matrix</h3>
-<p>Suppose <span class="math inline">\(A\)</span> has eigenvalues <span class="math inline">\(\lambda_{1} \geq \lambda_{2} \ldots \geq \lambda_{n}\)</span>. Then the matrix <span class="math inline">\(t I-A\)</span> has eigenvalues <span class="math inline">\(t-\lambda_{1}, t-\lambda_{2}, \ldots, t-\lambda_{n}\)</span>. Note that <span class="math inline">\(t I-A\)</span> is PSD exactly when all these eigenvalues are non-negative, and this happens for values <span class="math inline">\(t \geq \lambda_{1} .\)</span> Thus, we can model the problem of finding the largest eigenvalue of a symmetric matrix as:</p>
-<p><span class="math display">\[
+\]</p>
+
+<p>A PSD cone is represented in JuMP using the MOI sets  <code>PositiveSemidefiniteConeTriangle</code> &#40;for upper triangle of a PSD matrix&#41; and <code>PositiveSemidefiniteConeSquare</code> &#40;for a complete PSD matrix&#41;.  However, it is prefferable to use the <code>PSDCone</code> shortcut as illustrated below.</p>
+
+<h3>Example: Largest Eigenvalue of a Symmetric Matrix</h3>
+<p>Suppose <span class="math">$A$</span> has eigenvalues <span class="math">$\lambda_{1} \geq \lambda_{2} \ldots \geq \lambda_{n}$</span>.  Then the matrix <span class="math">$t I-A$</span> has eigenvalues <span class="math">$t-\lambda_{1}, t-\lambda_{2}, \ldots, t-\lambda_{n}$</span>.  Note that <span class="math">$t I-A$</span> is PSD exactly when all these eigenvalues are non-negative,  and this happens for values <span class="math">$t \geq \lambda_{1} .$</span>  Thus, we can model the problem of finding the largest eigenvalue of a symmetric matrix as:</p>
+
+<p class="math">\[
 \begin{align*}
 \lambda_{1} = \max t \\
 \text { s.t. } t I-A \succeq 0
 \end{align*}
-\]</span></p>
-<pre class="hljl">
-<span class="hljl-k">using</span><span class="hljl-t"> </span><span class="hljl-n">LinearAlgebra</span><span class="hljl-t">
+\]</p>
 
-</span><span class="hljl-n">A</span><span class="hljl-t"> </span><span class="hljl-oB">=</span><span class="hljl-t"> </span><span class="hljl-p">[</span><span class="hljl-ni">3</span><span class="hljl-t"> </span><span class="hljl-ni">2</span><span class="hljl-t"> </span><span class="hljl-ni">4</span><span class="hljl-p">;</span><span class="hljl-t">
-     </span><span class="hljl-ni">2</span><span class="hljl-t"> </span><span class="hljl-ni">0</span><span class="hljl-t"> </span><span class="hljl-ni">2</span><span class="hljl-p">;</span><span class="hljl-t">
-     </span><span class="hljl-ni">4</span><span class="hljl-t"> </span><span class="hljl-ni">2</span><span class="hljl-t"> </span><span class="hljl-ni">3</span><span class="hljl-p">]</span><span class="hljl-t">
 
-</span><span class="hljl-n">model</span><span class="hljl-t"> </span><span class="hljl-oB">=</span><span class="hljl-t"> </span><span class="hljl-nf">Model</span><span class="hljl-p">(</span><span class="hljl-nf">with_optimizer</span><span class="hljl-p">(</span><span class="hljl-n">CSDP</span><span class="hljl-oB">.</span><span class="hljl-n">Optimizer</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">printlevel</span><span class="hljl-t"> </span><span class="hljl-oB">=</span><span class="hljl-t"> </span><span class="hljl-ni">0</span><span class="hljl-p">))</span><span class="hljl-t">
-</span><span class="hljl-nd">@variable</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">t</span><span class="hljl-p">)</span><span class="hljl-t">
-</span><span class="hljl-nd">@objective</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">Min</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">t</span><span class="hljl-p">)</span><span class="hljl-t">
-</span><span class="hljl-nd">@constraint</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">t</span><span class="hljl-t"> </span><span class="hljl-oB">.*</span><span class="hljl-t"> </span><span class="hljl-nf">Matrix</span><span class="hljl-p">{</span><span class="hljl-n">Float64</span><span class="hljl-p">}(</span><span class="hljl-n">I</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-ni">3</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-ni">3</span><span class="hljl-p">)</span><span class="hljl-t"> </span><span class="hljl-oB">-</span><span class="hljl-t"> </span><span class="hljl-n">A</span><span class="hljl-t"> </span><span class="hljl-kp">in</span><span class="hljl-t"> </span><span class="hljl-nf">PSDCone</span><span class="hljl-p">())</span><span class="hljl-t">
+<pre class='hljl'>
+<span class='hljl-k'>using</span><span class='hljl-t'> </span><span class='hljl-n'>LinearAlgebra</span><span class='hljl-t'>
 
-</span><span class="hljl-nf">optimize!</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">)</span>
+</span><span class='hljl-n'>A</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-p'>[</span><span class='hljl-ni'>3</span><span class='hljl-t'> </span><span class='hljl-ni'>2</span><span class='hljl-t'> </span><span class='hljl-ni'>4</span><span class='hljl-p'>;</span><span class='hljl-t'>
+     </span><span class='hljl-ni'>2</span><span class='hljl-t'> </span><span class='hljl-ni'>0</span><span class='hljl-t'> </span><span class='hljl-ni'>2</span><span class='hljl-p'>;</span><span class='hljl-t'>
+     </span><span class='hljl-ni'>4</span><span class='hljl-t'> </span><span class='hljl-ni'>2</span><span class='hljl-t'> </span><span class='hljl-ni'>3</span><span class='hljl-p'>]</span><span class='hljl-t'>
+
+</span><span class='hljl-n'>model</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-nf'>Model</span><span class='hljl-p'>(</span><span class='hljl-nf'>with_optimizer</span><span class='hljl-p'>(</span><span class='hljl-n'>CSDP</span><span class='hljl-oB'>.</span><span class='hljl-n'>Optimizer</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>printlevel</span><span class='hljl-t'> </span><span class='hljl-oB'>=</span><span class='hljl-t'> </span><span class='hljl-ni'>0</span><span class='hljl-p'>))</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@variable</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>t</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@objective</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>Min</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>t</span><span class='hljl-p'>)</span><span class='hljl-t'>
+</span><span class='hljl-nd'>@constraint</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-n'>t</span><span class='hljl-t'> </span><span class='hljl-oB'>.*</span><span class='hljl-t'> </span><span class='hljl-nf'>Matrix</span><span class='hljl-p'>{</span><span class='hljl-n'>Float64</span><span class='hljl-p'>}(</span><span class='hljl-n'>I</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-ni'>3</span><span class='hljl-p'>,</span><span class='hljl-t'> </span><span class='hljl-ni'>3</span><span class='hljl-p'>)</span><span class='hljl-t'> </span><span class='hljl-oB'>-</span><span class='hljl-t'> </span><span class='hljl-n'>A</span><span class='hljl-t'> </span><span class='hljl-kp'>in</span><span class='hljl-t'> </span><span class='hljl-nf'>PSDCone</span><span class='hljl-p'>())</span><span class='hljl-t'>
+
+</span><span class='hljl-nf'>optimize!</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>)</span>
 </pre>
-<pre class="hljl">
-<span class="hljl-nf">objective_value</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">)</span>
+
+
+
+
+
+<pre class='hljl'>
+<span class='hljl-nf'>objective_value</span><span class='hljl-p'>(</span><span class='hljl-n'>model</span><span class='hljl-p'>)</span>
 </pre>
-<p>8.000000000000036</p>
-<h2 id="exponential-cone">Exponential Cone</h2>
-<p>An Exponential Cone is a set of the form:</p>
-<p><span class="math display">\[
-K_{exp} = \{ (x,y,z) \in \mathbb{R}^3 : y \exp (x/y) \le z, y &gt; 0 \}
-\]</span></p>
-<p>It is represented in JuMP using the MOI set <code>ExponentialCone</code>.</p>
-<h3 id="example-minimize-a-natural-logarithm">Example: Minimize a Natural Logarithm</h3>
-<p>Suppose we want an objective function as the natural log of a variable <span class="math inline">\(x\)</span>. We can model this as:</p>
-<p><span class="math display">\[
-\begin{align*}
-\min \log{x} = \max t \\
-\text { s.t. } (x, 1, t) \in K_{exp} \\
-x \geq 0
-\end{align*}
-\]</span></p>
-<pre class="hljl">
-<span class="hljl-cs"># Cannot use the exponential cone directly in JuMP, hence we import MOI to specify the set.</span><span class="hljl-t">
-</span><span class="hljl-k">using</span><span class="hljl-t"> </span><span class="hljl-n">MathOptInterface</span><span class="hljl-t">
-</span><span class="hljl-kd">const</span><span class="hljl-t"> </span><span class="hljl-n">MOI</span><span class="hljl-t"> </span><span class="hljl-oB">=</span><span class="hljl-t"> </span><span class="hljl-n">MathOptInterface</span><span class="hljl-t">
 
-</span><span class="hljl-n">x</span><span class="hljl-t"> </span><span class="hljl-oB">=</span><span class="hljl-t"> </span><span class="hljl-nfB">7.5</span><span class="hljl-t">
-</span><span class="hljl-n">model</span><span class="hljl-t"> </span><span class="hljl-oB">=</span><span class="hljl-t"> </span><span class="hljl-nf">Model</span><span class="hljl-p">(</span><span class="hljl-nf">with_optimizer</span><span class="hljl-p">(</span><span class="hljl-n">ECOS</span><span class="hljl-oB">.</span><span class="hljl-n">Optimizer</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">printlevel</span><span class="hljl-t"> </span><span class="hljl-oB">=</span><span class="hljl-t"> </span><span class="hljl-ni">0</span><span class="hljl-p">))</span><span class="hljl-t">
-</span><span class="hljl-nd">@variable</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">t</span><span class="hljl-p">)</span><span class="hljl-t">
-</span><span class="hljl-nd">@objective</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">Max</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">t</span><span class="hljl-p">)</span><span class="hljl-t">
-</span><span class="hljl-nd">@constraint</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-p">[</span><span class="hljl-n">t</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-ni">1</span><span class="hljl-p">,</span><span class="hljl-t"> </span><span class="hljl-n">x</span><span class="hljl-p">]</span><span class="hljl-t"> </span><span class="hljl-kp">in</span><span class="hljl-t"> </span><span class="hljl-n">MOI</span><span class="hljl-oB">.</span><span class="hljl-nf">ExponentialCone</span><span class="hljl-p">())</span><span class="hljl-t">
 
-</span><span class="hljl-nf">optimize!</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">);</span>
+<pre class="output">
+8.000000000000036
 </pre>
-<pre class="hljl">
-<span class="hljl-nf">objective_value</span><span class="hljl-p">(</span><span class="hljl-n">model</span><span class="hljl-p">)</span>
-</pre>
-<p>2.014902959528714</p>
-<h1 id="other-cones-and-functions">Other Cones and Functions</h1>
-<p>For other cones supported by JuMP, check out the <a href="http://www.juliaopt.org/MathOptInterface.jl/dev/apimanual/#Standard-form-problem-1">MathOptInterface Manual</a>. A good resource for learning more about functions which can be modelled using cones is the <a href="https://docs.mosek.com/modeling-cookbook/index.html">MOSEK Modeling Cookbook</a>.</p>
 
-<HR />
-<div class="footer"><p>
-Published from <a href="conic_programming.jl">conic_programming.jl</a> using
-<a href="http://github.com/mpastell/Weave.jl">Weave.jl</a>  on 2019-07-01.
-<p></div>
 
+<h1>Other Cones and Functions</h1>
+<p>For other cones supported by JuMP, check out the  <a href="http://www.juliaopt.org/MathOptInterface.jl/dev/apimanual/#Standard-form-problem-1">MathOptInterface Manual</a>. A good resource for learning more about functions which can be modelled using cones is the  <a href="https://docs.mosek.com/modeling-cookbook/index.html">MOSEK Modeling Cookbook</a>.</p>
+
+
+
+          <HR/>
+          <div class="footer"><p>
+          Published from <a href="conic_programming.jl">conic_programming.jl</a> using
+          <a href="http://github.com/mpastell/Weave.jl">Weave.jl</a>
+           on 2019-07-11.
+          <p></div>
+
+
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-</body>
-</html>
+  </BODY>
+</HTML>
