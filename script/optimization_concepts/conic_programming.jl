@@ -13,23 +13,26 @@
 #' # Conic Programming
 #' Conic programming problems are convex optimization problems in which a convex function is minimized
 #' over the intersection of an affine subspace and a convex cone. 
-#' A primal-dual pair of cone optimization problems is illustrated below.
+#' An example of a conic-form minimization problems, in the primal form is:
 
 #' $$
-#' {\qquad \begin{aligned} 
-#' & \operatorname{minimize} \hspace{0.25cm} c^{T} x & \text { maximize }-b^{T} y \\ 
-#' & \text { s.t. }  A x+s=b & \text { s.t. }-A^{T} y+r=c \\ 
-#' &(x, s) \in \mathbb{R}^{n} \times \mathcal{K} &(r, y) \in\{0\}^{n} \times \mathcal{K}^{*} \end{aligned}}
+#' \begin{align}
+#' & \min_{x \in \mathbb{R}^n} & a_0^T x + b_0 \\
+#' & \;\;\text{s.t.} & A_i x + b_i & \in \mathcal{C}_i & i = 1 \ldots m
+#' \end{align}
 #' $$
 
-#' Here $x \in \mathbb{R}^{n}$ and $s \in \mathbb{R}^{m}$ (with $n \leq m )$ are the primal variables, 
-#' and $r \in \mathbb{R}^{n}$ and $y \in \mathbb{R}^{m}$ are the dual variables We refer to $x$ as the 
-#' primal variable, $s$ as the primal slack variable, $y$ as the dual variable, and $r$ as the dual residual. 
-#' The set $\mathcal{K}$ is a nonempty, closed, convex cone with dual cone $\mathcal{K}^{*},$ and $\{0\}^{n}$
-#' is the dual cone of $\mathbb{R}^{n},$ so the cones $\mathbb{R}^{n} \times \mathcal{K}$ and $\{0\}^{n} \times
-#' \mathcal{K}^{*}$ are duals of each other. The problem data are $A \in \mathbb{R}^{m \times n}, 
-#' b \in \mathbb{R}^{m}, c \in \mathbb{R}^{n},$ and the cone $\mathcal{K}$. 
-#' (We consider all vectors to be column vectors.)
+#' The corresponding dual problem is:
+
+#' $$
+#' \begin{align}
+#' & \max_{y_1, \ldots, y_m} & -\sum_{i=1}^m b_i^T y_i + b_0 \\
+#' & \;\;\text{s.t.} & a_0 - \sum_{i=1}^m A_i^T y_i & = 0 \\
+#' & & y_i & \in \mathcal{C}_i^* & i = 1 \ldots m
+#' \end{align}
+#' $$
+
+#' where each $\mathcal{C}_i$ is a closed convex cone and $\mathcal{C}_i^*$ is its dual cone.
 
 #' # Some of the Types of Cones Supported by JuMP 
 
@@ -57,51 +60,156 @@ using CSDP
 
 #' These cones are represented in JuMP using the MOI sets `SecondOrderCone` and `RotatedSecondOrderCone`.
 
-#' ### Example: Euclidean Norm
-#' We can model the problem of finding the Euclidean norm(L2 norm) of a vector $x$
-#' as the following conic program:
+#' ### Example: Euclidean Projection on a Hyperplane
+#' For a given point $u_{0}$ and a set $K$, we refer to any point $u \in K$ 
+#' which is closest to $u_{0}$ as a projection of $u_{0}$ on $K$. 
+#' The projection of a point $u_{0}$ on a hyperplane $K = \{u | p' \cdot u = q\}$ is given by
 
 #' $$
 #' \begin{align*}
-#' \| x \|_2 = \min t \\
-#' \text { s.t. } (t, x) \in Q^{n+1}
+#' \min && ||u - u_{0}|| \\
+#' s.t. && p' \cdot u = q 
 #' \end{align*}
 #' $$
 
-#+ results = "hidden"
+u0 = rand(10)
+p = rand(10)
+q = rand();
 
-x = [1 1 1 1 1 1 1 1 1]
-model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
-@variable(model, t)
-@objective(model, Min, t)
-@constraint(model, [t, x...] in SecondOrderCone())
-
-optimize!(model)
-
-#'
-
-objective_value(model)
-
-#' An equivalent formulation using a Rotated Second-Order Cone is the following:
+#' We can model the above problem as the following conic program:
 
 #' $$
 #' \begin{align*}
-#' \| x \|_2^2 = \min t \\
-#' \text { s.t. } (1/2, t, x)\in Q_r^{n+2}
+#' \min t \\
+#' \text { s.t. }  p' \cdot u = q \\
+#' (t, u - u_{0}) \in Q^{n+1}
 #' \end{align*}
 #' $$
 
-#+ results = "hidden"
+#' On comparing this with the primal form of a conic problem we saw above,
 
-x = [1 1 1 1 1 1 1 1 1]
+#' $$
+#' \begin{align*}
+#' x = (t , u) \\
+#' a_0 = e_1 \\
+#' b_0 = 0 \\
+#' A_1 = (0, p) \\
+#' b_1 = -q \\
+#' C_1 = \mathbb{R}_- \\
+#' A_2 = 1 \\
+#' b_2 = -(0, u_0) \\
+#' C_2 = Q^{n+1} 
+#' \end{align*}
+#' $$
+
+#' Thus, we can obtain the dual problem as:
+
+#' $$
+#' \begin{align*}
+#' \max q  y_1 + (0, u_0)^T y_2 \\
+#' \text { s.t. } e_1 - (0,p)^T y_1 - y_2 = 0 \\
+#' y_1 \in ? \\
+#' y_2 \in Q^{n+1} 
+#' \end{align*}
+#' $$
+
 model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
+@variable(model, u[1:10])
 @variable(model, t)
 @objective(model, Min, t)
-@constraint(model, [t, 0.5, x...] in RotatedSecondOrderCone())
-
+@constraint(model, [t, (u - u0)...] in SecondOrderCone())
+@constraint(model, u' * p == q) 
 optimize!(model)
 
-#'
+#+
+
+@show value.(u)
+
+#' We can also have an equivalent formulation using a Rotated Second-Order Cone:
+
+#' $$
+#' \begin{align*}
+#' \min t \\
+#' \text { s.t. }  p' \cdot u = q \\
+#' (t, 1/2, u - u_{0})\in Q_r^{n+2}
+#' \end{align*}
+#' $$
+
+model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
+@variable(model, u[1:10])
+@variable(model, t)
+@objective(model, Min, t)
+@constraint(model, [t, 0.5, (u - u0)...] in RotatedSecondOrderCone())
+@constraint(model, u' * p == q) 
+optimize!(model)
+
+#+
+
+@show value.(u)
+
+#' The difference here is that the objective in the case of the Second-Order Cone is $||u - u_{0}||_2$,
+#' while in the case of a Rotated Second-Order Cone is $||u - u_{0}||_2^2$.
+#' However, the value of x is the same for both.
+
+#' ## Exponential Cone
+
+#' An Exponential Cone is a set of the form:
+
+#' $$
+#' K_{exp} = \{ (x,y,z) \in \mathbb{R}^3 : y \exp (x/y) \le z, y > 0 \}
+#' $$
+
+#' It is represented in JuMP using the MOI set `ExponentialCone`.
+
+#' ### Example: Entropy Maximization
+#' As the name suggests, the entropy maximization problem consists of maximizing the entropy function,
+#' $H(x) = -x\log{x}$ subject to linear inequality constraints.
+
+#' $$
+#' \begin{align*}
+#' \max - \sum_{i=1}^n x_i \log x_i \\
+#' \text { s.t. } \mathbf{1}' x = 1 \\
+#' Ax \leq b
+#' \end{align*}
+#' $$
+
+#' We can model this problem using an exponential cone by using the following transformation:
+
+#' $$
+#' t\leq -x\log{x} \iff t\leq x\log(1/x)  \iff (1, x, t) \in K_{exp}
+#' $$
+
+#' Thus, our problem becomes,
+
+#' $$
+#' \begin{align*}
+#' \max 1^Tt \\
+#' \text { s.t. } Ax \leq b \\
+#' 1^T x = 1 \\
+#' (1, x_i, t_i) \in K_{exp} && \forall i = 1 \ldots n
+#' \end{align*}
+#' $$
+
+# Cannot use the exponential cone directly in JuMP, hence we import MOI to specify the set.
+using MathOptInterface
+const MOI = MathOptInterface
+
+n = 15;
+m = 10;
+A = randn(m, n); 
+b = rand(m, 1);
+
+model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
+@variable(model, t[1:n])
+@variable(model, x[1:n])
+@objective(model, Max, sum(t))
+@constraint(model, sum(x) == 1)
+@constraint(model, A * x .<= b )
+@constraint(model, con[i = 1:n], [1, x[i], t[i]] in MOI.ExponentialCone())
+
+optimize!(model);
+
+#+
 
 objective_value(model)
 
@@ -146,47 +254,6 @@ model = Model(with_optimizer(CSDP.Optimizer, printlevel = 0))
 @constraint(model, t .* Matrix{Float64}(I, 3, 3) - A in PSDCone())
 
 optimize!(model)
-
-#'
-
-objective_value(model)
-
-#' ## Exponential Cone
-
-#' An Exponential Cone is a set of the form:
-
-#' $$
-#' K_{exp} = \{ (x,y,z) \in \mathbb{R}^3 : y \exp (x/y) \le z, y > 0 \}
-#' $$
-
-#' It is represented in JuMP using the MOI set `ExponentialCone`.
-
-#' ### Example: Minimize a Natural Logarithm
-
-#' Suppose we want an objective function as the natural log of a variable $x$.
-#' We can model this as:
-
-#' $$
-#' \begin{align*}
-#' \min \log{x} = \max t \\
-#' \text { s.t. } (x, 1, t) \in K_{exp} \\
-#' x \geq 0
-#' \end{align*}
-#' $$
-
-#+ results = "hidden"
-
-# Cannot use the exponential cone directly in JuMP, hence we import MOI to specify the set.
-using MathOptInterface
-const MOI = MathOptInterface
-
-x = 7.5
-model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
-@variable(model, t)
-@objective(model, Max, t)
-@constraint(model, [t, 1, x] in MOI.ExponentialCone())
-
-optimize!(model);
 
 #'
 
