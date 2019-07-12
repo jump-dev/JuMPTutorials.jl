@@ -21,35 +21,35 @@ optimize!(model_auto_no, with_optimizer(GLPK.Optimizer))
 objective_value(model_auto_no)
 
 
-model_man = Model(with_optimizer(GLPK.Optimizer),caching_mode = MOIU.MANUAL)
-@variable(model_man, 0 <= x <= 1)
-@variable(model_man, 0 <= y <= 1)
-@constraint(model_man, x + y <= 1)
-@objective(model_man, Max, x + 2y)
-MOIU.attach_optimizer(model_man)
-optimize!(model_man)
-objective_value(model_man)
+model_manual = Model(with_optimizer(GLPK.Optimizer),caching_mode = MOIU.MANUAL)
+@variable(model_manual, 0 <= x <= 1)
+@variable(model_manual, 0 <= y <= 1)
+@constraint(model_manual, x + y <= 1)
+@objective(model_manual, Max, x + 2y)
+MOIU.attach_optimizer(model_manual)
+optimize!(model_manual)
+objective_value(model_manual)
 
 
-model_dir = direct_model(GLPK.Optimizer())
-@variable(model_dir, 0 <= x <= 1)
-@variable(model_dir, 0 <= y <= 1)
-@constraint(model_dir, x + y <= 1)
-@objective(model_dir, Max, x + 2y)
-optimize!(model_dir)
-objective_value(model_dir)
+model_direct = direct_model(GLPK.Optimizer())
+@variable(model_direct, 0 <= x <= 1)
+@variable(model_direct, 0 <= y <= 1)
+@constraint(model_direct, x + y <= 1)
+@objective(model_direct, Max, x + 2y)
+optimize!(model_direct)
+objective_value(model_direct)
 
 
 using Cbc
 
 
-model1 = Model(with_optimizer(Cbc.Optimizer, logLevel = 0))
+model = Model(with_optimizer(Cbc.Optimizer, logLevel = 0))
 
 
-model2 = Model(with_optimizer(Cbc.Optimizer, max_iters=10000))
+model = Model(with_optimizer(Cbc.Optimizer, max_iters = 10000))
 
 
-model3 = Model(with_optimizer(Cbc.Optimizer, seconds=5))
+model = Model(with_optimizer(Cbc.Optimizer, seconds = 5))
 
 
 termination_status(model_auto)
