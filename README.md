@@ -12,18 +12,18 @@ There are also some older notebooks available at [juliaopt-notebooks](https://gi
 ## Table of Contents
 
 - Introduction
-  - [An Introduction to Julia](http://arpitbhatia.me/JuMPTutorials.jl/html/introduction/an_introduction_to_julia.html)
-  - [Getting Started with JuMP](http://arpitbhatia.me/JuMPTutorials.jl/html/introduction/getting_started_with_JuMP.html)
-  - [Variables, Constraints and Objective](http://arpitbhatia.me/JuMPTutorials.jl/html/introduction/variables_constraints_objective.html)
-  - [Solvers and Solutions](http://arpitbhatia.me/JuMPTutorials.jl/html/introduction/solvers_and_solutions.html)
+  - [An Introduction to Julia](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/introduction/an_introduction_to_julia.ipynb)
+  - [Getting Started with JuMP](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/introduction/getting_started_with_JuMP.ipynb)
+  - [Variables, Constraints and Objective](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/introduction/variables_constraints_objective.ipynb)
+  - [Solvers and Solutions](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/introduction/solvers_and_solutions.ipynb)
 - Using JuMP
-  - [Reading From Data Files](http://arpitbhatia.me/JuMPTutorials.jl/html/using_JuMP/reading_from_data_files.html) 
-  - [Problem Modification](http://arpitbhatia.me/JuMPTutorials.jl/html/using_JuMP/problem_modification.html)
+  - [Reading From Data Files](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/using_JuMP/reading_from_data_files.ipynb) 
+  - [Problem Modification](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/using_JuMP/problem_modification.ipynb)
 - Optimization Concepts
-  - [Integer Programming](http://arpitbhatia.me/JuMPTutorials.jl/html/optimization_concepts/integer_programming.html)
-  - [Conic Programming](http://arpitbhatia.me/JuMPTutorials.jl/html/optimization_concepts/conic_programming.html)
+  - [Integer Programming](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/optimization_concepts/integer_programming.ipynb)
+  - [Conic Programming](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/optimization_concepts/conic_programming.ipynb)
 - Modelling Examples
-  - [Problems on Graphs](http://arpitbhatia.me/JuMPTutorials.jl/html/modelling/problems_on_graphs.html)
-  - [Network Flows](http://arpitbhatia.me/JuMPTutorials.jl/html/modelling/network_flows.html)
+  - [Problems on Graphs](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/problems_on_graphs.ipynb)
+  - [Network Flows](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/network_flows.ipynb)
   - [Finance](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/finance.ipynb)
-  - [Geometric Problems](http://arpitbhatia.me/JuMPTutorials.jl/html/modelling/geometric_problems.html)
+  - [Geometric Problems](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/geometric_problems.ipynb)
