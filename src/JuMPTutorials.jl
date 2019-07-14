@@ -21,7 +21,7 @@ function weave_file(folder,file)
 
     if mtime(srcpath) > mtime(notebookpath) || mtime(notebookpath)==0
         @warn "Weaving $filename to Jupyter Notebook as it has been updated since the last weave."
-        convert_doc(srcpath, notebookpath)
+        convert_doc(srcpath, notebookpath, -1, "--allow-errors")
     else
         @warn "Skipping Jupyter Notebook for $filename as it has not been updated."
     end
@@ -36,7 +36,6 @@ function weave_all()
 end
 
 function weave_folder(folder)
-
     for file in readdir(joinpath(repo_directory,"script",folder))
         println("")
         println("Building $(joinpath(folder,file))")
@@ -56,7 +55,7 @@ function weave_file_f(folder,file)
     notebookpath = joinpath(repo_directory, "notebook", folder)
 
     tangle(srcpath, out_path = testpath)
-    notebook(srcpath, notebookpath)
+    notebook(srcpath, notebookpath, -1, "--allow-errors")
 
     cd(joinpath(repo_directory,"src"))
 end
