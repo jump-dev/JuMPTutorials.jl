@@ -1,7 +1,8 @@
 #' ---
 #' title: Geometric Problems
-#' author: Arpit Bhatia
 #' ---
+
+#' **Originally Contributed by**: Arpit Bhatia
 
 #' These problems in this tutorial are drawn from Chapter 8 of the book 
 #' [Convex Optimization by Boyd and Vandenberghe](http://stanford.edu/~boyd/cvxbook/)

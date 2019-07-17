@@ -1,12 +1,8 @@
 #' ---
 #' title: Intro to Julia
-#' author: Juan Pablo Vielma
-#' options:
-#'     md2html:
-#'         out_path : ../../html/introduction
-#'     md2pdf:
-#'         out_path : ../../pdf/introduction
 #' ---
+
+#' **Originally Contributed by**: Juan Pablo Vielma
 
 #' # Introduction
 

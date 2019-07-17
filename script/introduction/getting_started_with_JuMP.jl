@@ -1,12 +1,8 @@
 #' ---
 #' title: Getting Started with JuMP
-#' author: Arpit Bhatia
-#' options:
-#'     md2html:
-#'         out_path : ../../html/introduction
-#'     md2pdf:
-#'         out_path : ../../pdf/introduction
 #' ---
+
+#' **Originally Contributed by**: Arpit Bhatia
 
 #' This tutorial is aimed at providing a quick introduction to writing JuMP code. It assumes familiar with basic optimization and 
 #' the notion of an [AML](https://en.wikipedia.org/wiki/Algebraic_modeling_language).

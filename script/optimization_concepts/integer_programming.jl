@@ -1,7 +1,8 @@
 #' ---
 #' title: Integer Programming
-#' author: Arpit Bhatia
 #' ---
+
+#' **Originally Contributed by**: Arpit Bhatia
 
 #' While we already know how to set a variable as integer or binary in the `@variable` macro, 
 #' this tutorial covers other JuMP features for integer programming along with some modelling techniques.

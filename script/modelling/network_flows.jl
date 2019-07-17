@@ -1,12 +1,8 @@
 #' ---
 #' title: Network Flows
-#' author: Arpit Bhatia
-#' options:
-#'     md2html:
-#'         out_path : ../../html/modelling
-#'     md2pdf:
-#'         out_path : ../../pdf/modelling
 #' ---
+
+#' **Originally Contributed by**: Arpit Bhatia
 
 #' In graph theory, a flow network (also known as a transportation network) is a directed graph where 
 #' each edge has a capacity and each edge receives a flow. The amount of flow on an edge cannot exceed the capacity of the edge. 

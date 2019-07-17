@@ -1,12 +1,8 @@
 #' ---
 #' title: Variables, Constraints and Objective
-#' author: Arpit Bhatia
-#' options:
-#'     md2html:
-#'         out_path : ../../html/introduction
-#'     md2pdf:
-#'         out_path : ../../pdf/introduction
 #' ---
+
+#' **Originally Contributed by**: Arpit Bhatia
 
 #' While the last tutorial introduced you to basics of of JuMP code, this tutorial will go in depth focusing on how to work 
 #' with different parts of a JuMP program. 

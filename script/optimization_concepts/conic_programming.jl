@@ -1,7 +1,8 @@
 #' ---
 #' title: Conic Programming
-#' author: Arpit Bhatia
 #' ---
+
+#' **Originally Contributed by**: Arpit Bhatia
 
 #' This tutorial is aimed at providing a simplistic introduction to conic programming using JuMP.
 

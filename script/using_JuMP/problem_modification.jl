@@ -1,7 +1,8 @@
 #' ---
 #' title: Problem Modification
-#' author: Arpit Bhatia
 #' ---
+
+#' **Originally Contributed by**: Arpit Bhatia
 
 #' This tutorial deals with how to modify models after they have been created and solved.
 #' This functionality can be useful, for example, 

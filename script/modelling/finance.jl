@@ -2,7 +2,7 @@
 #' title: Finance
 #' ---
 
-#' **Contributed by**: Arpit Bhatia
+#' **Originally Contributed by**: Arpit Bhatia
 
 #' Optimization models play an increasingly important role in financial decisions. 
 #' Many computational finance problems can be solved efficiently using modern optimization techniques.

@@ -1,12 +1,8 @@
 #' ---
 #' title: Solvers and Solutions
-#' author: Arpit Bhatia
-#' options:
-#'     md2html:
-#'         out_path : ../../html/introduction
-#'     md2pdf:
-#'         out_path : ../../pdf/introduction
 #' ---
+
+#' **Originally Contributed by**: Arpit Bhatia
 
 #' The purpose of this part of the tutorial is to introduce you to solvers and how to use them with JuMP. We'll also learn
 #' what to do with a problem after the solver has finished optimizing it.
