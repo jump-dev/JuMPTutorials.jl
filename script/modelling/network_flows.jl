@@ -51,8 +51,8 @@ model = Model(with_optimizer(GLPK.Optimizer))
 @objective(model, Min, sum(G .* x))
 
 optimize!(model)
-@show objective_value(model)
-@show value.(x)
+@show objective_value(model);
+@show value.(x);
 
 #' # The Assignment Problem
 #' Suppose that there are $n$ persons and $n$ objects that we have to match on a one-to-one basis. 
@@ -87,8 +87,8 @@ model = Model(with_optimizer(GLPK.Optimizer))
 @objective(model, Max, sum(G .* x))
 
 optimize!(model)
-@show objective_value(model)
-@show value.(x)
+@show objective_value(model);
+@show value.(x);
 
 #' # The Max-Flow Problem
 #' In the max-flow problem, we have a graph with two special nodes: the $source$, denoted by $s$, and the $sink$, denoted by $t$. 
@@ -124,5 +124,5 @@ model = Model(with_optimizer(GLPK.Optimizer))
 @objective(model, Max, sum(f[1, :]))
 
 optimize!(model)
-@show objective_value(model)
-@show value.(f)
+@show objective_value(model);
+@show value.(f);

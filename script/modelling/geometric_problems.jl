@@ -32,8 +32,8 @@ model = Model(with_optimizer(Ipopt.Optimizer, print_level=0))
 @constraint(model, x0' * a == b)                  # Point must lie on the hyperplane
 
 optimize!(model)
-@show objective_value(model)
-@show value.(x0)
+@show objective_value(model);
+@show value.(x0);
 
 #' # Euclidean Distance Between Polyhedra
 #' Given two polyhedra $C = \{x | A_{1} \cdot x \leq b1\}$ and $D = \{x | A_{2} \cdot x \leq b_{2}\}$, 
@@ -60,7 +60,7 @@ model = Model(with_optimizer(Ipopt.Optimizer, print_level=0))
 @constraint(model, A_2 * y .<= b_2)             # Point y must lie on the second polyhedron
 
 optimize!(model)
-@show objective_value(model)
+@show objective_value(model);
 
 #' # Linear Placement Problem
 #' We have $N$ points in $\mathbb{R}^2$, and a list of pairs of points that must be connected by links. 
@@ -115,8 +115,8 @@ dist = A * x                                         # Matrix of differences bet
 @objective(model, Min, sum(dist .* dist))            # We minimize the sum of the square of the distances
 
 optimize!(model)
-@show value.(x)
-@show objective_value(model)
+@show value.(x);
+@show objective_value(model);
 
 #' # Floor Planning
 #' A floor planning problem consists of rectangles or boxes aligned with the axes which must be placed, 
@@ -179,5 +179,5 @@ for i = 1:4
     @objective(model, Min, W + H)
 
     optimize!(model)
-    @show objective_value(model)
+    @show objective_value(model);
 end

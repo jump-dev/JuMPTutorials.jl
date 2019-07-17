@@ -152,6 +152,7 @@ model_no_solution = Model(with_optimizer(GLPK.Optimizer))
 @variable(model_no_solution, 0 <= y <= 1)
 @constraint(model_no_solution, x + y >= 3)
 @objective(model_no_solution, Max, x + 2y)
+
 optimize!(model_no_solution)
 
 if termination_status(model_no_solution) == MOI.OPTIMAL

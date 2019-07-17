@@ -9,7 +9,7 @@
 
 #+ echo = false; results = "hidden"
 using JuMP
-model = Model()
+model = Model();
 
 #' # Variables
 
@@ -178,7 +178,7 @@ set_objective_function(model, x + y)
 
 optimize!(model)
        
-@show objective_value(model)
+@show objective_value(model);
 
 #' To query the objective function from a model, we use the `objective_sense`, `objective_function`, and `objective_function_type`
 #' functions.
@@ -222,4 +222,4 @@ c = [1; 3; 5; 2]
 
 optimize!(vector_model)
 
-@show objective_value(vector_model)
+@show objective_value(vector_model);

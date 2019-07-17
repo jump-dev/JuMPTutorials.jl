@@ -92,6 +92,6 @@ optimize!(model)
 
 #' Let's now check the value of objective and variables.
 
-@show value(x)
-@show value(y)
-@show objective_value(model)
+@show value(x);
+@show value(y);
+@show objective_value(model);

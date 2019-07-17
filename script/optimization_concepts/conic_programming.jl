@@ -124,7 +124,7 @@ optimize!(model)
 
 #+
 
-@show value.(u)
+@show value.(u);
 
 #' We can also have an equivalent formulation using a Rotated Second-Order Cone:
 
@@ -146,7 +146,7 @@ optimize!(model)
 
 #+
 
-@show value.(u)
+@show value.(u);
 
 #' The difference here is that the objective in the case of the Second-Order Cone is $||u - u_{0}||_2$,
 #' while in the case of a Rotated Second-Order Cone is $||u - u_{0}||_2^2$.
@@ -212,7 +212,7 @@ optimize!(model);
 
 #+
 
-objective_value(model)
+@show objective_value(model);
 
 #' ## Positive Semidefinite Cone
 #' The set of Positive Semidefinite Matrices of dimension $n$ form a cone in $\mathbb{R}^n$.
@@ -258,7 +258,7 @@ optimize!(model)
 
 #'
 
-objective_value(model)
+@show objective_value(model);
 
 #' # Other Cones and Functions
 #' For other cones supported by JuMP, check out the 

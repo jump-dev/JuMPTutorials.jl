@@ -60,7 +60,7 @@ model = Model(with_optimizer(GLPK.Optimizer))
 @constraint(model, -v - 1.02y[3] - 1.01x[5] + 1.003z[5] == -300) # June
 
 optimize!(model)
-@show objective_value(model)
+@show objective_value(model);
 
 #' # Combinatorial Auctions
 #' In many auctions, the value that a bidder has for a set of items may not be 
@@ -98,8 +98,8 @@ end
 
 optimize!(model)
 
-@show objective_value(model)
-@show value.(x)
+@show objective_value(model);
+@show value.(x);
 
 #' # Portfolio Optimization
 #' Suppose we are considering investing 1000 dollars in three non-dividend paying stocks, 
@@ -229,8 +229,8 @@ model = Model(with_optimizer(Ipopt.Optimizer, print_level=0))
 
 optimize!(model)
 
-@show objective_value(model)
-@show value.(x)
+@show objective_value(model);
+@show value.(x);
 
 #' ### References
 #' <a id='c1'></a>

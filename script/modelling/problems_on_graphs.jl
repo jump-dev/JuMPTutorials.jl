@@ -62,7 +62,7 @@ vertex_cover = Model(with_optimizer(GLPK.Optimizer))
 @objective(vertex_cover, Min, sum(y))
 
 optimize!(vertex_cover)
-@show value.(y)
+@show value.(y);
 
 #+
 
@@ -115,7 +115,7 @@ dominating_set = Model(with_optimizer(GLPK.Optimizer))
 @objective(dominating_set, Min, sum(x))
 
 optimize!(dominating_set)
-@show value.(x)
+@show value.(x);
 
 #+
 
@@ -169,7 +169,7 @@ matching = Model(with_optimizer(GLPK.Optimizer))
 @objective(matching, Max, sum(x))
 
 optimize!(matching)
-@show value.(x)
+@show value.(x);
 
 #' The edges corresponding to the Matching are marked as one in the above matrix.
 
@@ -226,8 +226,8 @@ k_colouring = Model(with_optimizer(GLPK.Optimizer))
 @objective(k_colouring, Min, sum(y))
 
 optimize!(k_colouring)
-@show value.(y)
-@show value.(c)
+@show value.(y);
+@show value.(c);
 
 #+
 
