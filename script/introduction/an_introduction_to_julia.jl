@@ -313,7 +313,7 @@ Pkg.add("JuMP")
 using Pkg
 Pkg.add("https://github.com/user-name/MyPackage.jl.git")
 
-#' Note that for clarity this example uses the package manager `Pkg`.  Julia 1.0 includes an interactive package manager that can be accessed using `]`.  [This video](https://youtu.be/76KL8aSz0Sg) gives an overview of using the interactive package manager environment. 
+#' Note that for clarity this example uses the package manager `Pkg`.  Julia includes an interactive package manager that can be accessed using `]`.  [This video](https://youtu.be/76KL8aSz0Sg) gives an overview of using the interactive package manager environment. 
 #' The state of installed packages can also be saved in two files: `Project.toml` and `Manifest.toml`. If these files are stored in the same directory than a notebook, the state of the packages can be recovered by running
 #+ eval=false; tangle = false
 import Pkg
@@ -321,7 +321,7 @@ Pkg.activate(@__DIR__)
 Pkg.instantiate()
 
 #' ## HELP! 
-#' Julia 1.0 includes a help mode that can be accessed using `?`.  Entering any object (e.g. function, type, struct, ...) into the help mode will show its documentation, if any is available.
+#' Julia includes a help mode that can be accessed using `?`.  Entering any object (e.g. function, type, struct, ...) into the help mode will show its documentation, if any is available.
 
 #' ## Some Common Gotchas 
 #' ### MethodError
