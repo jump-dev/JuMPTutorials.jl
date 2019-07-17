@@ -1,7 +1,9 @@
 
 using DataFrames
-using ExcelFiles
-excel_df = DataFrame(load("data/SalesData.xlsx", "SalesOrders"))
+using XLSX
+
+
+excel_df = DataFrame(XLSX.readtable("data/SalesData.xlsx", "SalesOrders")...)
 
 
 using CSV
@@ -94,4 +96,6 @@ print("Countries: ")
 for i in countryindex
     print(names(passportdata)[i+1], " ")
 end
+
+
 

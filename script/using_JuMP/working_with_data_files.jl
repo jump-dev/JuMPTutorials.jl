@@ -1,7 +1,8 @@
 #' ---
-#' title: Reading From Data Files
-#' author: Arpit Bhatia
+#' title: Working with Data Files
 #' ---
+
+#' **Originally Contributed by**: Arpit Bhatia
 
 #' In many cases we might need to read data available in an external file rather than type it into Julia ourselves.
 #' This tutorial is concerned with reading tabular data into Julia and using it for a JuMP model. 
@@ -33,14 +34,17 @@ Pkg.add("DataFrames")
 #' Excel files can be read using the ExcelFiles.jl package.
 #+ eval = false; tangle = false
 
-Pkg.add("ExcelFiles")
+Pkg.add("XLSX")
 
 #' To read a Excel file into a DataFrame, we use the following julia code. 
-#' The first arguement to the load function is the file to be read and the second arguement is the name of the sheet.
+#' The first arguement to the `readtable` function is the file to be read and the second arguement is the name of the sheet.
 
 using DataFrames
-using ExcelFiles
-excel_df = DataFrame(load("data/SalesData.xlsx", "SalesOrders"))
+using XLSX
+
+#+
+
+excel_df = DataFrame(XLSX.readtable("data/SalesData.xlsx", "SalesOrders")...)
 
 #' ## CSV Files
 #' CSV and other delimited text files can be read the CSV.jl package.

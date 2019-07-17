@@ -19,7 +19,7 @@ There are also some older notebooks available at [juliaopt-notebooks](https://gi
   - [Variables, Constraints and Objective](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/introduction/variables_constraints_objective.ipynb)
   - [Solvers and Solutions](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/introduction/solvers_and_solutions.ipynb)
 - Using JuMP
-  - [Reading From Data Files](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/using_JuMP/reading_from_data_files.ipynb) 
+  - [Working with Data Files](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/using_JuMP/working_with_data_files.ipynb) 
   - [Problem Modification](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/using_JuMP/problem_modification.ipynb)
 - Optimization Concepts
   - [Integer Programming](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/optimization_concepts/integer_programming.ipynb)
