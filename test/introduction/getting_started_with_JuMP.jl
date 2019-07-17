@@ -39,11 +39,7 @@ model = Model(with_optimizer(GLPK.Optimizer))
 optimize!(model)
 
 
-@show value(x)
-@show value(y)
-@show objective_value(model)
-
-
-using Test
-@test objective_value(model) ≈ 205
+@show value(x);
+@show value(y);
+@show objective_value(model);
 

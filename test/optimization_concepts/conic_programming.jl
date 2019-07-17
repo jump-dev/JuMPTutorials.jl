@@ -18,7 +18,7 @@ model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
 optimize!(model)
 
 
-@show value.(u)
+@show value.(u);
 
 
 model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
@@ -30,7 +30,7 @@ model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
 optimize!(model)
 
 
-@show value.(u)
+@show value.(u);
 
 
 # Cannot use the exponential cone directly in JuMP, hence we import MOI to specify the set.
@@ -53,7 +53,7 @@ model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
 optimize!(model);
 
 
-objective_value(model)
+@show objective_value(model);
 
 
 using LinearAlgebra
@@ -70,5 +70,5 @@ model = Model(with_optimizer(CSDP.Optimizer, printlevel = 0))
 optimize!(model)
 
 
-objective_value(model)
+@show objective_value(model);
 

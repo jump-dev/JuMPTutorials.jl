@@ -1,6 +1,6 @@
 
 using JuMP
-model = Model()
+model = Model();
 
 
 @variable(model, free_x)
@@ -91,7 +91,7 @@ set_objective_function(model, x + y)
 
 optimize!(model)
        
-@show objective_value(model)
+@show objective_value(model);
 
 
 objective_sense(model)
@@ -119,5 +119,5 @@ c = [1; 3; 5; 2]
 
 optimize!(vector_model)
 
-@show objective_value(vector_model)
+@show objective_value(vector_model);
 

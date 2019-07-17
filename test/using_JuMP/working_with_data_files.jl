@@ -90,12 +90,11 @@ optimize!(model)
 
 println("Minimum number of passports needed: ", objective_value(model))
 
+
 countryindex = findall(value.(pass) .== 1 )
 
 print("Countries: ")
 for i in countryindex
     print(names(passportdata)[i+1], " ")
 end
-
-
 

@@ -19,7 +19,7 @@ model = Model(with_optimizer(GLPK.Optimizer))
 @constraint(model, -v - 1.02y[3] - 1.01x[5] + 1.003z[5] == -300) # June
 
 optimize!(model)
-@show objective_value(model)
+@show objective_value(model);
 
 
 bid_values = [6 3 12 12 8 16]
@@ -34,8 +34,8 @@ end
 
 optimize!(model)
 
-@show objective_value(model)
-@show value.(x)
+@show objective_value(model);
+@show value.(x);
 
 
 using Statistics # Useful for calculations
@@ -84,6 +84,6 @@ model = Model(with_optimizer(Ipopt.Optimizer, print_level=0))
 
 optimize!(model)
 
-@show objective_value(model)
-@show value.(x)
+@show objective_value(model);
+@show value.(x);
 

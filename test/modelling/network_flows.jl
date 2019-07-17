@@ -23,8 +23,8 @@ model = Model(with_optimizer(GLPK.Optimizer))
 @objective(model, Min, sum(G .* x))
 
 optimize!(model)
-@show objective_value(model)
-@show value.(x)
+@show objective_value(model);
+@show value.(x);
 
 
 G = [
@@ -43,8 +43,8 @@ model = Model(with_optimizer(GLPK.Optimizer))
 @objective(model, Max, sum(G .* x))
 
 optimize!(model)
-@show objective_value(model)
-@show value.(x)
+@show objective_value(model);
+@show value.(x);
 
 
 G = [
@@ -68,6 +68,6 @@ model = Model(with_optimizer(GLPK.Optimizer))
 @objective(model, Max, sum(f[1, :]))
 
 optimize!(model)
-@show objective_value(model)
-@show value.(f)
+@show objective_value(model);
+@show value.(f);
 

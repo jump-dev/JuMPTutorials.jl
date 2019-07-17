@@ -52,5 +52,3 @@ upper_bound = 34
 @variable(model, v[1:3])
 @constraint(model, v in MOI.SOS2([3.0, 1.0, 2.0]))
 
-
-

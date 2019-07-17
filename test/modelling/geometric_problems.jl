@@ -13,8 +13,8 @@ model = Model(with_optimizer(Ipopt.Optimizer, print_level=0))
 @constraint(model, x0' * a == b)                  # Point must lie on the hyperplane
 
 optimize!(model)
-@show objective_value(model)
-@show value.(x0)
+@show objective_value(model);
+@show value.(x0);
 
 
 A_1 = rand(10,10)
@@ -30,7 +30,7 @@ model = Model(with_optimizer(Ipopt.Optimizer, print_level=0))
 @constraint(model, A_2 * y .<= b_2)             # Point y must lie on the second polyhedron
 
 optimize!(model)
-@show objective_value(model)
+@show objective_value(model);
 
 
 fixed = [ 1   1  -1 -1    1   -1  -0.2  0.1;         # coordinates of fixed points
@@ -74,8 +74,8 @@ dist = A * x                                         # Matrix of differences bet
 @objective(model, Min, sum(dist .* dist))            # We minimize the sum of the square of the distances
 
 optimize!(model)
-@show value.(x)
-@show objective_value(model)
+@show value.(x);
+@show objective_value(model);
 
 
 n = 5;
@@ -117,6 +117,6 @@ for i = 1:4
     @objective(model, Min, W + H)
 
     optimize!(model)
-    @show objective_value(model)
+    @show objective_value(model);
 end
 
