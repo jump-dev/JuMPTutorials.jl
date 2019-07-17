@@ -53,7 +53,7 @@ g = SimpleGraph(G)
        
 gplot(g)
 
-#'
+#+
 
 vertex_cover = Model(with_optimizer(GLPK.Optimizer))
 
@@ -64,7 +64,7 @@ vertex_cover = Model(with_optimizer(GLPK.Optimizer))
 optimize!(vertex_cover)
 @show value.(y)
 
-#'
+#+
 
 membership = convert(Array{Int},value.(y)) # Change to Int 
 membership = membership + ones(Int, nv(g)) # Make the color groups one indexed
@@ -106,7 +106,7 @@ g = SimpleGraph(G)
        
 gplot(g)
 
-#'
+#+
 
 dominating_set = Model(with_optimizer(GLPK.Optimizer))
 
@@ -117,7 +117,7 @@ dominating_set = Model(with_optimizer(GLPK.Optimizer))
 optimize!(dominating_set)
 @show value.(x)
 
-#'
+#+
 
 membership = convert(Array{Int},value.(x)) # Change to Int 
 membership = membership + ones(Int, nv(g)) # Make the color groups one indexed
@@ -158,7 +158,7 @@ g = SimpleGraph(G)
        
 gplot(g)
 
-#'
+#+
 
 matching = Model(with_optimizer(GLPK.Optimizer))
 
@@ -211,7 +211,7 @@ g = SimpleGraph(G)
        
 gplot(g)
 
-#'
+#+
 
 k = nv(g)
 
@@ -229,7 +229,7 @@ optimize!(k_colouring)
 @show value.(y)
 @show value.(c)
 
-#'
+#+
 
 c = value.(c)
 membership = zeros(nv(g))

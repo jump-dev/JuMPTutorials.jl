@@ -149,4 +149,3 @@ upper_bound = 34
 #'   * (`x[2]` and `x[3]`) as they correspond to 1 and 2 resp. and thus can be non-zero 
 #' * Non-consecutive
 #'   * (`x[1]` and `x[2]`) as they correspond to 3 and 1 resp. and thus cannot be non-zero
-

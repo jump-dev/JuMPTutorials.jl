@@ -27,7 +27,7 @@ model = Model()
 
 has_upper_bound(keyword_x)
 
-#'
+#+
 
 upper_bound(keyword_x)
 
@@ -185,11 +185,11 @@ optimize!(model)
 
 objective_sense(model)
 
-#'
+#+
 
 objective_function(model)
 
-#'
+#+
 
 objective_function_type(model)
 
@@ -205,7 +205,6 @@ objective_function_type(model)
 #' && x \in \mathbb{R}^n \\
 #' \end{align*}
 #' $$
-
 
 vector_model = Model(with_optimizer(GLPK.Optimizer))
 

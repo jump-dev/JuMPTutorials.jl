@@ -29,7 +29,9 @@ typeof(1.2 - 2.3)
 #' (and most other greek letters), type \pi and then press [TAB].
 
 π
-#'
+
+#+
+
 typeof(π)
 
 #' Julia has native support for complex numbers

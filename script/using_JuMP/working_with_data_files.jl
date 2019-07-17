@@ -108,15 +108,15 @@ csv_df[1,1]
 
 csv_df[1]
 
-#'
+#+
 
 csv_df[:Name]
 
-#'
+#+
 
 csv_df.Name
 
-#'
+#+
 
 csv_df[:, 1] # note that this creates a copy
 
@@ -124,7 +124,7 @@ csv_df[:, 1] # note that this creates a copy
 
 csv_df[1:1, :]
 
-#'
+#+
 
 csv_df[1, :] # this produces a DataFrameRow
 
@@ -142,7 +142,7 @@ excel_df[4:6, 5] = [4, 5, 6]
 
 excel_df[1:2, 6:7] = DataFrame([-2 -2; -2 -2])
 
-#'
+#+
 
 excel_df
 
@@ -223,4 +223,3 @@ print("Countries: ")
 for i in countryindex
     print(names(passportdata)[i+1], " ")
 end
-#'
