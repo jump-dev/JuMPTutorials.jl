@@ -5,7 +5,7 @@
 #' **Originally Contributed by**: Arpit Bhatia
 
 #' These problems in this tutorial are drawn from Chapter 8 of the book 
-#' [Convex Optimization by Boyd and Vandenberghe](http://stanford.edu/~boyd/cvxbook/)
+#' Convex Optimization by Boyd and Vandenberghe[[1]](#c1)
 
 using JuMP
 using Ipopt
@@ -181,3 +181,8 @@ for i = 1:4
     optimize!(model)
     @show objective_value(model);
 end
+
+
+#' ### References
+#' <a id='c1'></a>
+#' 1. Boyd, S., & Vandenberghe, L. (2004). Convex Optimization. Cambridge: Cambridge University Press. doi:10.1017/CBO9780511804441

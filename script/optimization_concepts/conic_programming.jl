@@ -264,4 +264,8 @@ optimize!(model)
 #' For other cones supported by JuMP, check out the 
 #' [MathOptInterface Manual](http://www.juliaopt.org/MathOptInterface.jl/dev/apimanual/#Standard-form-problem-1).
 #' A good resource for learning more about functions which can be modelled using cones is the 
-#' [MOSEK Modeling Cookbook](https://docs.mosek.com/modeling-cookbook/index.html).
+#' MOSEK Modeling Cookbook[[1]](#c1).
+
+#' ### References
+#' <a id='c1'></a>
+#' 1. MOSEK Modeling Cookbook — MOSEK Modeling Cookbook 3.1. Available at: https://docs.mosek.com/modeling-cookbook/index.html.
