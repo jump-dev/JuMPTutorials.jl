@@ -1,4 +1,24 @@
-# JuMPTutorials.jl
-This repository contains tutorials on JuMP, a domain-specific modeling language for mathematical optimization embedded in Julia. Tutorials can be viewed in the form of PDFs, webpages, and interactive Jupyter notebooks. This set of tutorials is made to complement the documentation by providing practical examples of the concepts. For more details, please consult the JuMP documentation.
+# Adding a New Tutorial
+
+The base file for every tutorial is a regular Julia script which is converted into a Jupyter Notebook using Weave.jl for ease of access.
+This approach makes it easier to compare diffs and track files in Git compared to entire Jupyter notebooks. 
+It also allows us to set up CI testing for the tutorials to ensure that they produce the expected output 
+and don’t suffer from bit rot over time.
+
+
+
+
+Lines starting with `#'` are used to denote markdown blocks 
+For consistency, we use always use `#'` 
+
+
+# Using Weave
+
+# Adding Tests
+
+# Add to README
+
+
+
 
 
