@@ -3,6 +3,7 @@
 [![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](http://numfocus.org)
 [![Build Status](https://travis-ci.com/barpit20/JuMPTutorials.jl.svg?branch=master)](https://travis-ci.com/barpit20/JuMPTutorials.jl)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/barpit20/JuMPTutorials.jl/master)
+[![](https://img.shields.io/badge/docs-dev-blue.svg)](https://barpit20.github.io/JuMPTutorials.jl/dev)
 
 
 This repository contains tutorials on JuMP, a domain-specific modeling language for [mathematical optimization](http://en.wikipedia.org/wiki/Mathematical_optimization) embedded in [Julia](http://julialang.org/). Tutorials can be viewed in the form of PDFs, webpages, and interactive Jupyter notebooks. This set of tutorials is made to complement the documentation by providing practical examples of the concepts. For more details, please consult the [JuMP documentation](http://www.juliaopt.org/JuMP.jl/v0.19.1/).

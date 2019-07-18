@@ -1,17 +1,17 @@
 using Documenter, JuMPTutorials
 
-makedocs(;
-    modules=[JuMPTutorials],
-    format=Documenter.HTML(),
-    pages=[
+makedocs(
+    modules = [JuMPTutorials],
+    format = Documenter.HTML(),
+    sitename = "JuMPTutorials.jl",
+    authors  = "Arpit Bhatia",
+    pages = [
         "Home" => "index.md",
-    ],
-    repo="https://github.com/barpit20/JuMPTutorials.jl/blob/{commit}{path}#L{line}",
-    sitename="JuMPTutorials.jl",
-    authors="Arpit Bhatia <arpit16229@iiitd.ac.in>",
-    assets=String[],
+        "API" => "api.md"
+    ]
 )
 
-deploydocs(;
-    repo="github.com/barpit20/JuMPTutorials.jl.git",
+Documenter.deploydocs(
+    repo = "github.com/barpit20/JuMPTutorials.jl.git",
+    target = "build"
 )
