@@ -13,5 +13,5 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/barpit20/JuMPTutorials.jl",
+    repo="github.com/barpit20/JuMPTutorials.jl.git",
 )
