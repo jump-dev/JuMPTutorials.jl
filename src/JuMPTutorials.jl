@@ -4,6 +4,10 @@ using Weave
 
 repo_directory = joinpath(@__DIR__,"..")
 
+"""
+`weave_file(folder,file)`
+Use Weave to convert every tutorial irrespective of whether it has been updated or not.
+"""
 function weave_file(folder,file)
     cd(joinpath(repo_directory,"script",folder))
     
@@ -64,7 +68,6 @@ end
 `weave_all_f()`
 Use Weave to convert every tutorial irrespective of whether it has been updated or not.
 """
-
 function weave_all_f()
     for folder in readdir(joinpath(repo_directory,"script"))
         weave_folder_f(folder)
