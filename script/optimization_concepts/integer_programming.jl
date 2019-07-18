@@ -120,7 +120,7 @@ upper_bound = 34
 
 #' # Special Ordered Sets
 
-#' ## Special Ordered Sets of type 1 (SOS1 or S1)
+#' ## Special Ordered Sets of type 1 (SOS1)
 #' A Special Ordered Set of type 1 is a set of variables, 
 #' at most one of which can take a non-zero value, all others being at 0. 
 #' They most frequently apply where a set of variables are actually 0-1 variables: 
@@ -133,7 +133,7 @@ upper_bound = 34
 #' If the decision variables are related and have a physical ordering, then the weight vector, 
 #' although not used directly in the constraint, can help the solver make a better decision in the solution process.
 
-#' ## Special Ordered Sets of type 2 (SOS2 or S2)
+#' ## Special Ordered Sets of type 2 (SOS2)
 
 #' A Special Ordered Set of type 2 is a set of non-negative variables, 
 #' of which at most two can be non-zero, and if two are non-zero these must be consecutive in their ordering.

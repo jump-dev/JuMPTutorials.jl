@@ -60,6 +60,11 @@ function weave_file_f(folder,file)
     cd(joinpath(repo_directory,"src"))
 end
 
+"""
+`weave_all_f()`
+Use Weave to convert every tutorial irrespective of whether it has been updated or not.
+"""
+
 function weave_all_f()
     for folder in readdir(joinpath(repo_directory,"script"))
         weave_folder_f(folder)
