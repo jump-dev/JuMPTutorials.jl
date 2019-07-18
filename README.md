@@ -26,6 +26,7 @@ There are also some older notebooks available at [juliaopt-notebooks](https://gi
   - [Integer Programming](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/optimization_concepts/integer_programming.ipynb)
   - [Conic Programming](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/optimization_concepts/conic_programming.ipynb)
 - Modelling Examples
+  - [Sudoku](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/sudoku.ipynb)
   - [Problems on Graphs](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/problems_on_graphs.ipynb)
   - [Network Flows](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/network_flows.ipynb)
   - [Finance](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/finance.ipynb)
