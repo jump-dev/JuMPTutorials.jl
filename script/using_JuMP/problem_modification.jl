@@ -46,9 +46,11 @@ fix(x, 5)
 fix_value(x)
 
 #' However, fixing a variable with existing bounds will throw an error.
-#+ tangle =  false
 
 @variable(model, y >= 0)
+
+#+ tangle =  false
+
 fix(y, 2)
 
 #' As we can see in the error message above, 
