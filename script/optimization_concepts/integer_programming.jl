@@ -98,10 +98,10 @@ model = Model()
 #' x \in \{0\} \cup \{l,u\}
 #' $$
 
-lower_bound = 7.45
-upper_bound = 22.22
+l = 7.45
+u = 22.22
 @variable(model, a)
-@constraint(model, a in MOI.Semicontinuous(lower_bound, upper_bound))
+@constraint(model, a in MOI.Semicontinuous(l, u))
 
 #' ## Semi-Integer Variables
 #' A semi-integer variable is a variable which asummes integer values
@@ -111,10 +111,10 @@ upper_bound = 22.22
 #' x \in \{0\} \cup (\{l,u\} \cap \mathbb{Z})
 #' $$
 
-lower_bound = 5
-upper_bound = 34
+l = 5
+u = 34
 @variable(model, b)
-@constraint(model, b in MOI.Semiinteger(lower_bound, upper_bound))
+@constraint(model, b in MOI.Semiinteger(l, u))
 
 #' Note that the bounds specified in `MOI.Semiinteger` must be integral otherwise it would throw an error.
 

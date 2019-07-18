@@ -33,16 +33,16 @@ model = Model()
 @constraint(model, y in MOI.Integer())
 
 
-lower_bound = 7.45
-upper_bound = 22.22
+l = 7.45
+u = 22.22
 @variable(model, a)
-@constraint(model, a in MOI.Semicontinuous(lower_bound, upper_bound))
+@constraint(model, a in MOI.Semicontinuous(l, u))
 
 
-lower_bound = 5
-upper_bound = 34
+l = 5
+u = 34
 @variable(model, b)
-@constraint(model, b in MOI.Semiinteger(lower_bound, upper_bound))
+@constraint(model, b in MOI.Semiinteger(l, u))
 
 
 @variable(model, u[1:3])

@@ -39,7 +39,6 @@
 
 using JuMP
 using ECOS
-using CSDP
 
 #' By this point we have used quite a few different solvers. 
 #' To find out all the different solvers and their supported problem types, check out the 
@@ -193,7 +192,6 @@ optimize!(model)
 
 # Cannot use the exponential cone directly in JuMP, hence we import MOI to specify the set.
 using MathOptInterface
-const MOI = MathOptInterface
 
 n = 15;
 m = 10;
@@ -206,7 +204,7 @@ model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
 @objective(model, Max, sum(t))
 @constraint(model, sum(x) == 1)
 @constraint(model, A * x .<= b )
-@constraint(model, con[i = 1:n], [1, x[i], t[i]] in MOI.ExponentialCone())
+@constraint(model, con[i = 1:n], [1, x[i], t[i]] in MathOptInterface.ExponentialCone())
 
 optimize!(model);
 
@@ -241,9 +239,10 @@ optimize!(model);
 #' \end{align*}
 #' $$
 
-#+ results = "hidden"
+#+ tangle = false
 
 using LinearAlgebra
+using CSDP
 
 A = [3 2 4;
      2 0 2;
@@ -256,7 +255,7 @@ model = Model(with_optimizer(CSDP.Optimizer, printlevel = 0))
 
 optimize!(model)
 
-#+
+#+ tangle = false
 
 @show objective_value(model);
 

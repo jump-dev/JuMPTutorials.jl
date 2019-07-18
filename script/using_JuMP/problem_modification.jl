@@ -10,14 +10,9 @@
 #' Additionally it is sometimes desirable for the solver to re-start from the last solution to 
 #' reduce running times for successive solves (“hot-start”). 
 
-#+ results = "hidden"
-
 using JuMP
-using MathOptInterface
-const MOI = MathOptInterface
 
 #' # Modifying Variables
-#+ results = "hidden"
 
 model = Model()
 @variable(model, x)

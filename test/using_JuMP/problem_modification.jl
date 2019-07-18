@@ -1,7 +1,5 @@
 
 using JuMP
-using MathOptInterface
-const MOI = MathOptInterface
 
 
 model = Model()
@@ -22,6 +20,9 @@ has_lower_bound(x)
 
 fix(x, 5)
 fix_value(x)
+
+
+@variable(model, y >= 0)
 
 
 fix(y, 2; force = true)
