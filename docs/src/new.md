@@ -55,7 +55,7 @@ Add the file generated inside the `test` folder to the `runtests.jl` file using
 the [`include`](https://docs.julialang.org/en/v1/base/base/#Base.include) function. 
 This tests if the notebook runs without any errors. 
 To check if the results produced are correct, add your own tests below the `include` function using the `@test` macro.
-It is recommended to use ≈ (\approx) for equality checks due to differences in numerical accuracies of solvers.
+It is recommended to use ≈ (\approx) for equality checks due to differences in numerical accuracies of solvers. You'll also need to add dependencies in case you use any new package.
 
 ## 5. Add to README
 
