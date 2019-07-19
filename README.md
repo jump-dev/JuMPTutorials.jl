@@ -2,7 +2,6 @@
 
 [![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](http://numfocus.org)
 [![Build Status](https://travis-ci.com/barpit20/JuMPTutorials.jl.svg?branch=master)](https://travis-ci.com/barpit20/JuMPTutorials.jl)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/barpit20/JuMPTutorials.jl/master)
 [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://barpit20.github.io/JuMPTutorials.jl/dev)
 
 
@@ -31,3 +30,8 @@ There are also some older notebooks available at [juliaopt-notebooks](https://gi
   - [Network Flows](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/network_flows.ipynb)
   - [Finance](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/finance.ipynb)
   - [Geometric Problems](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/geometric_problems.ipynb)
+
+## Run Notebooks in the Browser
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/barpit20/JuMPTutorials.jl/master)
+
+To try out any of the tutorials in the browser without downloading Julia, click on the launch binder button above. Note that this functionality only supports open-source solvers which do not have additional requirements (for e.g. BLAS or MATLAB). This is also significantly slower than running them using Jupyter. Thus, you should download and run the notebooks on your PC for the best experience.
