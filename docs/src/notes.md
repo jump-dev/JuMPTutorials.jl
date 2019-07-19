@@ -6,6 +6,6 @@
 
 ## Using Solvers and Other Additional Packages
 
-## Deliberate Errors
-
-## Installing Packages
+## Things Not To Tangle
+### Deliberate Errors
+### Installing Packages

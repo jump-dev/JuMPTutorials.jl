@@ -49,7 +49,7 @@ using JuMPTutorials
 JuMPTutorials.weave_file("subfolder_name","tutorial_name")
 ```
 
-## 3. Add Tests
+## 4. Add Tests
 
 Add the file generated inside the `test` folder to the `runtests.jl` file using 
 the [`include`](https://docs.julialang.org/en/v1/base/base/#Base.include) function. 
@@ -57,7 +57,7 @@ This tests if the notebook runs without any errors.
 To check if the results produced are correct, add your own tests below the `include` function using the `@test` macro.
 It is recommended to use ≈ (\approx) for equality checks due to differences in numerical accuracies of solvers.
 
-## 4. Add to README
+## 5. Add to README
 
 Finally, add the tutorial to the table of contents in the `README.md` file. 
 We use nbviewer to render the notebooks as webpages. 
