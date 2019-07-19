@@ -6,7 +6,9 @@ repo_directory = joinpath(@__DIR__,"..")
 
 """
 `weave_file(folder::AbstractString, file::AbstractString)`
+
 Checks if the file has been modified since the last Weave and updates the notebook and tests accordingly.
+
 * `folder` = Name of the folder the tutorial is in
 * `file` = Name of the tutorial file
 """
@@ -37,7 +39,9 @@ end
 
 """
 `weave_file(folder::AbstractString)`
+
 Checks the files present in the specified folder for modifications and updates the notebook and tests accordingly.
+
 * `folder` = Name of the folder to check
 """
 function weave_folder(folder)
@@ -54,6 +58,7 @@ end
 
 """
 `weave_all()`
+
 Checks every tutorial for modifications and updates the notebook and tests accordingly.
 """
 function weave_all()
@@ -64,7 +69,9 @@ end
 
 """
 `weave_file_f(folder::AbstractString, file::AbstractString)`
+
 Use Weave to convert the given file irrespective of whether it has been modified or not.
+
 * `folder` = Name of the folder the tutorial is in
 * `file` = Name of the tutorial file
 """
@@ -82,11 +89,12 @@ function weave_file_f(folder,file)
 end
 
 """
-`weave_file_f(folder::AbstractString, file::AbstractString)`
+`weave_folder_f(folder::AbstractString, file::AbstractString)`
+
 Use Weave to convert every file in the specified folder irrespective of whether it has been modified or not.
+
 * `folder` = Name of the folder the tutorial is in
 """
-
 function weave_folder_f(folder)
     for file in readdir(joinpath(repo_directory,"script",folder))
         println("")
@@ -101,6 +109,7 @@ end
 
 """
 `weave_all_f()`
+
 Use Weave to convert every tutorial irrespective of whether it has been modified or not.
 """
 function weave_all_f()
