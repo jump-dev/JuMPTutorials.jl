@@ -131,13 +131,13 @@ gplot(g, nodefillc = nodefillc)
 #' The size of the matching $M$ is the number of edges present in $M$ i.e. $|M|$. 
 #' We wish to find the Maximum matching of $G$ i.e. a matching of maximum size.
 #' We can solve this problem by modelling it as an integer linear program (ILP). 
-#' We define a decision variable $x_{e}$ for each edge $e \in E$ and a constraint for each vertex $u \in V$ as follows:
+#' We define a decision variable $m_{e}$ for each edge $e \in E$ and a constraint for each vertex $u \in V$ as follows:
 
 #' $$
 #' \begin{align*}
-#' \max && \sum_{e \in E} x_{e} \\
-#' s.t. && \sum_{e \sim u} x_{e} \leq 1 && \forall u \in V \\
-#' && x_{e} \in \{0,1\} && \forall e \in E
+#' \max && \sum_{e \in E} m_{e} \\
+#' s.t. && \sum_{e \sim u} m_{e} \leq 1 && \forall u \in V \\
+#' && m_{e} \in \{0,1\} && \forall e \in E
 #' \end{align*}
 #' $$
 
@@ -162,14 +162,14 @@ gplot(g)
 
 matching = Model(with_optimizer(GLPK.Optimizer))
 
-@variable(matching, x[i = 1:nv(g), j = 1:nv(g)], Bin)
-@constraint(matching, [i = 1:nv(g)], sum(x[i,:]) <= 1)
-@constraint(matching, [i = 1:nv(g), j = 1:nv(g); G[i,j] == 0], x[i,j] == 0)
-@constraint(matching, [i = 1:nv(g), j = 1:nv(g)], x[i,j] == x[j,i])
-@objective(matching, Max, sum(x))
+@variable(matching, m[i = 1:nv(g), j = 1:nv(g)], Bin)
+@constraint(matching, [i = 1:nv(g)], sum(m[i,:]) <= 1)
+@constraint(matching, [i = 1:nv(g), j = 1:nv(g); G[i,j] == 0], m[i,j] == 0)
+@constraint(matching, [i = 1:nv(g), j = 1:nv(g)], m[i,j] == m[j,i])
+@objective(matching, Max, sum(m))
 
 optimize!(matching)
-@show value.(x);
+@show value.(m);
 
 #' The edges corresponding to the Matching are marked as one in the above matrix.
 
@@ -179,18 +179,18 @@ optimize!(matching)
 #' and adjacent vertices must have different colours.
 #' The goal of a graph coloring problem is to find a minimum number of colours needed to colour a graph.
 
-#' We model this problem as an ILP by defining a variable decision variable $y_{i}$ for each colour we have available.
+#' We model this problem as an ILP by defining a variable decision variable $z_{i}$ for each colour we have available.
 #' Given an upper bound $k$ on the number of colors needed, 
 #' we use $|V| \times k$ decision variables $c_{v,k}$ denoting if vertex $v$ is assigned color $k$.
 #' Our model will become:
 
 #' $$
 #' \begin{align*}
-#' \min && \sum_{i=1}^{k} y_{i} \\
+#' \min && \sum_{i=1}^{k} z_{i} \\
 #' s.t. && \sum_{i=1}^{k} c_{v,i} = 1 && \forall v \in V \\
 #' && c_{u,i} + c_{v,i} \leq 1 && \forall (u,v) \in V, i \in \{1,2...k\} \\
 #' && c_{v,i} \in \{0,1\} && \forall v \in V, i \in \{1,2...k\} \\
-#' && y_{i} \in \{0,1\} && \forall i \in \{1,2...k\}
+#' && z_{i} \in \{0,1\} && \forall i \in \{1,2...k\}
 #' \end{align*}
 #' $$
 
@@ -217,16 +217,16 @@ k = nv(g)
 
 k_colouring = Model(with_optimizer(GLPK.Optimizer))
 
-@variable(k_colouring, y[1:k], Bin)
+@variable(k_colouring, z[1:k], Bin)
 @variable(k_colouring, c[1:nv(g),1:k], Bin)
 @constraint(k_colouring, [i = 1:nv(g)], sum(c[i,:]) == 1)
 @constraint(k_colouring, [i = 1:nv(g), j = 1:nv(g), l = 1:k; G[i,j] == 1], c[i,l] + c[j,l] <= 1)
-@constraint(k_colouring, [i = 1:nv(g), l = 1:k], c[i,l] <= y[l])
+@constraint(k_colouring, [i = 1:nv(g), l = 1:k], c[i,l] <= z[l])
 
-@objective(k_colouring, Min, sum(y))
+@objective(k_colouring, Min, sum(z))
 
 optimize!(k_colouring)
-@show value.(y);
+@show value.(z);
 @show value.(c);
 
 #+

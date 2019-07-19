@@ -91,14 +91,14 @@ gplot(g)
 
 matching = Model(with_optimizer(GLPK.Optimizer))
 
-@variable(matching, x[i = 1:nv(g), j = 1:nv(g)], Bin)
-@constraint(matching, [i = 1:nv(g)], sum(x[i,:]) <= 1)
-@constraint(matching, [i = 1:nv(g), j = 1:nv(g); G[i,j] == 0], x[i,j] == 0)
-@constraint(matching, [i = 1:nv(g), j = 1:nv(g)], x[i,j] == x[j,i])
-@objective(matching, Max, sum(x))
+@variable(matching, m[i = 1:nv(g), j = 1:nv(g)], Bin)
+@constraint(matching, [i = 1:nv(g)], sum(m[i,:]) <= 1)
+@constraint(matching, [i = 1:nv(g), j = 1:nv(g); G[i,j] == 0], m[i,j] == 0)
+@constraint(matching, [i = 1:nv(g), j = 1:nv(g)], m[i,j] == m[j,i])
+@objective(matching, Max, sum(m))
 
 optimize!(matching)
-@show value.(x);
+@show value.(m);
 
 
 G = [
@@ -123,16 +123,16 @@ k = nv(g)
 
 k_colouring = Model(with_optimizer(GLPK.Optimizer))
 
-@variable(k_colouring, y[1:k], Bin)
+@variable(k_colouring, z[1:k], Bin)
 @variable(k_colouring, c[1:nv(g),1:k], Bin)
 @constraint(k_colouring, [i = 1:nv(g)], sum(c[i,:]) == 1)
 @constraint(k_colouring, [i = 1:nv(g), j = 1:nv(g), l = 1:k; G[i,j] == 1], c[i,l] + c[j,l] <= 1)
-@constraint(k_colouring, [i = 1:nv(g), l = 1:k], c[i,l] <= y[l])
+@constraint(k_colouring, [i = 1:nv(g), l = 1:k], c[i,l] <= z[l])
 
-@objective(k_colouring, Min, sum(y))
+@objective(k_colouring, Min, sum(z))
 
 optimize!(k_colouring)
-@show value.(y);
+@show value.(z);
 @show value.(c);
 
 

@@ -33,34 +33,34 @@ using GLPK
 #' We model this problem in the following manner:
 
 #' We will use the following decision variables: 
-#' - the amount $x_{i}$ drawn from the line of credit in month $i$
-#' - the amount $y_{i}$ of commercial paper issued in month $i$ 
-#' - the excess funds $z_{i}$ in month $i$
+#' - the amount $u_{i}$ drawn from the line of credit in month $i$
+#' - the amount $v_{i}$ of commercial paper issued in month $i$ 
+#' - the excess funds $w_{i}$ in month $i$
 
 #' Here we have three types of constraints: 
 #' 1. for every month, cash inflow = cash outflow for each month
-#' 2. upper bounds on $x_{i}$ 
-#' 3. nonnegativity of the decision variables $x_{i}$, $y_{i}$ and $z_{i}$.
+#' 2. upper bounds on $u_{i}$ 
+#' 3. nonnegativity of the decision variables $u_{i}$, $v_{i}$ and $w_{i}$.
 
-#' Our objective will be to simply maximimse the company's wealth in June, which say we represent with the variable $v$.
+#' Our objective will be to simply maximimse the company's wealth in June, which say we represent with the variable $m$.
 
-model = Model(with_optimizer(GLPK.Optimizer))
-@variable(model, 0 <= x[1:5] <= 100)
-@variable(model, 0 <= y[1:3])
-@variable(model, 0 <= z[1:5])
-@variable(model, v)
+financing = Model(with_optimizer(GLPK.Optimizer))
+@variable(financing, 0 <= u[1:5] <= 100)
+@variable(financing, 0 <= v[1:3])
+@variable(financing, 0 <= w[1:5])
+@variable(financing, m)
 
-@objective(model, Max, v) # Money at the end of June
+@objective(financing, Max, m) # Money at the end of June
 
-@constraint(model, x[1] + y[1] - z[1] == 150) # January
-@constraint(model, x[2] + y[2] - z[2] - 1.01x[1] + 1.003z[1] == 100) # February
-@constraint(model, x[3] + y[3] - z[3] - 1.01x[2] + 1.003z[2] == -200) # March
-@constraint(model, x[4] - z[4] - 1.02y[1] - 1.01x[3] + 1.003z[3] == 200) # April
-@constraint(model, x[5] - z[5] - 1.02y[2] - 1.01x[4] + 1.003z[4] == -50) # May
-@constraint(model, -v - 1.02y[3] - 1.01x[5] + 1.003z[5] == -300) # June
+@constraint(financing, u[1] + v[1] - w[1] == 150) # January
+@constraint(financing, u[2] + v[2] - w[2] - 1.01u[1] + 1.003w[1] == 100) # February
+@constraint(financing, u[3] + v[3] - w[3] - 1.01u[2] + 1.003w[2] == -200) # March
+@constraint(financing, u[4] - w[4] - 1.02v[1] - 1.01u[3] + 1.003w[3] == 200) # April
+@constraint(financing, u[5] - w[5] - 1.02v[2] - 1.01u[4] + 1.003w[4] == -50) # May
+@constraint(financing, -m - 1.02v[3] - 1.01u[5] + 1.003w[5] == -300) # June
 
-optimize!(model)
-@show objective_value(model);
+optimize!(financing)
+@show objective_value(financing);
 
 #' # Combinatorial Auctions
 #' In many auctions, the value that a bidder has for a set of items may not be 
@@ -75,31 +75,31 @@ optimize!(model)
 #' Suppose that the auctioneer has received $n$ bids $B_{1}, B_{2}, \ldots, B_{n} .$ 
 #' The goal of this problem is to help an auctioneer determine the winners in order to maximize his revenue. 
 
-#' We model this problem by taking a decision variable $x_{j}$ for every bid. 
+#' We model this problem by taking a decision variable $y_{j}$ for every bid. 
 #' We add a constraint that each item $i$ is sold at most once. This gives us the following model:
 
 #' $$
 #' \begin{align*}
-#' \max \sum_{i=1}^{n} p_{j} x_{j} \\
-#' \text { s.t. }  \sum_{j : i \in S_{j}} x_{j} \leq 1 \quad  \forall i=\{1,2 \ldots m\} \\
-#' x_{j} \in\{0,1\} \qquad \forall(j) \in\{1,2 \ldots n\}
+#' \max \sum_{i=1}^{n} p_{j} y_{j} \\
+#' \text { s.t. }  \sum_{j : i \in S_{j}} y_{j} \leq 1 \quad  \forall i=\{1,2 \ldots m\} \\
+#' y_{j} \in\{0,1\} \qquad \forall(j) \in\{1,2 \ldots n\}
 #' \end{align*}
 #' $$
 
 bid_values = [6 3 12 12 8 16]
 bid_items = [[1], [2], [3 4], [1 3], [2 4], [1 3 4]]
 
-model = Model(with_optimizer(GLPK.Optimizer))
-@variable(model, x[1:6], Bin)
-@objective(model, Max, sum(x' .* bid_values))
+auction = Model(with_optimizer(GLPK.Optimizer))
+@variable(auction, y[1:6], Bin)
+@objective(auction, Max, sum(y' .* bid_values))
 for i in 1:6
-    @constraint(model, sum(x[j] for j in 1:6 if i in bid_items[j]) <= 1)
+    @constraint(auction, sum(y[j] for j in 1:6 if i in bid_items[j]) <= 1)
 end
 
-optimize!(model)
+optimize!(auction)
 
-@show objective_value(model);
-@show value.(x);
+@show objective_value(auction);
+@show value.(y);
 
 #' # Portfolio Optimization
 #' Suppose we are considering investing 1000 dollars in three non-dividend paying stocks, 
@@ -221,15 +221,15 @@ Q = Statistics.cov(stock_returns)
 
 # JuMP Model
 
-model = Model(with_optimizer(Ipopt.Optimizer, print_level=0))
-@variable(model, x[1:3] >= 0)
-@objective(model, Min, x' * Q * x)
-@constraint(model, sum(x) <= 1000)
-@constraint(model, sum(r .* x) >= 50)
+portfolio = Model(with_optimizer(Ipopt.Optimizer, print_level=0))
+@variable(portfolio, x[1:3] >= 0)
+@objective(portfolio, Min, x' * Q * x)
+@constraint(portfolio, sum(x) <= 1000)
+@constraint(portfolio, sum(r .* x) >= 50)
 
-optimize!(model)
+optimize!(portfolio)
 
-@show objective_value(model);
+@show objective_value(portfolio);
 @show value.(x);
 
 #' ### References
