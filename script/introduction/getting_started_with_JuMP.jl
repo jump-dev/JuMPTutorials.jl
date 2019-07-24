@@ -26,15 +26,13 @@ Pkg.add("JuMP")
 
 #' $$
 #' \begin{align*}
-#' \min && 12x + 20y \\
-#' \text{subject to} && 6x + 8y \geq 100 \\ 
-#' && 7x + 12y \geq 120 \\ 
-#' && x \geq 0 \\ 
-#' && y \geq 0 \\ 
+#' & \min & 12x + 20y \\
+#' & \;\;\text{s.t.} & 6x + 8y \geq 100 \\
+#' & & 7x + 12y \geq 120 \\ 
+#' & & x \geq 0 \\ 
+#' & & y \geq 0 \\ 
 #' \end{align*}
 #' $$
-
-#+ hold = true
 
 using JuMP
 using GLPK

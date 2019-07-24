@@ -199,10 +199,10 @@ objective_function_type(model)
 
 #' $$
 #' \begin{align*}
-#' \min && c^T x \\
-#' \text{subject to} && A x = b \\
-#' && x \succeq 0 \\
-#' && x \in \mathbb{R}^n \\
+#' & \min & c^T x \\
+#' & \;\;\text{s.t.} & A x = b \\
+#' & & x \succeq 0 \\ 
+#' & & x \in \mathbb{R}^n
 #' \end{align*}
 #' $$
 

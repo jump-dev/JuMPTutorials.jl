@@ -80,9 +80,9 @@ optimize!(financing)
 
 #' $$
 #' \begin{align*}
-#' \max \sum_{i=1}^{n} p_{j} y_{j} \\
-#' \text { s.t. }  \sum_{j : i \in S_{j}} y_{j} \leq 1 \quad  \forall i=\{1,2 \ldots m\} \\
-#' y_{j} \in\{0,1\} \qquad \forall(j) \in\{1,2 \ldots n\}
+#' \max && \sum_{i=1}^{n} p_{j} y_{j} \\
+#' \text { s.t. }  && \sum_{j : i \in S_{j}} y_{j} \leq 1 && \forall i=\{1,2 \ldots m\} \\
+#' && y_{j} \in\{0,1\} && \forall j \in\{1,2 \ldots n\}
 #' \end{align*}
 #' $$
 

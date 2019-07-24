@@ -196,13 +196,12 @@ end
 #' $$
 #' \begin{align*}
 #' \min && \sum_{cntr \in World} pass_{cntr} \\
-#' s.t. && \sum_{cntr \in World} passportdata_{cntr,dest} \cdot pass_{cntr} \geq 1 && \forall dest \in World \\
+#' \text{s.t.} && \sum_{cntr \in World} passportdata_{cntr,dest} \cdot pass_{cntr} \geq 1 && \forall dest \in World \\
 #' && pass_{cntr} \in \{0,1\} && \forall cntr \in World
 #' \end{align*}
 #' $$
 
 #' We'll now solve the problem using JuMP.
-#+ hold = true
 
 using JuMP, GLPK
 

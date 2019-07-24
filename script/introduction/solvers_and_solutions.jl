@@ -26,11 +26,11 @@
 #' illustrate them.
 
 #' $$
-#' \begin{align}
-#' &\max_{x,y}& \quad x + 2y \\
-#' &\text{s.t.}&\quad x + y &\leq 1 \\
-#' &&0\leq x, y &\leq 1
-#' \end{align}
+#' \begin{align*}
+#' & \max_{x,y} & x + 2y \\
+#' & \;\;\text{s.t.} & x + y &\leq 1 \\
+#' & & 0\leq x, y &\leq 1 \\ 
+#' \end{align*}
 #' $$
 
 using JuMP 

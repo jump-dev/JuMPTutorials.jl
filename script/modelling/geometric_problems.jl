@@ -136,9 +136,11 @@ optimize!(placement)
 #' x_{i} \geq 0, \quad y_{i} \geq 0, \quad x_{i}+w_{i} \leq W, \quad y_{i}+h_{i} \leq H, \quad i=1, \ldots, N
 #' $$
 
-#' We also require that the cells do not overlap, except possibly on their boundaries, $i . e .$
+#' We also require that the cells do not overlap, except possibly on their boundaries, i.e.
 
-#' $x_{i}+w_{i} \leq x_{j},$ or $x_{j}+w_{j} \leq x_{i},$ or $y_{i}+h_{j} \leq y_{j},$ or $y_{j}+h_{i} \leq y_{i}$
+#' $$
+#' x_{i}+w_{i} \leq x_{j} \quad \text{or} \quad x_{j}+w_{j} \leq x_{i} \quad \text{or} \quad y_{i}+h_{j} \leq y_{j} \quad \text{or} \quad y_{j}+h_{i} \leq y_{i}
+#' $$
 
 n = 5;
 
