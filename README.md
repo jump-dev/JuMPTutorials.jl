@@ -14,7 +14,7 @@ There are also some older notebooks available at [juliaopt-notebooks](https://gi
 ## Run Notebooks in the Browser
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/barpit20/JuMPTutorials.jl/master)
 
-To try out any of the tutorials in the browser without downloading Julia, click on the launch binder button above. Note that this functionality only supports open-source solvers which do not have additional requirements (for e.g. BLAS or MATLAB). This is also significantly slower than running them using Jupyter. Thus, you should download and run the notebooks on your PC for the best experience.
+To try out any of the tutorials in the browser without downloading Julia, click on the launch binder button above. Note that this functionality only supports open-source solvers which do not have additional requirements (for e.g. BLAS or MATLAB). This is also very slow and can take several minutes to start as it has to first install Julia and all the dependencies. Thus, you should download and run the notebooks on your PC for the best experience.
 
 ## Table of Contents
 
