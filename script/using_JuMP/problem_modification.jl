@@ -133,4 +133,4 @@ objective_function(model)
 set_objective_sense(model, MOI.MIN_SENSE) 
 objective_sense(model)
 
-#' Note that we can't use the Min and Max shortcuts here as its a low level function.
+#' Note that we can't use the Min and Max shortcuts here as `set_objective_sense` is a low level function.
