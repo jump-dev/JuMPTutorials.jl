@@ -67,8 +67,8 @@ using ECOS
 
 #' $$
 #' \begin{align*}
-#' \min && ||u - u_{0}|| \\
-#' s.t. && p' \cdot u = q 
+#' & \min & ||u - u_{0}|| \\
+#' & \;\;\text{s.t.} & p' \cdot u = q  \\
 #' \end{align*}
 #' $$
 
@@ -80,9 +80,9 @@ q = rand();
 
 #' $$
 #' \begin{align*}
-#' \min t \\
-#' \text { s.t. }  p' \cdot u = q \\
-#' (t, u - u_{0}) \in Q^{n+1}
+#' & \min & t \\
+#' & \;\;\text{s.t.} & p' \cdot u = q \\
+#' & & (t, u - u_{0}) \in Q^{n+1}
 #' \end{align*}
 #' $$
 
@@ -90,15 +90,15 @@ q = rand();
 
 #' $$
 #' \begin{align*}
-#' x = (t , u) \\
-#' a_0 = e_1 \\
-#' b_0 = 0 \\
-#' A_1 = (0, p) \\
-#' b_1 = -q \\
-#' C_1 = \mathbb{R}_- \\
-#' A_2 = 1 \\
-#' b_2 = -(0, u_0) \\
-#' C_2 = Q^{n+1} 
+#' & x = (t , u) &\\
+#' & a_0 = e_1 &\\
+#' & b_0 = 0 &\\
+#' & A_1 = (0, p) &\\
+#' & b_1 = -q &\\
+#' & C_1 = \mathbb{R}_- &\\
+#' & A_2 = 1 &\\
+#' & b_2 = -(0, u_0) &\\
+#' & C_2 = Q^{n+1} &
 #' \end{align*}
 #' $$
 
@@ -106,10 +106,10 @@ q = rand();
 
 #' $$
 #' \begin{align*}
-#' \max q  y_1 + (0, u_0)^T y_2 \\
-#' \text { s.t. } e_1 - (0,p)^T y_1 - y_2 = 0 \\
-#' y_1 \in ? \\
-#' y_2 \in Q^{n+1} 
+#' & \max & y_1 + (0, u_0)^T y_2 \\
+#' & \;\;\text{s.t.} & e_1 - (0,p)^T y_1 - y_2 = 0 \\
+#' & & y_1 \in \mathbb{R}_- \\
+#' & & y_2 \in Q^{n+1} 
 #' \end{align*}
 #' $$
 
@@ -123,15 +123,32 @@ optimize!(model)
 
 #+
 
+@show objective_value(model);
 @show value.(u);
+
+#+
+
+e1 = [1,zeros(10)...]
+dual_model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
+@variable(dual_model, y1 <= 0)
+@variable(dual_model, y2[1:11])
+@objective(dual_model, Max, q * y1 + [0,u0...]' * y2)
+@constraint(dual_model, e1 - [0,p...] .* y1 - y2 .== 0)
+@constraint(dual_model, y2 in SecondOrderCone())
+optimize!(dual_model)
+
+#+
+
+@show objective_value(dual_model);
+
 
 #' We can also have an equivalent formulation using a Rotated Second-Order Cone:
 
 #' $$
 #' \begin{align*}
-#' \min t \\
-#' \text { s.t. }  p' \cdot u = q \\
-#' (t, 1/2, u - u_{0})\in Q_r^{n+2}
+#' & \min & t \\
+#' & \;\;\text{s.t.} & p' \cdot u = q \\
+#' & & (t, 1/2, u - u_{0})\in Q_r^{n+2} 
 #' \end{align*}
 #' $$
 
@@ -167,9 +184,9 @@ optimize!(model)
 
 #' $$
 #' \begin{align*}
-#' \max - \sum_{i=1}^n x_i \log x_i \\
-#' \text { s.t. } \mathbf{1}' x = 1 \\
-#' Ax \leq b
+#' & \max & - \sum_{i=1}^n x_i \log x_i \\
+#' & \;\;\text{s.t.} & \mathbf{1}' x = 1 \\
+#' & & Ax \leq b
 #' \end{align*}
 #' $$
 
@@ -183,15 +200,12 @@ optimize!(model)
 
 #' $$
 #' \begin{align*}
-#' \max 1^Tt \\
-#' \text { s.t. } Ax \leq b \\
-#' 1^T x = 1 \\
-#' (1, x_i, t_i) \in K_{exp} && \forall i = 1 \ldots n
+#' & \max & 1^Tt \\
+#' & \;\;\text{s.t.} & Ax \leq b \\
+#' & & 1^T x = 1 \\
+#' & & (1, x_i, t_i) \in K_{exp} && \forall i = 1 \ldots n \\
 #' \end{align*}
 #' $$
-
-# Cannot use the exponential cone directly in JuMP, hence we import MOI to specify the set.
-using MathOptInterface
 
 n = 15;
 m = 10;
@@ -204,7 +218,8 @@ model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
 @objective(model, Max, sum(t))
 @constraint(model, sum(x) == 1)
 @constraint(model, A * x .<= b )
-@constraint(model, con[i = 1:n], [1, x[i], t[i]] in MathOptInterface.ExponentialCone())
+# Cannot use the exponential cone directly in JuMP, hence we use MOI to specify the set.
+@constraint(model, con[i = 1:n], [1, x[i], t[i]] in MOI.ExponentialCone())
 
 optimize!(model);
 

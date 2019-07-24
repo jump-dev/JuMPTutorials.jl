@@ -21,9 +21,12 @@
 #' an interface to mathematical optimization solvers so that users do not need to understand multiple solver-specific 
 #' APIs. MOI can be used directly, or through a higher-level modeling interface like JuMP.
 
+#' Note that JuMP reexports MathOptInterface and 
+#' you can use the shortcut MOI to refer to MathOptInterface in your code.
+
 #' # Interacting with solvers
-#' JuMP models can be created in three different modes: `AUTOMATIC`, `MANUAL` and `DIRECT`. We'll use the following LP to 
-#' illustrate them.
+#' JuMP models can be created in three different modes: `AUTOMATIC`, `MANUAL` and `DIRECT`. 
+#' We'll use the following LP to illustrate them.
 
 #' $$
 #' \begin{align*}

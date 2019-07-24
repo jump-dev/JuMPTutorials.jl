@@ -17,7 +17,21 @@ model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
 optimize!(model)
 
 
+@show objective_value(model);
 @show value.(u);
+
+
+e1 = [1,zeros(10)...]
+dual_model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
+@variable(dual_model, y1 <= 0)
+@variable(dual_model, y2[1:11])
+@objective(dual_model, Max, q * y1 + [0,u0...]' * y2)
+@constraint(dual_model, e1 - [0,p...] .* y1 - y2 .== 0)
+@constraint(dual_model, y2 in SecondOrderCone())
+optimize!(dual_model)
+
+
+@show objective_value(dual_model);
 
 
 model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
@@ -32,9 +46,6 @@ optimize!(model)
 @show value.(u);
 
 
-# Cannot use the exponential cone directly in JuMP, hence we import MOI to specify the set.
-using MathOptInterface
-
 n = 15;
 m = 10;
 A = randn(m, n); 
@@ -46,7 +57,8 @@ model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
 @objective(model, Max, sum(t))
 @constraint(model, sum(x) == 1)
 @constraint(model, A * x .<= b )
-@constraint(model, con[i = 1:n], [1, x[i], t[i]] in MathOptInterface.ExponentialCone())
+# Cannot use the exponential cone directly in JuMP, hence we use MOI to specify the set.
+@constraint(model, con[i = 1:n], [1, x[i], t[i]] in MOI.ExponentialCone())
 
 optimize!(model);
 
