@@ -31,7 +31,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 @variable(model, z[i = 2:3, j = 1:2:3] >= 0)
 
 
-@variable(model, w[1:5,["red","blue"]] <= 1)
+@variable(model, w[1:5,["red", "blue"]] <= 1)
 
 
 @variable(model, u[i = 1:3, j = i:5])
@@ -40,10 +40,10 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 @variable(model, v[i = 1:9; mod(i, 3) == 0])
 
 
-@variable(model, integer_x, integer = true)
+@variable(model, integer_z, integer = true)
 
 
-@variable(model, binary_x, binary = true)
+@variable(model, binary_z, binary = true)
 
 
 @variable(model, psd_x[1:2, 1:2], PSD)

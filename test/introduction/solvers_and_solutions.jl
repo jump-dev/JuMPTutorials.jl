@@ -43,13 +43,13 @@ objective_value(model_direct)
 using Cbc
 
 
-model = Model(with_optimizer(Cbc.Optimizer, logLevel = 0))
+model = Model(with_optimizer(Cbc.Optimizer, logLevel = 0));
 
 
-model = Model(with_optimizer(Cbc.Optimizer, max_iters = 10000))
+model = Model(with_optimizer(Cbc.Optimizer, max_iters = 10000));
 
 
-model = Model(with_optimizer(Cbc.Optimizer, seconds = 5))
+model = Model(with_optimizer(Cbc.Optimizer, seconds = 5));
 
 
 termination_status(model_auto)

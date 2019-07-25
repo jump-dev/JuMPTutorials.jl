@@ -100,17 +100,17 @@ using Cbc
 #' To turn off printing (i.e. silence the solver),
 #+ results = "hidden"
 
-model = Model(with_optimizer(Cbc.Optimizer, logLevel = 0))
+model = Model(with_optimizer(Cbc.Optimizer, logLevel = 0));
 
 #' To increase the maximum number of iterations
 #+ results = "hidden"
 
-model = Model(with_optimizer(Cbc.Optimizer, max_iters = 10000))
+model = Model(with_optimizer(Cbc.Optimizer, max_iters = 10000));
 
 #' To set the solution timeout limit
 #+ results = "hidden"
 
-model = Model(with_optimizer(Cbc.Optimizer, seconds = 5))
+model = Model(with_optimizer(Cbc.Optimizer, seconds = 5));
 
 #' # Querying Solutions
 #' So far we have seen all the elements and constructs related to writing a JuMP optimization model. In this section we 

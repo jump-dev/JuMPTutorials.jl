@@ -72,7 +72,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 
 #' Another example where the indices are an arbitrary vector.
 
-@variable(model, w[1:5,["red","blue"]] <= 1)
+@variable(model, w[1:5,["red", "blue"]] <= 1)
 
 #' ### SparseAxisArrays
 #' SparseAxisArrays are created when the indices do not form a rectangular set. For example, this applies when indices have a 
@@ -97,7 +97,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 
 #' or
 
-@variable(model, integer_x, integer = true)
+@variable(model, integer_z, integer = true)
 
 #' ### Binary Variables
 #' Binary optimization variables are constrained to the set $x \in \{0, 1\}$. 
@@ -107,7 +107,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 
 #' or
 
-@variable(model, binary_x, binary = true)
+@variable(model, binary_z, binary = true)
 
 #' ### Semidefinite variables
 #' JuMP also supports modeling with semidefinite variables. A square symmetric matrix X is positive semidefinite if all eigenvalues 
@@ -160,7 +160,7 @@ end
 
 @constraint(model, [i in 1:3], 6x + 4y >= 5i)
 
-#' We can also created constraints such as ``$\sum _{i = 1}^{10} z_i \leq 1$``
+#' We can also create constraints such as $\sum _{i = 1}^{10} z_i \leq 1$
 
 @constraint(model, sum(z[i] for i in 1:10) <= 1)
 

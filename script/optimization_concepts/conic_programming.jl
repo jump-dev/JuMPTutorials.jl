@@ -128,12 +128,12 @@ optimize!(model)
 
 #+
 
-e1 = [1,zeros(10)...]
+e1 = [1, zeros(10)...]
 dual_model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
 @variable(dual_model, y1 <= 0)
 @variable(dual_model, y2[1:11])
-@objective(dual_model, Max, q * y1 + [0,u0...]' * y2)
-@constraint(dual_model, e1 - [0,p...] .* y1 - y2 .== 0)
+@objective(dual_model, Max, q * y1 + [0, u0...]' * y2)
+@constraint(dual_model, e1 - [0, p...] .* y1 - y2 .== 0)
 @constraint(dual_model, y2 in SecondOrderCone())
 optimize!(dual_model)
 

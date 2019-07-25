@@ -2,10 +2,10 @@
 using JuMP
 
 
-a = rand(1:100,5,5)
-c = rand(1:100,5,5)
-b = rand(1:100,5)
-d = rand(1:100,5)
+a = rand(1:100, 5, 5)
+c = rand(1:100, 5, 5)
+b = rand(1:100, 5)
+d = rand(1:100, 5)
 
 model = Model()
 @variable(model, x[1:5])
@@ -14,9 +14,9 @@ model = Model()
 @constraint(model, c * x .>= (1 - y) .* d)
 
 
-a = rand(1:100,5,5)
-b = rand(1:100,5)
-m = rand(10000:11000,5)
+a = rand(1:100, 5, 5)
+b = rand(1:100, 5)
+m = rand(10000:11000, 5)
 
 model = Model()
 @variable(model, x[1:5])
