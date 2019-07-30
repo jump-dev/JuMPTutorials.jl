@@ -11,9 +11,9 @@ model = Model(with_optimizer(GLPK.Optimizer))
 
 optimize!(model)
 
-@show value(x)
-@show value(y)           
-@show objective_value(model)
+@show value(x);
+@show value(y);
+@show objective_value(model);
 
 
 using JuMP
