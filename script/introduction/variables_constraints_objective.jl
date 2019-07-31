@@ -123,7 +123,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 model = Model()
 @variable(model, x)
 @variable(model, y)
-@variable(model, z[1:10])
+@variable(model, z[1:10]);
 
 #' ## Constraint References
 #' While calling the `@constraint` macro, we can also set up a constraint reference. Such a refference is useful for obtaining

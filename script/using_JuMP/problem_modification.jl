@@ -15,7 +15,7 @@ using JuMP
 #' # Modifying Variables
 
 model = Model()
-@variable(model, x)
+@variable(model, x);
 
 #' ## Variable Bounds
 
@@ -42,7 +42,7 @@ fix_value(x)
 
 #' However, fixing a variable with existing bounds will throw an error.
 
-@variable(model, y >= 0)
+@variable(model, y >= 0);
 
 #+ tangle =  false
 
@@ -77,13 +77,13 @@ is_valid(model, x)
 #' # Modifying Constraints
 
 model = Model()
-@variable(model, x)
+@variable(model, x);
 
 #' ## Modifying a Variable Coefficient
 #' It is also possible to modify the scalar coefficients 
 #' (but notably not yet the quadratic coefficients) using the `set_coefficient` function.
 
-@constraint(model, con, 2x <= 1)
+@constraint(model, con, 2x <= 1);
 
 #+
 
@@ -100,7 +100,7 @@ is_valid(model, con)
 
 model = Model()
 @variable(model, x)
-@objective(model, Min, 7x + 4)
+@objective(model, Min, 7x + 4);
 
 #' The function `objective_function` is used to query the objective of a model.
 

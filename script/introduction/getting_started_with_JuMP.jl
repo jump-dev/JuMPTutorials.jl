@@ -63,22 +63,22 @@ using GLPK
 #' A model object is a container for variables, constraints, solver options, etc. Models are created with the Model() function. 
 #' The `with_optimizer` syntax is used to specify the optimizer to be used which is GLPK in this case.
 
-model = Model(with_optimizer(GLPK.Optimizer))
+model = Model(with_optimizer(GLPK.Optimizer));
 
 #' A variable is modelled using `@variable(name of the model object, variable name and bound, variable type)`. The bound can be a
 #' lower bound, an upper bound or both. If no variable type is defined, then it is treated as real. 
 
 @variable(model, x >= 0)
-@variable(model, y >= 0)
+@variable(model, y >= 0);
 
 #' A constraint is modelled using `@constraint(name of the model object, constraint)`.
 
 @constraint(model, 6x + 8y >= 100)
-@constraint(model, 7x + 12y >= 120)
+@constraint(model, 7x + 12y >= 120);
 
 #' The objective is set in a similar manner using `@objective(name of the model object, Min/Max, function to be optimized)`
 
-@objective(model, Min, 12x + 20y)
+@objective(model, Min, 12x + 20y);
 
 #' To solve the optimization problem, we call the optimize function.
 

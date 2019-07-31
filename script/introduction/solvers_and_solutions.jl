@@ -130,6 +130,9 @@ display(typeof(MOI.OPTIMAL))
 #' available to be queried. We shall discuss more on the dual status and solutions in the Duality tutorial. 
 
 primal_status(model_auto)
+
+#+
+
 dual_status(model_auto)
 
 #' As we saw before, the result (solution) status codes can be viewed directly from Julia.
