@@ -7,7 +7,6 @@
 #' While the last tutorial introduced you to basics of of JuMP code, this tutorial will go in depth focusing on how to work 
 #' with different parts of a JuMP program. 
 
-#+ echo = false; results = "hidden"
 using JuMP
 model = Model();
 
@@ -91,7 +90,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 
 #' ### Integer Variables
 #' Integer optimization variables are constrained to the set $x \in {Z}$
-#+ eval = false; tangle = false
+#+ tangle = false
 
 @variable(model, integer_x, Int)
 
@@ -101,7 +100,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 
 #' ### Binary Variables
 #' Binary optimization variables are constrained to the set $x \in \{0, 1\}$. 
-#+ eval = false; tangle = false
+#+ tangle = false
 
 @variable(model, binary_x, Bin)
 
@@ -120,7 +119,6 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 @variable(model, sym_x[1:2, 1:2], Symmetric)
 
 #' # Constraints
-#+ echo = false; results = "hidden"
 
 model = Model()
 @variable(model, x)

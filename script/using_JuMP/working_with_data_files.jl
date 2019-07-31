@@ -16,7 +16,7 @@
 
 #' The DataFrames package provides a set of tools for working with tabular data. 
 #' It is available through the Julia package system.
-#+ eval = false; tangle = false
+#+ tangle = false
 
 using Pkg
 Pkg.add("DataFrames")
@@ -32,7 +32,7 @@ Pkg.add("DataFrames")
 
 #' ## Excel Sheets
 #' Excel files can be read using the ExcelFiles.jl package.
-#+ eval = false; tangle = false
+#+ tangle = false
 
 Pkg.add("XLSX")
 
@@ -48,7 +48,7 @@ excel_df = DataFrame(XLSX.readtable("data/SalesData.xlsx", "SalesOrders")...)
 
 #' ## CSV Files
 #' CSV and other delimited text files can be read the CSV.jl package.
-#+ eval = false; tangle = false
+#+ tangle = false
 
 Pkg.add("CSV")
 
@@ -70,7 +70,7 @@ ss_df = CSV.read("data/Cereal.txt")
 delim_df = CSV.read("data/Soccer.txt", delim = "::")
 
 #' Note that by default, are read-only. If we wish to make changes to the data read, we pass the `copycols = true` arguement in the function call.
-#+ eval = false; tangle = false
+#+ tangle = false
 
 ss_df = CSV.read("data/Cereal.txt", copycols = true)
 

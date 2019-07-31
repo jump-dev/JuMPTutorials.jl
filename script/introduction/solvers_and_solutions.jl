@@ -98,17 +98,14 @@ objective_value(model_direct)
 using Cbc
 
 #' To turn off printing (i.e. silence the solver),
-#+ results = "hidden"
 
 model = Model(with_optimizer(Cbc.Optimizer, logLevel = 0));
 
 #' To increase the maximum number of iterations
-#+ results = "hidden"
 
 model = Model(with_optimizer(Cbc.Optimizer, max_iters = 10000));
 
 #' To set the solution timeout limit
-#+ results = "hidden"
 
 model = Model(with_optimizer(Cbc.Optimizer, seconds = 5));
 

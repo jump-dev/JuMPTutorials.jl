@@ -75,7 +75,6 @@ is_valid(model, x)
 
 
 #' # Modifying Constraints
-#+ results = "hidden"
 
 model = Model()
 @variable(model, x)
@@ -98,7 +97,6 @@ delete(model, con)
 is_valid(model, con)
 
 #' # Modifying the Objective
-#+ results = "hidden"
 
 model = Model()
 @variable(model, x)
