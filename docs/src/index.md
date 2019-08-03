@@ -22,3 +22,6 @@ the src folder has the Weave.jl utilities used for conversion.
 - Joaquim Dias Garcia ([@joaquimg](https://github.com/joaquimg))
 - Juan Pablo Vielma ([@juan-pablo-vielma](https://github.com/juan-pablo-vielma))
 - Iain Dunning ([@IainNZ](https://github.com/IainNZ))
+- Miles Lubin ([@mlubin](https://github.com/mlubin))
+- Shuvomoy Das Gupta ([@Shuvomoy](https://github.com/Shuvomoy))
+- [Yury Dvorkin](https://wp.nyu.edu/dvorkin/about-yury/)
