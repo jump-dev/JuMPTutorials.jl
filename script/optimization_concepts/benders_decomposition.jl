@@ -18,7 +18,8 @@
 #' & &&v \succeq 0, v \in \mathbb{R}^p \\
 #' \end{align*}
 
-#' where $b \in \mathbb{R}^m$, $A_1 \in \mathbb{R}^{m \times n}$ and $A_2 \in \mathbb{R}^{m \times p}$. 
+#' where $b \in \mathbb{R}^m$, $A_1 \in \mathbb{R}^{m \times n}$, $A_2 \in \mathbb{R}^{m \times p}$ and
+#' \mathbb{Z} is the set of integers. 
 #' Here the symbol $\succeq$ ($\preceq$) stands for element-wise greater (less) than or equal to. 
 #' Any mixed integer programming problem can be written in the form above.
 
@@ -95,8 +96,8 @@
 c1 = [-1; -4]
 c2 = [-2; -3]
 
-dimX = length(c1)
-dimU = length(c2)
+dim_x = length(c1)
+dim_u = length(c2)
 
 b = [-2; -3]
 
@@ -138,7 +139,7 @@ master_problem_model = Model(with_optimizer(GLPK.Optimizer))
 
 # Variable Definition 
 # ----------------------------------------------------------------
-@variable(master_problem_model, 0 <= x[1:dimX] <= 1e6, Int) 
+@variable(master_problem_model, 0 <= x[1:dim_x] <= 1e6, Int) 
 @variable(master_problem_model, t <= 1e6)
 
 # Objective Setting
@@ -172,13 +173,13 @@ while(true)
 
     if t_status == MOI.INFEASIBLE_OR_UNBOUNDED
         fm_current = M
-        x_current = M * ones(dimX)
+        x_current = M * ones(dim_x)
     end
 
     if p_status == MOI.FEASIBLE_POINT
         fm_current = value(t)
         x_current = Float64[]
-            for i in 1:dimX
+            for i in 1:dim_x
             push!(x_current, value(x[i]))
         end
     end
@@ -189,15 +190,15 @@ while(true)
 
     sub_problem_model = Model(with_optimizer(GLPK.Optimizer))
 
-    cSub = b - A1 * x_current
+    c_sub = b - A1 * x_current
 
-    @variable(sub_problem_model, u[1:dimU] >= 0)
+    @variable(sub_problem_model, u[1:dim_u] >= 0)
 
-    @constraint(sub_problem_model, constrRefSubProblem[j = 1:size(A2, 2)], sum(A2[i, j] * u[i] for i in 1:size(A2, 1)) >= c2[j])
-    # The second argument of @constraint macro, constrRefSubProblem[j=1:size(A2,2)] means that the j-th constraint is
-    # referenced by constrRefSubProblem[j]. 
+    @constraint(sub_problem_model, constr_ref_subproblem[j = 1:size(A2, 2)], sum(A2[i, j] * u[i] for i in 1:size(A2, 1)) >= c2[j])
+    # The second argument of @constraint macro, constr_ref_subproblem[j=1:size(A2,2)] means that the j-th constraint is
+    # referenced by constr_ref_subproblem[j]. 
     
-    @objective(sub_problem_model, Min, dot(c1, x_current) + sum(cSub[i] * u[i] for i in 1:dimU))
+    @objective(sub_problem_model, Min, dot(c1, x_current) + sum(c_sub[i] * u[i] for i in 1:dim_u))
 
     print("\nThe current subproblem model is \n", sub_problem_model)
 
@@ -210,7 +211,7 @@ while(true)
 
     u_current = Float64[]
 
-    for i in 1:dimU
+    for i in 1:dim_u
         push!(u_current, value(u[i]))
     end
 
@@ -225,7 +226,7 @@ while(true)
         println("Optimal solution of the original problem found")
         println("The optimal objective value t is ", fm_current)
         println("The optimal x is ", x_current)
-                println("The optimal v is ", dual.(constrRefSubProblem))
+                println("The optimal v is ", dual.(constr_ref_subproblem))
         println("################################################\n")
         break
     end  
@@ -233,14 +234,14 @@ while(true)
     if p_status_sub == MOI.FEASIBLE_POINT && fs_x_current < fm_current
         println("\nThere is a suboptimal vertex, add the corresponding constraint")
         cv = A1' * u_current - c1
-        @constraint(master_problem_model, t + sum(cv[i] * x[i] for i in 1:dimX) <= γ)
+        @constraint(master_problem_model, t + sum(cv[i] * x[i] for i in 1:dim_x) <= γ)
         println("t + ", cv, "ᵀ x <= ", γ)
     end 
     
     if t_status_sub == MOI.INFEASIBLE_OR_UNBOUNDED
         println("\nThere is an  extreme ray, adding the corresponding constraint")
         ce = A1'* u_current
-        @constraint(master_problem_model, sum(ce[i] * x[i] for i in 1:dimX) <= γ)
+        @constraint(master_problem_model, sum(ce[i] * x[i] for i in 1:dim_x) <= γ)
         println(ce, "ᵀ x <= ", γ)
     end
     

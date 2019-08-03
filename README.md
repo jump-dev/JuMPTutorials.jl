@@ -29,6 +29,7 @@ To try out any of the tutorials in the browser without downloading Julia, click 
 - Optimization Concepts
   - [Integer Programming](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/optimization_concepts/integer_programming.ipynb)
   - [Conic Programming](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/optimization_concepts/conic_programming.ipynb)
+  - [Benders Decomposition](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/optimization_concepts/benders_decomposition.ipynb)
 - Modelling Examples
   - [Sudoku](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/sudoku.ipynb)
   - [Problems on Graphs](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/problems_on_graphs.ipynb)

@@ -23,6 +23,7 @@ cd("..")
 
 cd("optimization_concepts")
 @testset "Optimization Concepts" begin
+include("optimization_concepts/benders_decomposition.jl")
 include("optimization_concepts/integer_programming.jl")
 include("optimization_concepts/conic_programming.jl")
 end
