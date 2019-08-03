@@ -44,7 +44,7 @@
 
 #' where $c_{i}$ and $g_{i}$ are the incremental cost ($\$/MWh$) and power output ($MW$) of the $i^{th}$ generator, respectively, and $c^w$ and $w$ are the incremental cost ($\$/MWh$) and wind power injection ($MW$), respectively.
  
-#' s.t.
+#' Subject to the constraints:
 
 #' <li> Minimum ($g^{\min}$) and maximum ($g^{\max}$) limits on power outputs of generators: </li>
 
@@ -95,29 +95,27 @@ const w_f = 200;
 
 #+
 
-# In this cell we create  function solve_ed, which solves the economic dispatch problem for a given set of input parameters.
+# In this cell we create function solve_ed, which solves the economic dispatch problem for a given set of input parameters.
 function solve_ed(g_max, g_min, c_g, c_w, d, w_f)
     #Define the economic dispatch (ED) model
     ed = Model(with_optimizer(GLPK.Optimizer))
     
     # Define decision variables    
     @variable(ed, 0 <= g[i=1:2] <= g_max[i]) # power output of generators
-    @variable(ed, 0 <= w  <= w_f) # wind power injection
+    @variable(ed, 0 <= w <= w_f) # wind power injection
 
     # Define the objective function
-    @objective(ed, Min, sum(c_g[i] * g[i] for i in 1:2) + c_w * w)
+    @objective(ed, Min, sum(c_g .* g) + c_w * w)
 
     # Define the constraint on the maximum and minimum power output of each generator
-    for i in 1:2
-        @constraint(ed,  g[i] <= g_max[i]) #maximum
-        @constraint(ed,  g[i] >= g_min[i]) #minimum
-    end
+    @constraint(ed, [i = 1:2], g[i] <= g_max[i]) #maximum
+    @constraint(ed, [i = 1:2], g[i] >= g_min[i]) #minimum
 
     # Define the constraint on the wind power injection
     @constraint(ed, w <= w_f)
 
     # Define the power balance constraint
-    @constraint(ed, sum(g[i] for i in 1:2) + w == d)
+    @constraint(ed, sum(g) + w == d)
 
     # Solve statement
     optimize!(ed)
@@ -132,7 +130,7 @@ end
 println("\n")
 println("Dispatch of Generators: ", g_opt, " MW")
 println("Dispatch of Wind: ", w_opt, " MW")
-println("Wind spillage: ", w_f-w_opt, " MW") 
+println("Wind spillage: ", w_f - w_opt, " MW") 
 println("\n")
 println("Total cost: ", obj, "\$")
 
@@ -145,9 +143,9 @@ for c_g1_scale = 0.5:0.1:3.0
     g_opt, w_opt, ws_opt, obj = solve_ed(g_max, g_min, c_g_scale, c_w, d, w_f) # solve the ed problem with the updated incremental cost
     
     println("Dispatch of Generators, MW: $(g_opt[:])\n"*
-    "Dispatch of Wind, MW: $w_opt\n"*
-    "Spillage of Wind, MW: $ws_opt\n"*
-    "Total cost, \$: $obj")
+            "Dispatch of Wind, MW: $w_opt\n"*
+            "Spillage of Wind, MW: $ws_opt\n"*
+            "Total cost, \$: $obj \n")
 end
 
 #' ## Modifying the JuMP model in place
@@ -167,23 +165,20 @@ function solve_ed_inplace(c_w_scale)
     
     # Define decision variables    
     @variable(ed, 0 <= g[i=1:2] <= g_max[i]) # power output of generators
-    @variable(ed, 0 <= w  <= w_f ) # wind power injection
+    @variable(ed, 0 <= w <= w_f ) # wind power injection
 
     # Define the objective function
-    @objective(ed, Min, sum(c_g[i] * g[i] for i in 1:2) + c_w * w)
+    @objective(ed, Min, sum(c_g .* g) + c_w * w)
 
     # Define the constraint on the maximum and minimum power output of each generator
-    for i in 1:2
-        @constraint(ed,  g[i] <= g_max[i]) #maximum
-        @constraint(ed,  g[i] >= g_min[i]) #minimum
-    end
-
+    @constraint(ed, [i = 1:2], g[i] <= g_max[i]) #maximum
+    @constraint(ed, [i = 1:2], g[i] >= g_min[i]) #minimum
 
     # Define the constraint on the wind power injection
     @constraint(ed, w <= w_f)
 
     # Define the power balance constraint
-    @constraint(ed, sum(g[i] for i in 1:2) + w == d)
+    @constraint(ed, sum(g) + w == d)
     
     optimize!(ed)
     
@@ -216,9 +211,9 @@ for demandscale = 0.2:0.1:1.5
     g_opt,w_opt,ws_opt,obj = solve_ed(g_max, g_min, c_g, c_w, demandscale*d, w_f)
 
     println("Dispatch of Generators, MW: $(g_opt[:])\n"*
-    "Dispatch of Wind, MW: $w_opt\n"*
-    "Spillage of Wind, MW: $ws_opt\n"*
-    "Total cost, \$: $obj")
+            "Dispatch of Wind, MW: $w_opt\n"*
+            "Spillage of Wind, MW: $ws_opt\n"*
+            "Total cost, \$: $obj \n")
 end
  
 #' This particular drawback can be overcome by introducing binary decisions on the "on/off" status of generators. This model is called unit commitment and considered later in these notes. 
@@ -259,22 +254,20 @@ function solve_uc(g_max, g_min, c_g, c_w, d, w_f)
     # Define decision variables    
     @variable(uc, 0 <= g[i=1:2] <= g_max[i]) # power output of generators
     @variable(uc, u[i = 1:2], Bin) # Binary status of generators
-    @variable(uc, 0 <= w  <= w_f ) # wind power injection
+    @variable(uc, 0 <= w <= w_f ) # wind power injection
 
     # Define the objective function
-    @objective(uc, Min, sum(c_g[i] * g[i] for i in 1:2) + c_w * w)
+    @objective(uc, Min, sum(c_g .* g) + c_w * w)
 
     # Define the constraint on the maximum and minimum power output of each generator
-    for i in 1:2
-        @constraint(uc,  g[i] <= g_max[i] * u[i]) #maximum
-        @constraint(uc,  g[i] >= g_min[i] * u[i]) #minimum
-    end
+    @constraint(uc, [i = 1:2], g[i] <= g_max[i]) #maximum
+    @constraint(uc, [i = 1:2], g[i] >= g_min[i]) #minimum
 
     # Define the constraint on the wind power injection
     @constraint(uc, w <= w_f)
 
     # Define the power balance constraint
-        @constraint(uc, sum(g[i] for i in 1:2) + w == d)
+        @constraint(uc, sum(g) + w == d)
 
     # Solve statement
     optimize!(uc)
@@ -290,7 +283,7 @@ println("\n")
 println("Dispatch of Generators: ", g_opt[:], " MW")
 println("Commitments of Generators: ", u_opt[:])
 println("Dispatch of Wind: ", w_opt, " MW")
-println("Wind spillage: ", w_f-w_opt, " MW") 
+println("Wind spillage: ", w_f - w_opt, " MW") 
 println("\n")
 println("Total cost: ", obj, "\$")
  
@@ -303,11 +296,11 @@ for demandscale = 0.2:0.1:1.5
  
     if status == MOI.OPTIMAL
         println("Commitment of Generators, MW: $(u_opt[:])\n"*
-    "Dispatch of Generators, MW: $(g_opt[:])\n"*
-    "Dispatch of Wind, MW: $w_opt\n"*
-    "Spillage of Wind, MW: $ws_opt\n"*
-    "Total cost, \$: $obj")
+                "Dispatch of Generators, MW: $(g_opt[:])\n"*
+                "Dispatch of Wind, MW: $w_opt\n"*
+                "Spillage of Wind, MW: $ws_opt\n"*
+                "Total cost, \$: $obj \n")
     else
-        println("Status: $status")
+        println("Status: $status \n")
     end
 end

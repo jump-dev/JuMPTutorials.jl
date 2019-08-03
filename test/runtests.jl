@@ -92,6 +92,11 @@ include("modelling/finance.jl")
 @test value.(y) == [1.0, 1.0, 1.0, 0.0, 0.0, 0.0]
 @test objective_value(portfolio) ≈ 22634.41784988414
 @test value.(x) ≈ [497.0455298498642, 0.0, 502.95448015948074]
+include("modelling/power_systems.jl")
+@test g_opt == [1000.0, 300.0]
+@test w_opt == 200.0
+@test w_f - w_opt == 0
+@test obj == 90000.0
 include("modelling/geometric_problems.jl")
 @test value.(p) ≈ [
      0.44790964261631827    0.0468981793661497; 

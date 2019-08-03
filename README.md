@@ -35,4 +35,5 @@ To try out any of the tutorials in the browser without downloading Julia, click 
   - [Problems on Graphs](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/problems_on_graphs.ipynb)
   - [Network Flows](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/network_flows.ipynb)
   - [Finance](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/finance.ipynb)
+  - [Power Systems](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/power_systems.ipynb)
   - [Geometric Problems](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/geometric_problems.ipynb)
