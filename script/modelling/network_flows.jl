@@ -31,6 +31,8 @@ using GLPK
 #' \end{align*}
 #' $$
 
+#' <img src="img/g1.svg" style="width: 300px; height: auto" alt="Flow Network 1">
+
 G = [
 0 100 30  0  0;
 0   0 20  0  0;  
@@ -71,6 +73,8 @@ optimize!(shortest_path)
 #' \end{align*}
 #' $$
 
+#' <img src="img/g2.svg" style="width: 400px; height: auto" alt="Flow Network 2">
+
 G = [
 6 4 5 0;
 0 3 6 0;
@@ -102,6 +106,8 @@ optimize!(assignment)
 #' && f(u,v) \geq 0 && \forall (u,v) \in E 
 #' \end{align*}
 #' $$
+
+#' <img src="img/g3.svg" style="width: 500px; height: auto" alt="Flow Network 3">
 
 G = [
 0 3 2 2 0 0 0 0 
