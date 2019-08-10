@@ -9,6 +9,9 @@
 
 using JuMP
 using Ipopt
+# for plots
+using Gadfly
+using DataFrames
 
 #' # Euclidean Projection on a Hyperplane
 #' For a given point $x_{0}$ and a set $C$, we refer to any point $z \in C$ 
@@ -118,6 +121,16 @@ optimize!(placement)
 @show value.(p);
 @show objective_value(placement);
 
+#+
+
+# Plotting the points
+df = DataFrame()
+df.x = value.(p)[:,1]
+df.y = value.(p)[:,2]
+df.type = vcat(fill("Free points", N), fill("Fixed points", M))
+p = plot(df, x = "x", y = "y", color = "type", Geom.point)
+draw(SVG(6inch, 6inch), p)
+
 #' # Floor Planning
 #' A floor planning problem consists of rectangles or boxes aligned with the axes which must be placed, 
 #' within some limits such that they do not overlap. The objective is usually to minimize the size 
@@ -152,6 +165,8 @@ Amin = [                                        # We'll try this problem with 4 
 
 r = 1
 
+figs=[]
+
 for i = 1:4
     A = Amin[i, :]
 
@@ -181,9 +196,17 @@ for i = 1:4
     @objective(floor_planning, Min, W + H)
 
     optimize!(floor_planning)
+
     @show objective_value(floor_planning);
+
+    D = DataFrame(x = value.(x), y = value.(y), x2 = value.(x) .+ value.(w), y2 = value.(y) .+ value.(h))
+    plt = plot(D, xmin = :x, ymin = :y, xmax = :x2, ymax = :y2, Geom.rect)
+    push!(figs, plt)
 end
 
+#+
+
+draw(SVG(6inch, 6inch), vstack(hstack(figs[1], figs[2]), hstack(figs[3], figs[4])))
 
 #' ### References
 #' <a id='c1'></a>
