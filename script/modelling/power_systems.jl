@@ -72,7 +72,7 @@
 
 #' ## JuMP Implementation of Economic Dispatch 
 
-using JuMP, GLPK, LinearAlgebra
+using JuMP, GLPK, LinearAlgebra, DataFrames
 
 #+ 
 
@@ -137,15 +137,21 @@ println("Total cost: ", obj, "\$")
  
 #' In the following exercise we adjust the incremental cost of generator G1 and observe its impact on the total cost.
 
+c_g_scale_df = DataFrame(Symbol("Dispatch of Generator 1(MW)") => Float64[],
+               Symbol("Dispatch of Generator 2(MW)") => Float64[],
+               Symbol("Dispatch of Wind(MW)") => Float64[],
+               Symbol("Spillage of Wind(MW)") => Float64[],
+               Symbol("Total cost(\$)") => Float64[])
 for c_g1_scale = 0.5:0.1:3.0
     c_g_scale = [c_g[1] * c_g1_scale, c_g[2]] # update the incremental cost of the first generator at every iteration
     g_opt, w_opt, ws_opt, obj = solve_ed(g_max, g_min, c_g_scale, c_w, d, w_f) # solve the ed problem with the updated incremental cost
-    
-    println("Dispatch of Generators, MW: $(g_opt[:])\n"*
-            "Dispatch of Wind, MW: $w_opt\n"*
-            "Spillage of Wind, MW: $ws_opt\n"*
-            "Total cost, \$: $obj \n")
+    push!(c_g_scale_df, (g_opt[1], g_opt[2], w_opt, ws_opt, obj))
 end
+
+#+
+
+ENV["COLUMNS"]=250 # Helps us display the complete table
+c_g_scale_df
 
 #' ## Modifying the JuMP model in place
  
@@ -206,14 +212,21 @@ solve_ed_inplace(2.0);
 
 #' In the following example, we adjust the total demand and observed how it affects wind spillage.
 
+demandscale_df = DataFrame(Symbol("Dispatch of Generators(MW)") => Float64[],
+               Symbol("Dispatch of Generator 2(MW)") => Float64[],
+               Symbol("Dispatch of Wind(MW)") => Float64[],
+               Symbol("Spillage of Wind(MW)") => Float64[],
+               Symbol("Total cost(\$)") => Float64[])
+
 for demandscale = 0.2:0.1:1.5
     g_opt,w_opt,ws_opt,obj = solve_ed(g_max, g_min, c_g, c_w, demandscale*d, w_f)
 
-    println("Dispatch of Generators, MW: $(g_opt[:])\n"*
-            "Dispatch of Wind, MW: $w_opt\n"*
-            "Spillage of Wind, MW: $ws_opt\n"*
-            "Total cost, \$: $obj \n")
+    push!(demandscale_df, (g_opt[1], g_opt[2], w_opt, ws_opt, obj))
 end
+
+#+
+
+demandscale_df
  
 #' This particular drawback can be overcome by introducing binary decisions on the "on/off" status of generators. This model is called unit commitment and considered later in these notes. 
  
@@ -290,16 +303,24 @@ println("Total cost: ", obj, "\$")
  
 #' After implementing the UC model, we can now assess the interplay between the minimum power output constraints on generators and wind generation.
 
+uc_df = DataFrame(Symbol("Commitment of Generator 1(MW)") => Float64[],
+               Symbol("Commitment of Generator 2(MW)") => Float64[],
+               Symbol("Dispatch of Generator 1(MW)") => Float64[],
+               Symbol("Dispatch of Generator 2(MW)") => Float64[],
+               Symbol("Dispatch of Wind(MW)") => Float64[],
+               Symbol("Spillage of Wind(MW)") => Float64[],
+               Symbol("Total cost(\$)") => Float64[])
+
 for demandscale = 0.2:0.1:1.5
     status, g_opt, w_opt, ws_opt, u_opt, obj = solve_uc(g_max, g_min, c_g, c_w, demandscale*d, w_f)
  
     if status == MOI.OPTIMAL
-        println("Commitment of Generators, MW: $(u_opt[:])\n"*
-                "Dispatch of Generators, MW: $(g_opt[:])\n"*
-                "Dispatch of Wind, MW: $w_opt\n"*
-                "Spillage of Wind, MW: $ws_opt\n"*
-                "Total cost, \$: $obj \n")
+    push!(uc_df, (u_opt[1], u_opt[2], g_opt[1], g_opt[2], w_opt, ws_opt, obj))
     else
-        println("Status: $status \n")
+        println("Status: $status for demandscale = $demandscale \n")
     end
 end
+
+#+
+
+uc_df
