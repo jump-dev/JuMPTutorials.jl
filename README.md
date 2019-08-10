@@ -38,3 +38,4 @@ To try out any of the tutorials in the browser without downloading Julia, click 
   - [Finance](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/finance.ipynb)
   - [Power Systems](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/power_systems.ipynb)
   - [Geometric Problems](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/geometric_problems.ipynb)
+  - [Rocket Control](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/modelling/rocket_control.ipynb)
