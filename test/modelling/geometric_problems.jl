@@ -86,8 +86,8 @@ df = DataFrame()
 df.x = value.(p)[:,1]
 df.y = value.(p)[:,2]
 df.type = vcat(fill("Free points", N), fill("Fixed points", M))
-p = plot(df, x = "x", y = "y", color = "type", Geom.point)
-draw(SVG(6inch, 6inch), p)
+plt = plot(df, x = "x", y = "y", color = "type", Geom.point)
+draw(SVG(6inch, 6inch), plt)
 
 
 n = 5;
