@@ -72,8 +72,7 @@
 
 #' ## JuMP Implementation of Economic Dispatch 
 
-using JuMP
-using GLPK
+using JuMP, GLPK, LinearAlgebra
 
 #+ 
 
@@ -105,7 +104,7 @@ function solve_ed(g_max, g_min, c_g, c_w, d, w_f)
     @variable(ed, 0 <= w <= w_f) # wind power injection
 
     # Define the objective function
-    @objective(ed, Min, sum(c_g .* g) + c_w * w)
+    @objective(ed, Min, dot(c_g, g) + c_w * w)
 
     # Define the constraint on the maximum and minimum power output of each generator
     @constraint(ed, [i = 1:2], g[i] <= g_max[i]) #maximum
@@ -168,7 +167,7 @@ function solve_ed_inplace(c_w_scale)
     @variable(ed, 0 <= w <= w_f ) # wind power injection
 
     # Define the objective function
-    @objective(ed, Min, sum(c_g .* g) + c_w * w)
+    @objective(ed, Min, dot(c_g, g) + c_w * w)
 
     # Define the constraint on the maximum and minimum power output of each generator
     @constraint(ed, [i = 1:2], g[i] <= g_max[i]) #maximum
@@ -257,7 +256,7 @@ function solve_uc(g_max, g_min, c_g, c_w, d, w_f)
     @variable(uc, 0 <= w <= w_f ) # wind power injection
 
     # Define the objective function
-    @objective(uc, Min, sum(c_g .* g) + c_w * w)
+    @objective(uc, Min, dot(c_g, g) + c_w * w)
 
     # Define the constraint on the maximum and minimum power output of each generator
     @constraint(uc, [i = 1:2], g[i] <= g_max[i]) #maximum
