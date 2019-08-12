@@ -82,12 +82,36 @@ register(model, :my_function, 2, my_function, autodiff = true)
 #' Since we already have a bit of JuMP experience at this point,
 #' let's try a modelling example and apply what we have learnt.
 #' In this example, we compute the maximum likelihood estimate (MLE) of 
-#' the parameters of a normal distribution i.e. the sample mean and variance.
+#' the parameters of a Gaussian distribution i.e. the sample mean and variance.
+
+#' If $X_{1}, \ldots, X_{n}$ are an id sample from a population with pdf or pmf 
+#' $f\left(x | \theta_{1}, \ldots, \theta_{k}\right),$ the likelihood function is defined by
+
+#' $$
+#' L(\theta | \mathbf{x})=L\left(\theta_{1}, \ldots, \theta_{k} | x_{1}, \ldots, x_{n}\right)=\prod_{i=1}^{n} f\left(x_{i} | \theta_{1}, \ldots, \theta_{k}\right)
+#' $$
+
+#' For each sample point $\mathbf{x}$, let $\hat{\theta}(\mathbf{x})$ be a parameter value 
+#' at which $L(\theta | \mathbf{x})$ attains its maximum as a function of $\theta,$ with $\mathbf{x}$ held fixed. 
+#' A maximum likelihood estimator (MLE) of the parameter $\theta$ based on a sample $\mathbf{X}$ is 
+#' $\hat{\theta}(\mathbf{X})$.
+
+#'The Gaussian likelihood is -
+
+#' $$
+#' L(\theta | \mathbf{x})=\prod_{i=1}^{n} \frac{1}{(2 \pi)^{1 / 2}} e^{-(1 / 2)\left(x_{i}-\theta\right)^{2}}=\frac{1}{(2 \pi)^{n / 2}} e^{(-1 / 2) \Sigma_{i=1}^{n}\left(x_{i}-\theta\right)^{2}}
+#' $$
+
+#' In most cases, the natural logarithm of 
+#' $L(\theta | \mathbf{x}), \log L(\theta | \mathbf{x})$ (known as the log likelihood), 
+#' is used rather than $L(\theta | \mathbf{x})$ directly. 
+#' The reason is that the log likelihood is easier to differentiate.
+#' This substituion is possible because the log function is strictly increasing on $(0, \infty)$, 
+#' which implies that the extrema of $L(\theta | \mathbf{x})$ and $\log L(\theta | \mathbf{x})$ coincide.
 
 using Random, Statistics
 
 n = 1_000
-#Random.seed!(1234)
 data = randn(n)
 
 mle = Model(with_optimizer(Ipopt.Optimizer, print_level = 0))
@@ -134,4 +158,13 @@ println("var(data) = ", var(data))
 println("MLE objective: ", objective_value(mle))
 
 #' # Disciplined Convex Programming
-#' TBA
+
+#' Nonlinear solvers like Ipopt are usually local solvers. 
+#' For convex problems, the local optima is also the global optima, 
+#' and thus Ipopt is able to provide us with the correct solution. 
+#' However, in case a problem is not written in the convex form, then we may be unable to solve it. 
+
+#' A tool that helps us in dealing with this issue is [Disciplined Convex Programming](https://dcp.stanford.edu) (DCP).
+#' DCP is a system for constructing mathematical expressions with known curvature from a given library of base functions. 
+#' Specifically, it helps us to construct convex optimization models when possible, 
+#' i.e. minimize convex function or maximize concave function and use constraints that are convex $f$ <= concave $g$

@@ -33,7 +33,6 @@ register(model, :my_function, 2, my_function, autodiff = true)
 using Random, Statistics
 
 n = 1_000
-#Random.seed!(1234)
 data = randn(n)
 
 mle = Model(with_optimizer(Ipopt.Optimizer, print_level = 0))
