@@ -25,7 +25,7 @@ function solve_ed(g_max, g_min, c_g, c_w, d, w_f)
     ed = Model(with_optimizer(GLPK.Optimizer))
     
     # Define decision variables    
-    @variable(ed, 0 <= g[i=1:2] <= g_max[i]) # power output of generators
+    @variable(ed, 0 <= g[i = 1:2] <= g_max[i]) # power output of generators
     @variable(ed, 0 <= w <= w_f) # wind power injection
 
     # Define the objective function
@@ -85,7 +85,7 @@ function solve_ed_inplace(c_w_scale)
     ed = Model(with_optimizer(GLPK.Optimizer))
     
     # Define decision variables    
-    @variable(ed, 0 <= g[i=1:2] <= g_max[i]) # power output of generators
+    @variable(ed, 0 <= g[i = 1:2] <= g_max[i]) # power output of generators
     @variable(ed, 0 <= w <= w_f ) # wind power injection
 
     # Define the objective function

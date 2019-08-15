@@ -107,26 +107,30 @@ for i = 1:4
 
     floor_planning = Model(with_optimizer(Ipopt.Optimizer, print_level=0))
 
-    @variable(floor_planning, x[1:n] >= r)
-    @variable(floor_planning, y[1:n] >= r)
-    @variable(floor_planning, w[1:n] >= 0)
-    @variable(floor_planning, h[1:n] >= 0)
-    @variable(floor_planning, W)
-    @variable(floor_planning, H)
+    @variables(floor_planning, begin
+        x[1:n] >= r
+        y[1:n] >= r
+        w[1:n] >= 0
+        h[1:n] >= 0
+        W
+        H
+    end)
 
-    @constraint(floor_planning, x[5] + w[5] + r <= W)    # No rectangles at the right of Rectangle 5
-    @constraint(floor_planning, x[1] + w[1] + r <= x[3]) # Rectangle 1 is at the left of Rectangle 3
-    @constraint(floor_planning, x[2] + w[2] + r <= x[3]) # Rectangle 2 is at the left of Rectangle 3
-    @constraint(floor_planning, x[3] + w[3] + r <= x[5]) # Rectangle 3 is at the left of Rectangle 5
-    @constraint(floor_planning, x[4] + w[4] + r <= x[5]) # Rectangle 4 is at the left of Rectangle 5
-    @constraint(floor_planning, y[4] + h[4] + r <= H)    # No rectangles on top of Rectangle 4
-    @constraint(floor_planning, y[5] + h[5] + r <= H)    # No rectangles on top of Rectangle 5
-    @constraint(floor_planning, y[2] + h[2] + r <= y[1]) # Rectangle 2 is below Rectangle 1
-    @constraint(floor_planning, y[1] + h[1] + r <= y[4]) # Rectangle 1 is below Rectangle 4
-    @constraint(floor_planning, y[3] + h[3] + r <= y[4]) # Rectangle 3 is below Rectangle 4
-    @constraint(floor_planning, w .<= 5*h)               # Aspect ratio constraint
-    @constraint(floor_planning, h .<= 5*w)               # Aspect ratio constraint
-    @constraint(floor_planning, A .<= h .*  w)           # Area constraint
+    @constraints(floor_planning, begin
+        x[5] + w[5] + r <= W    # No rectangles at the right of Rectangle 5
+        x[1] + w[1] + r <= x[3] # Rectangle 1 is at the left of Rectangle 3
+        x[2] + w[2] + r <= x[3] # Rectangle 2 is at the left of Rectangle 3
+        x[3] + w[3] + r <= x[5] # Rectangle 3 is at the left of Rectangle 5
+        x[4] + w[4] + r <= x[5] # Rectangle 4 is at the left of Rectangle 5
+        y[4] + h[4] + r <= H    # No rectangles on top of Rectangle 4
+        y[5] + h[5] + r <= H    # No rectangles on top of Rectangle 5
+        y[2] + h[2] + r <= y[1] # Rectangle 2 is below Rectangle 1
+        y[1] + h[1] + r <= y[4] # Rectangle 1 is below Rectangle 4
+        y[3] + h[3] + r <= y[4] # Rectangle 3 is below Rectangle 4
+        w .<= 5*h               # Aspect ratio constraint
+        h .<= 5*w               # Aspect ratio constraint
+        A .<= h .*  w           # Area constraint
+    end)
 
     @objective(floor_planning, Min, W + H)
 
