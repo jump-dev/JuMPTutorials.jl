@@ -26,7 +26,7 @@ To try out any of the tutorials in the browser without downloading Julia, click 
 - Using JuMP
   - [Working with Data Files](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/using_JuMP/working_with_data_files.ipynb) 
   - [Problem Modification](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/using_JuMP/problem_modification.ipynb)
-  - [Nonlinear Modelling](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/using_JuMP/nonlinear-modelling.ipynb)
+  - [Nonlinear Modelling](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/using_JuMP/nonlinear_modelling.ipynb)
 - Optimization Concepts
   - [Integer Programming](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/optimization_concepts/integer_programming.ipynb)
   - [Conic Programming](https://nbviewer.jupyter.org/github/barpit20/JuMPTutorials.jl/blob/master/notebook/optimization_concepts/conic_programming.ipynb)
