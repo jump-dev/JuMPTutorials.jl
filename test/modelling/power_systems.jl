@@ -4,19 +4,19 @@ using JuMP, GLPK, LinearAlgebra, DataFrames
 
 # Define some input data about the test system
 # Maximum power output of generators
-const g_max = [1000, 1000];
+g_max = [1000, 1000];
 # Minimum power output of generators
-const g_min = [0, 300];
+g_min = [0, 300];
 # Incremental cost of generators 
-const c_g = [50, 100];
+c_g = [50, 100];
 # Fixed cost of generators
-const c_g0 = [1000, 0]
+c_g0 = [1000, 0]
 # Incremental cost of wind generators
-const c_w = 50;
+c_w = 50;
 # Total demand
-const d = 1500;
+d = 1500;
 # Wind forecast
-const w_f = 200;
+w_f = 200;
 
 
 # In this cell we create function solve_ed, which solves the economic dispatch problem for a given set of input parameters.
