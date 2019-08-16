@@ -18,12 +18,17 @@ include("using_JuMP/working_with_data_files.jl")
 @test objective_value(model) == 23
 @test countryindex == [1, 5, 9, 10, 38, 39, 55, 63, 64, 75, 78, 81, 89, 104, 107, 130, 138, 158, 162, 167, 182, 188, 190]
 include("using_JuMP/problem_modification.jl")
+include("using_JuMP/nonlinear_modelling.jl")
+@test value(μ) ≈ 0
+@test value(σ)^2 ≈ 1
 end
 cd("..")
 
 cd("optimization_concepts")
 @testset "Optimization Concepts" begin
 include("optimization_concepts/benders_decomposition.jl")
+@test objective_value(master_problem_model) == -4.0
+@test value.(x) == [0.0, 1.0]
 include("optimization_concepts/integer_programming.jl")
 include("optimization_concepts/conic_programming.jl")
 end
@@ -113,5 +118,7 @@ include("modelling/geometric_problems.jl")
     -1.0        -0.2; 
     -0.2        -1.0; 
      0.1         1.0]
+include("modelling/rocket_control.jl")
+@test objective_value(rocket) ≈ 1.0128340648308058
 end
 cd("..")
