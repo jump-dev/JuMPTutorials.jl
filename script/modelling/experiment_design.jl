@@ -154,7 +154,8 @@ dOpt = Model()
 @variable(dOpt, t)
 @objective(dOpt, Max, t)
 @constraint(dOpt, sum(np) <= n)
-@constraint(dOpt, [t, 1, V * diagm(0 => np ./ n) * V'] in MOI.LogDetConeSquare(q))
+E = V * diagm(0 => np ./ n) * V'
+@constraint(dOpt, [t, E[:]...] in MOI.LogDetConeSquare(q))
 
 optimize!(dOpt)
 
