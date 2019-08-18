@@ -7,14 +7,14 @@
 #' The purpose of this part of the tutorial is to introduce you to solvers and how to use them with JuMP. We'll also learn
 #' what to do with a problem after the solver has finished optimizing it.
 
-#' # What is a Solver?
+#' ## What is a Solver?
 #' A solver is a software package that incorporates algorithms for finding solutions to one or more classes of problem. 
 #' For example, GLPK, which we used in the previous tutorials is a solver for linear programming (LP) and mixed integer 
 #' programming (MIP) problems. It incorporates algorithms such as the simplex method, interior-point method etc. JuMP 
 #' currently supports a number of open-source and commercial solvers which can be viewed
 #' [here](http://www.juliaopt.org/JuMP.jl/v0.19.1/installation/#Getting-Solvers-1).
 
-#' # What is MathOptInterface?
+#' ## What is MathOptInterface?
 #' Each mathematical optimization solver API has its own concepts and data structures for representing optimization models 
 #' and obtaining results. However, it is often desirable to represent an instance of an optimization problem at a higher 
 #' level so that it is easy to try using different solvers. MathOptInterface (MOI) is an abstraction layer designed to provide 
@@ -24,7 +24,7 @@
 #' Note that JuMP reexports MathOptInterface and 
 #' you can use the shortcut MOI to refer to MathOptInterface in your code.
 
-#' # Interacting with solvers
+#' ## Interacting with solvers
 #' JuMP models can be created in three different modes: `AUTOMATIC`, `MANUAL` and `DIRECT`. 
 #' We'll use the following LP to illustrate them.
 
@@ -39,8 +39,8 @@
 using JuMP 
 using GLPK
 
-#' ## `AUTOMATIC` Mode
-#' ### With Optimizer
+#' ### `AUTOMATIC` Mode
+#' #### With Optimizer
 #' This is the easiest method to use a solver in JuMP. In order to do so, we simply set the solver inside the Model constructor.
 
 model_auto = Model(with_optimizer(GLPK.Optimizer))
@@ -51,7 +51,7 @@ model_auto = Model(with_optimizer(GLPK.Optimizer))
 optimize!(model_auto)
 objective_value(model_auto)
 
-#' ### No Optimizer (at first)
+#' #### No Optimizer (at first)
 #' It is also possible to create a JuMP model with no optimizer attached. After the model object is initialized empty 
 #' and all its variables, constraints and objective are set, then we can attach the solver at `optimize!` time.
 
@@ -64,7 +64,7 @@ optimize!(model_auto_no, with_optimizer(GLPK.Optimizer))
 objective_value(model_auto_no)
 
 #' Note that we can also enforce the automatic mode by passing `caching_mode = MOIU.AUTOMATIC` in the Model function call.
-#' ## `MANUAL` Mode
+#' ### `MANUAL` Mode
 #' This mode is similar to the `AUTOMATIC` mode, but there are less protections from the user getting errors from the solver 
 #' API. On the other side, nothing happens silently, which might give the user more control. It requires attaching the solver 
 #' before the solve step using the `MOIU.attach_optimizer()` function.
@@ -78,7 +78,7 @@ MOIU.attach_optimizer(model_manual)
 optimize!(model_manual)
 objective_value(model_manual)
 
-#' ## `DIRECT` Mode
+#' ### `DIRECT` Mode
 #' Some solvers are able to handle the problem data directly. This is common for LP/MIP solver but not very common for 
 #' open-source conic solvers. In this case we do not set a optimizer, we set a backend which is more generic and is able
 #' to hold data and not only solving a model.
@@ -91,7 +91,7 @@ model_direct = direct_model(GLPK.Optimizer())
 optimize!(model_direct)
 objective_value(model_direct)
 
-#' ## Solver Options
+#' ### Solver Options
 #' Many of the solvers also allow options to be passed in. However, these options are solver-specific. To find out the various
 #' options available, please check out the individual solver packages. Some examples for the CBC solver are given below.
 
@@ -109,12 +109,12 @@ model = Model(with_optimizer(Cbc.Optimizer, max_iters = 10000));
 
 model = Model(with_optimizer(Cbc.Optimizer, seconds = 5));
 
-#' # Querying Solutions
+#' ## Querying Solutions
 #' So far we have seen all the elements and constructs related to writing a JuMP optimization model. In this section we 
 #' reach the point of what to do with a solved problem. JuMP follows closely the concepts defined in MathOptInterface to 
 #' answer user questions about a finished call to `optimize!(model)`. The three main steps in querying a solution are 
 #' given below. We'll use the model we created in `AUTOMATIC` mode with an optimizer attached in this section.
-#' ## Termination Statuses
+#' ### Termination Statuses
 #' Termination statuses are meant to explain the reason why the optimizer stopped executing in the most recent call 
 #' to `optimize!`. 
 
@@ -125,7 +125,7 @@ termination_status(model_auto)
 
 display(typeof(MOI.OPTIMAL))
 
-#' ## Solution Statuses
+#' ### Solution Statuses
 #' These statuses indicate what kind of result is available to be queried from the model. It's possible that no result is 
 #' available to be queried. We shall discuss more on the dual status and solutions in the Duality tutorial. 
 
@@ -139,7 +139,7 @@ dual_status(model_auto)
 
 display(typeof(MOI.FEASIBLE_POINT))
 
-#' ## Obtaining Solutions
+#' ### Obtaining Solutions
 #' Provided the primal status is not `MOI.NO_SOLUTION`, we can inspect the solution values and optimal cost. 
 
 @show value(x)

@@ -11,7 +11,7 @@ model = Model()
 @variable(model, x[1:5])
 @variable(model, y, Bin)
 @constraint(model, a * x .>= y .* b)
-@constraint(model, c * x .>= (1 - y) .* d)
+@constraint(model, c * x .>= (1 - y) .* d);
 
 
 a = rand(1:100, 5, 5)
@@ -21,7 +21,7 @@ m = rand(10000:11000, 5)
 model = Model()
 @variable(model, x[1:5])
 @variable(model, z, Bin)
-@constraint(model, a * x .<=  b .+ (m .* (1 - z))) 
+@constraint(model, a * x .<=  b .+ (m .* (1 - z)));
 # If z was a regular Julia variable, we would not have had to use the vectorized dot operator
 
 
@@ -30,7 +30,7 @@ model = Model()
 @variable(model, x)
 @variable(model, y)
 @constraint(model, x in MOI.ZeroOne())
-@constraint(model, y in MOI.Integer())
+@constraint(model, y in MOI.Integer());
 
 
 l = 7.45

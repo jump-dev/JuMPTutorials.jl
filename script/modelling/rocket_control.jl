@@ -5,9 +5,7 @@
 #' **Originally Contributed by**: Iain Dunning
 
 #' This tutorial shows how to solve a nonlinear rocketry control problem.
-
-#' # Rocket Control with JuMP
-#' *This problem was drawn from the [COPS3](http://www.mcs.anl.gov/~more/cops/cops3.pdf) benchmark.*
+#' The problem was drawn from the [COPS3](http://www.mcs.anl.gov/~more/cops/cops3.pdf) benchmark.
 
 #' Our goal is to maximize the final altitude of a vertically launched rocket. 
 #' We can control the thrust of the rocket, and must take account of 

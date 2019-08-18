@@ -13,7 +13,7 @@ using Ipopt
 using Gadfly
 using DataFrames
 
-#' # Euclidean Projection on a Hyperplane
+#' ## Euclidean Projection on a Hyperplane
 #' For a given point $x_{0}$ and a set $C$, we refer to any point $z \in C$ 
 #' which is closest to $x_{0}$ as a projection of $x_{0}$ on $C$. 
 #' The projection of a point $x_{0}$ on a hyperplane $C = \{x | a' \cdot x = b\}$ is given by
@@ -38,7 +38,7 @@ optimize!(projection)
 @show objective_value(projection);
 @show value.(x0);
 
-#' # Euclidean Distance Between Polyhedra
+#' ## Euclidean Distance Between Polyhedra
 #' Given two polyhedra $C = \{x | A_{1} \cdot x \leq b1\}$ and $D = \{x | A_{2} \cdot x \leq b_{2}\}$, 
 #' the distance between them is the optimal value of the problem:
 
@@ -65,7 +65,7 @@ polyhedra_distance = Model(with_optimizer(Ipopt.Optimizer, print_level=0))
 optimize!(polyhedra_distance)
 @show objective_value(polyhedra_distance);
 
-#' # Linear Placement Problem
+#' ## Linear Placement Problem
 #' We have $N$ points in $\mathbb{R}^2$, and a list of pairs of points that must be connected by links. 
 #' The positions of some of the $N$ points are fixed; our task is to determine the positions of the remaining points, 
 #' i.e., to place the remaining points. The objective is to place the points so that the distance between the links is minimized, 
@@ -131,7 +131,7 @@ df.type = vcat(fill("Free points", N), fill("Fixed points", M))
 plt = plot(df, x = "x", y = "y", color = "type", Geom.point)
 draw(SVG(6inch, 6inch), plt)
 
-#' # Floor Planning
+#' ## Floor Planning
 #' A floor planning problem consists of rectangles or boxes aligned with the axes which must be placed, 
 #' within some limits such that they do not overlap. The objective is usually to minimize the size 
 #' (e.g., area, volume, perimeter) of the bounding box, which is the smallest box that contains the boxes to be configured and placed.

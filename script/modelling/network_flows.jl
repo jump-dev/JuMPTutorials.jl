@@ -15,7 +15,7 @@
 using JuMP
 using GLPK
 
-#' # The Shortest Path Problem
+#' ## The Shortest Path Problem
 #' Suppose that each arc $(i, j)$ of a graph is assigned a scalar cost $a_{i,j}$, and 
 #' suppose that we define the cost of a forward path to be the sum of the costs of its arcs. 
 #' Given a pair of nodes, the shortest path problem is to find a forward path that connects these nodes and has minimum cost.
@@ -56,7 +56,7 @@ optimize!(shortest_path)
 @show objective_value(shortest_path);
 @show value.(x);
 
-#' # The Assignment Problem
+#' ## The Assignment Problem
 #' Suppose that there are $n$ persons and $n$ objects that we have to match on a one-to-one basis. 
 #' There is a benefit or value $a_{i,j}$ for matching person $i$ with object $j$, and 
 #' we want to assign persons to objects so as to maximize the total benefit. 
@@ -94,7 +94,7 @@ optimize!(assignment)
 @show objective_value(assignment);
 @show value.(y);
 
-#' # The Max-Flow Problem
+#' ## The Max-Flow Problem
 #' In the max-flow problem, we have a graph with two special nodes: the $source$, denoted by $s$, and the $sink$, denoted by $t$. 
 #' The objective is to move as much flow as possible from $s$ into $t$ while observing the capacity constraints.
 

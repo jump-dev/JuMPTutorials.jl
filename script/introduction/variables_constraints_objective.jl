@@ -10,9 +10,9 @@
 using JuMP
 model = Model();
 
-#' # Variables
+#' ## Variables
 
-#' ## Variable Bounds
+#' ### Variable Bounds
 #' All of the variables we have created till now have had a bound. We can also create a free variable.
 
 @variable(model, free_x)
@@ -37,12 +37,12 @@ lower_bound(free_x)
 
 #' JuMP also allows us to change the bounds on variable. We will learn this in the problem modification tutorial. 
 
-#' ## Containers
+#' ### Containers
 #' We have already seen how to add a single variable to a model using the `@variable` macro. Let's now look at more ways to add 
 #' variables to a JuMP model. JuMP provides data structures for adding collections of variables to a model. These data 
 #' structures are reffered to as Containers and are of three types - `Arrays`, `DenseAxisArrays`, and `SparseAxisArrays`.
 
-#' ### Arrays
+#' #### Arrays
 #' JuMP arrays are created in a similar syntax to Julia arrays with the addition of specifying that the indices start with 1. If
 #' we do not tell JuMP that the indices start at 1, it will create a DenseAxisArray instead.
 
@@ -61,7 +61,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 
 @variable(model, y[i = 1:2, j = 1:2] >= 2i + j)
 
-#' ### DenseAxisArrays
+#' #### DenseAxisArrays
 #' DenseAxisArrays are used when the required indices are not one-based integer ranges. The syntax is similar except with an 
 #' arbitrary vector as an index as opposed to a one-based range.
 
@@ -73,7 +73,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 
 @variable(model, w[1:5,["red", "blue"]] <= 1)
 
-#' ### SparseAxisArrays
+#' #### SparseAxisArrays
 #' SparseAxisArrays are created when the indices do not form a rectangular set. For example, this applies when indices have a 
 #' dependence upon previous indices (called triangular indexing). 
 
@@ -84,11 +84,11 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 
 @variable(model, v[i = 1:9; mod(i, 3) == 0])
 
-#' ## Variable Types
+#' ### Variable Types
 
 #' The last arguement to the `@variable` macro is usually the variable type. Here we'll look at how to specifiy he variable type.
 
-#' ### Integer Variables
+#' #### Integer Variables
 #' Integer optimization variables are constrained to the set $x \in {Z}$
 #+ tangle = false
 
@@ -98,7 +98,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 
 @variable(model, integer_z, integer = true)
 
-#' ### Binary Variables
+#' #### Binary Variables
 #' Binary optimization variables are constrained to the set $x \in \{0, 1\}$. 
 #+ tangle = false
 
@@ -108,7 +108,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 
 @variable(model, binary_z, binary = true)
 
-#' ### Semidefinite variables
+#' #### Semidefinite variables
 #' JuMP also supports modeling with semidefinite variables. A square symmetric matrix X is positive semidefinite if all eigenvalues 
 #' are nonnegative.
 
@@ -118,36 +118,36 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 
 @variable(model, sym_x[1:2, 1:2], Symmetric)
 
-#' # Constraints
+#' ## Constraints
 
 model = Model()
 @variable(model, x)
 @variable(model, y)
 @variable(model, z[1:10]);
 
-#' ## Constraint References
+#' ### Constraint References
 #' While calling the `@constraint` macro, we can also set up a constraint reference. Such a refference is useful for obtaining
 #' additional information about the constraint such as its dual.
 
 @constraint(model, con, x <= 4)
 
-#' ## Containers
+#' ### Containers
 #' Just as we had containers for variables, JuMP also provides `Arrays`, `DenseAxisArrays`, and `SparseAxisArrays` for storing
 #' collections of constraints. Examples for each container type are given below.
 
-#' ### Arrays
+#' #### Arrays
 
 @constraint(model, [i = 1:3], i * x <= i + 1)
 
-#' ### DenseAxisArrays
+#' #### DenseAxisArrays
 
 @constraint(model, [i = 1:2, j = 2:3], i * x <= j + 1)
 
-#' ### SparseAxisArrays
+#' #### SparseAxisArrays
 
 @constraint(model, [i = 1:2, j = 1:2; i != j], i * x <= j + 1)
 
-#' ## Constraints in a Loop
+#' ### Constraints in a Loop
 #' We can add constraints using regular Julia loops
 
 for i in 1:3
@@ -162,7 +162,7 @@ end
 
 @constraint(model, sum(z[i] for i in 1:10) <= 1)
 
-#' # Objective
+#' ## Objective
 #' While the recommended way to set the objective is with the @objective macro, the functions `set_objective_sense` and 
 #' `set_objective_function` provide an equivalent lower-level interface.
 

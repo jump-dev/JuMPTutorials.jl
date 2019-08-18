@@ -59,6 +59,8 @@ display(typeof(MOI.OPTIMAL))
 
 
 primal_status(model_auto)
+
+
 dual_status(model_auto)
 
 

@@ -3,7 +3,7 @@ using JuMP
 
 
 model = Model()
-@variable(model, x)
+@variable(model, x);
 
 
 set_lower_bound(x, 3)
@@ -22,7 +22,7 @@ fix(x, 5)
 fix_value(x)
 
 
-@variable(model, y >= 0)
+@variable(model, y >= 0);
 
 
 fix(y, 2; force = true)
@@ -44,10 +44,10 @@ is_valid(model, x)
 
 
 model = Model()
-@variable(model, x)
+@variable(model, x);
 
 
-@constraint(model, con, 2x <= 1)
+@constraint(model, con, 2x <= 1);
 
 
 set_coefficient(con, x, 3)
@@ -60,7 +60,7 @@ is_valid(model, con)
 
 model = Model()
 @variable(model, x)
-@objective(model, Min, 7x + 4)
+@objective(model, Min, 7x + 4);
 
 
 objective_function(model)

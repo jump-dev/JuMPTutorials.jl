@@ -14,7 +14,7 @@
 using JuMP
 using GLPK
 
-#' # Short Term Financing
+#' ## Short Term Financing
 
 #' Corporations routinely face the problem of financing short term cash commitments such as the following:
 
@@ -67,7 +67,7 @@ end)
 optimize!(financing)
 @show objective_value(financing);
 
-#' # Combinatorial Auctions
+#' ## Combinatorial Auctions
 #' In many auctions, the value that a bidder has for a set of items may not be 
 #' the sum of the values that he has for individual items. 
 #' It may be more or it may be less. 
@@ -106,7 +106,7 @@ optimize!(auction)
 @show objective_value(auction);
 @show value.(y);
 
-#' # Portfolio Optimization
+#' ## Portfolio Optimization
 #' Suppose we are considering investing 1000 dollars in three non-dividend paying stocks, 
 #' IBM (IBM), Walmart (WMT), and Southern Electric (SEHI), for a onemonth period. 
 #' This means we will use the money to buy shares of the three stocks at the current market prices, 

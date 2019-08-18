@@ -55,7 +55,7 @@ u = [10; 11; 12; 13; 14; 15; 16; 17; 18; 19]
 model = Model()
 @variable(model, x)
 @variable(model, y)
-@variable(model, z[1:10])
+@variable(model, z[1:10]);
 
 
 @constraint(model, con, x <= 4)

@@ -9,12 +9,12 @@
 
 using JuMP
 
-#' # Modelling Logical Conditions
+#' ## Modelling Logical Conditions
 #' Generally, in a mathematical programming problem, all constraints must hold. 
 #' However, we might want to have conditions where we have some logical conditions between constraints.
 #' In such cases, we can use binary variables for modelling logical conditions between constraints.
 
-#' ## Disjunctive Constraints (OR)
+#' ### Disjunctive Constraints (OR)
 #' Suppose that we are given two constraints $a'x \geq b$ and $c' x \geq d$, 
 #' in which all components of $a$ and $c$ are non-negative. 
 #' We would like to model a requirement that at least one of the two constraints is satisfied. 
@@ -39,7 +39,7 @@ model = Model()
 @constraint(model, a * x .>= y .* b)
 @constraint(model, c * x .>= (1 - y) .* d);
 
-#' ## Conditional Constraints ($\implies$)
+#' ### Conditional Constraints ($\implies$)
 #' Suppose we want to model that a certain linear inequality must be satisfied when some other event occurs. 
 #' i.e. for a binary variable $z$, we want to model the implication
 
@@ -67,7 +67,7 @@ model = Model()
 @constraint(model, a * x .<=  b .+ (m .* (1 - z)));
 # If z was a regular Julia variable, we would not have had to use the vectorized dot operator
 
-#' ## Boolean Operators on Binary Variables
+#' ### Boolean Operators on Binary Variables
 #' The following table is useful when we want to model boolean operators in the form of 
 #' linear inequalities that can be given to a solver.
 
@@ -79,9 +79,9 @@ model = Model()
 #' | $x \implies y$     | $x \leq y$                           | 
 #' | $x \iff y$         | $x = y$                              | 
 
-#' # Modelling Integer Variables
+#' ## Modelling Integer Variables
 
-#' ## Integer Variables using Constraints
+#' ### Integer Variables using Constraints
 #' We can add binary and integer restrictions to the domain of each variable using the `@constraint` macro as well.
 
 model = Model()
@@ -91,7 +91,7 @@ model = Model()
 @constraint(model, x in MOI.ZeroOne())
 @constraint(model, y in MOI.Integer());
 
-#' ## Semi-Continuous Variables
+#' ### Semi-Continuous Variables
 #' A semi-continuous variable is a continuous variable 
 #' between bounds $[l,u]$ that also can assume the value zero. ie.
 #' $$
@@ -103,7 +103,7 @@ u = 22.22
 @variable(model, a)
 @constraint(model, a in MOI.Semicontinuous(l, u))
 
-#' ## Semi-Integer Variables
+#' ### Semi-Integer Variables
 #' A semi-integer variable is a variable which asummes integer values
 #' between bounds $[l,u]$ and can also assume the value zero. ie.
 
@@ -118,9 +118,9 @@ u = 34
 
 #' Note that the bounds specified in `MOI.Semiinteger` must be integral otherwise it would throw an error.
 
-#' # Special Ordered Sets
+#' ## Special Ordered Sets
 
-#' ## Special Ordered Sets of type 1 (SOS1)
+#' ### Special Ordered Sets of type 1 (SOS1)
 #' A Special Ordered Set of type 1 is a set of variables, 
 #' at most one of which can take a non-zero value, all others being at 0. 
 #' They most frequently apply where a set of variables are actually 0-1 variables: 
@@ -133,7 +133,7 @@ u = 34
 #' If the decision variables are related and have a physical ordering, then the weight vector, 
 #' although not used directly in the constraint, can help the solver make a better decision in the solution process.
 
-#' ## Special Ordered Sets of type 2 (SOS2)
+#' ### Special Ordered Sets of type 2 (SOS2)
 
 #' A Special Ordered Set of type 2 is a set of non-negative variables, 
 #' of which at most two can be non-zero, and if two are non-zero these must be consecutive in their ordering.

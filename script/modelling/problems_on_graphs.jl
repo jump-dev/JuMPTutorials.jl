@@ -18,13 +18,13 @@ using GraphPlot
 using LightGraphs
 using Colors
 
-#' # Representing Graphs
+#' ## Representing Graphs
 #' For the purpose of this tutorial, we will represent graphs using adjacency matrices. 
 #' An adjacency matrix, sometimes also called the connection matrix, is a square matrix used to represent a finite graph. 
 #' Its rows and columns are labeled by the graph vertices, 
 #' with a 1 or 0 in position ($v_{i}$,$v_{j}$) according to whether $v_{i}$ and $v_{j}$ are adjacent or not. 
 
-#' # Minimum Vertex Cover
+#' ## Minimum Vertex Cover
 #' Given a graph $G = (V, E)$, a vertex-cover $V' \subset V$ of $G$ is a collection of vertices such that 
 #' each edge in $E$ is incident to at least one of the vertices in $V'$. 
 #' The size of a vertex-cover $|V'|$ is the number of vertices present in the cover. 
@@ -72,7 +72,7 @@ nodecolor = [colorant"red", colorant"blue"] # Blue to represent vertices in the 
 nodefillc = nodecolor[membership]
 gplot(g, nodefillc = nodefillc)
 
-#' # Dominating Set
+#' ## Dominating Set
 #' A dominating set in a graph $G = (V, E)$ is a set $S \subset V$ such that 
 #' for each vertex $v \in V$ either $v$ or one of its neighbour should be in $S$. 
 #' Note that for some vertex $u$, $u$ and its neighbour both can be present in $S$.
@@ -126,7 +126,7 @@ nodefillc = nodecolor[membership]
 gplot(g, nodefillc = nodefillc)
 
 
-#' # Maximum Matching Problem
+#' ## Maximum Matching Problem
 #' Given a graph $G = (V, E)$, a matching $M \subset E$ of $G$ is a collection of vertex disjoint edges. 
 #' The size of the matching $M$ is the number of edges present in $M$ i.e. $|M|$. 
 #' We wish to find the Maximum matching of $G$ i.e. a matching of maximum size.
@@ -173,7 +173,7 @@ optimize!(matching)
 
 #' The edges corresponding to the Matching are marked as one in the above matrix.
 
-#' # k-Coloring Problem
+#' ## k-Coloring Problem
 #' A k-coloring of a graph $G=(V,E)$ is a function $c: V \rightarrow \{1,2...k\}$ such that 
 #' $c(u) \neq c(v)$ for every edge $(u,v) \in E$. In other words, the numbers 1,2...k represent k colors, 
 #' and adjacent vertices must have different colours.

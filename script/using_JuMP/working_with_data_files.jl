@@ -12,7 +12,7 @@
 #' However, this tutorial only focuses on DataFrames.jl as
 #' it provides the ecosystem to work with most of the required file types in a straightforward manner.
 
-#' ## DataFrames.jl
+#' ### DataFrames.jl
 
 #' The DataFrames package provides a set of tools for working with tabular data. 
 #' It is available through the Julia package system.
@@ -21,16 +21,16 @@
 using Pkg
 Pkg.add("DataFrames")
 
-#' ## What is a DataFrame?
+#' ### What is a DataFrame?
 
 #' A DataFrame is a data structure like a table or spreadsheet. You can use it for storing and exploring a set of related data values. 
 #' Think of it as a smarter array for holding tabular data.
 
-#' # Reading Tabular Data into a DataFrame
+#' ## Reading Tabular Data into a DataFrame
 #' We will begin by reading data from different file formats into a DataFrame object.
 #' The example files that we will be reading are present in the data folder.
 
-#' ## Excel Sheets
+#' ### Excel Sheets
 #' Excel files can be read using the ExcelFiles.jl package.
 #+ tangle = false
 
@@ -46,7 +46,7 @@ using XLSX
 
 excel_df = DataFrame(XLSX.readtable("data/SalesData.xlsx", "SalesOrders")...)
 
-#' ## CSV Files
+#' ### CSV Files
 #' CSV and other delimited text files can be read the CSV.jl package.
 #+ tangle = false
 
@@ -57,7 +57,7 @@ Pkg.add("CSV")
 using CSV
 csv_df = CSV.read("data/StarWars.csv")
 
-#' ## Other Delimited Files
+#' ### Other Delimited Files
 #' We can also use the CSV.jl package to read any other delimited text file format. 
 #' By default, CSV.File will try to detect a file's delimiter from the first 10 lines of the file.
 #' Candidate delimiters include `','`, `'\t'`, `' '`, `'|'`, `';'`, and `':'`. If it can't auto-detect the delimiter, it will assume `','`.
@@ -75,10 +75,10 @@ delim_df = CSV.read("data/Soccer.txt", delim = "::")
 ss_df = CSV.read("data/Cereal.txt", copycols = true)
 
 
-#' # Working with DataFrames
+#' ## Working with DataFrames
 #' Now that we have read the required data into a DataFrame, let us look at some basic operations we can perform on it.
 
-#' ## Querying Basic Information
+#' ### Querying Basic Information
 #' The `size` function gets us the dimensions of the DataFrame.
 
 size(ss_df)
@@ -99,7 +99,7 @@ names(ss_df)
 
 eltypes(ss_df)
 
-#' ## Accessing the Data
+#' ### Accessing the Data
 #' Similar to regular arrays, we use numerical indexing to access elements of a DataFrame.
 
 csv_df[1,1]
@@ -149,7 +149,7 @@ excel_df
 #' There are a lot more things which can be done with a DataFrame. 
 #' See the [docs](https://juliadata.github.io/DataFrames.jl/stable/) for more information.
 
-#' # A Complete Modelling Example - Passport Problem
+#' ## A Complete Modelling Example - Passport Problem
 
 #' Let's now apply what we have learnt to solve a real modelling problem.
 

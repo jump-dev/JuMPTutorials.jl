@@ -7,7 +7,7 @@
 #' This tutorial provides a breif introduction to nonlinear modelling in JuMP.
 #' For more details and specifics, visit the [JuMP docs](http://www.juliaopt.org/JuMP.jl/stable/nlp/).  
 
-#' # Nonlinear Programs
+#' ## Nonlinear Programs
 #' While we have already seen examples of linear, quadratic and conic programs, 
 #' JuMP also supports other general smooth nonlinear (convex and nonconvex) optimization problems.
 
@@ -77,7 +77,7 @@ register(model, :my_function, 2, my_function, autodiff = true)
 #' - name of the Julia method
 #' - instruction for JuMP to compute exact gradients automatically
 
-#' # MLE using JuMP
+#' ## MLE using JuMP
 
 #' Since we already have a bit of JuMP experience at this point,
 #' let's try a modelling example and apply what we have learnt.
@@ -145,7 +145,7 @@ println("σ^2 = ", value(σ)^2)
 println("var(data) = ", var(data))
 println("MLE objective: ", objective_value(mle))
 
-#' # Writing Convex Models
+#' ## Writing Convex Models
 
 #' Nonlinear solvers like Ipopt are usually local solvers. 
 #' For convex problems, the local optima is also the global optima, 

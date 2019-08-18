@@ -6,12 +6,12 @@
 
 #' This tutorial is aimed at providing a simplistic introduction to conic programming using JuMP.
 
-#' # What is a Cone?
+#' ## What is a Cone?
 #' A subset $C$ of a vector space $V$ is a cone if $\forall x \in C$ and positive scalars $\alpha$, 
 #' the product $\alpha x \in C$. A cone C is a convex cone if $\alpha x + \beta y \in C$, 
 #' for any positive scalars $\alpha, \beta$, and any $x, y \in C$.
 
-#' # Conic Programming
+#' ## Conic Programming
 #' Conic programming problems are convex optimization problems in which a convex function is minimized
 #' over the intersection of an affine subspace and a convex cone. 
 #' An example of a conic-form minimization problems, in the primal form is:
@@ -35,7 +35,7 @@
 
 #' where each $\mathcal{C}_i$ is a closed convex cone and $\mathcal{C}_i^*$ is its dual cone.
 
-#' # Some of the Types of Cones Supported by JuMP 
+#' ## Some of the Types of Cones Supported by JuMP 
 
 using JuMP
 using ECOS
@@ -44,7 +44,7 @@ using ECOS
 #' To find out all the different solvers and their supported problem types, check out the 
 #' [solver table](http://www.juliaopt.org/JuMP.jl/v0.19.0/installation/#Getting-Solvers-1) in the docs.
 
-#' ## Second-Order Cone
+#' ### Second-Order Cone
 #' The Second-Order Cone (or Lorenz Cone) of dimension $n$ is of the form:
 
 #' $$
@@ -60,7 +60,7 @@ using ECOS
 
 #' These cones are represented in JuMP using the MOI sets `SecondOrderCone` and `RotatedSecondOrderCone`.
 
-#' ### Example: Euclidean Projection on a Hyperplane
+#' #### Example: Euclidean Projection on a Hyperplane
 #' For a given point $u_{0}$ and a set $K$, we refer to any point $u \in K$ 
 #' which is closest to $u_{0}$ as a projection of $u_{0}$ on $K$. 
 #' The projection of a point $u_{0}$ on a hyperplane $K = \{u | p' \cdot u = q\}$ is given by
@@ -168,7 +168,7 @@ optimize!(model)
 #' while in the case of a Rotated Second-Order Cone is $||u - u_{0}||_2^2$.
 #' However, the value of x is the same for both.
 
-#' ## Exponential Cone
+#' ### Exponential Cone
 
 #' An Exponential Cone is a set of the form:
 
@@ -178,7 +178,7 @@ optimize!(model)
 
 #' It is represented in JuMP using the MOI set `ExponentialCone`.
 
-#' ### Example: Entropy Maximization
+#' #### Example: Entropy Maximization
 #' As the name suggests, the entropy maximization problem consists of maximizing the entropy function,
 #' $H(x) = -x\log{x}$ subject to linear inequality constraints.
 
@@ -227,7 +227,7 @@ optimize!(model);
 
 @show objective_value(model);
 
-#' ## Positive Semidefinite Cone
+#' ### Positive Semidefinite Cone
 #' The set of Positive Semidefinite Matrices of dimension $n$ form a cone in $\mathbb{R}^n$.
 #' We write this set mathematically as 
 
@@ -240,7 +240,7 @@ optimize!(model);
 #' `PositiveSemidefiniteConeSquare` (for a complete PSD matrix). 
 #' However, it is prefferable to use the `PSDCone` shortcut as illustrated below.
 
-#' ### Example: Largest Eigenvalue of a Symmetric Matrix
+#' #### Example: Largest Eigenvalue of a Symmetric Matrix
 #' Suppose $A$ has eigenvalues $\lambda_{1} \geq \lambda_{2} \ldots \geq \lambda_{n}$. 
 #' Then the matrix $t I-A$ has eigenvalues $t-\lambda_{1}, t-\lambda_{2}, \ldots, t-\lambda_{n}$. 
 #' Note that $t I-A$ is PSD exactly when all these eigenvalues are non-negative, 
@@ -274,7 +274,7 @@ optimize!(model)
 
 @show objective_value(model);
 
-#' # Other Cones and Functions
+#' ## Other Cones and Functions
 #' For other cones supported by JuMP, check out the 
 #' [MathOptInterface Manual](http://www.juliaopt.org/MathOptInterface.jl/dev/apimanual/#Standard-form-problem-1).
 #' A good resource for learning more about functions which can be modelled using cones is the 

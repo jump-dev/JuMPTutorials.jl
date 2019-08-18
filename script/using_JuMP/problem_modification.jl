@@ -12,12 +12,12 @@
 
 using JuMP
 
-#' # Modifying Variables
+#' ## Modifying Variables
 
 model = Model()
 @variable(model, x);
 
-#' ## Variable Bounds
+#' ### Variable Bounds
 
 #' The `set_lower_bound` and `set_upper_bound` functions can be used to create as well as 
 #' modify an existing variable bound.
@@ -59,7 +59,7 @@ fix_value(y)
 unfix(x)
 is_fixed(x)
 
-#' ## Deleting Variables
+#' ### Deleting Variables
 
 #' The `all_variables` function returns a list of all variables present in the model.
 all_variables(model)
@@ -74,12 +74,12 @@ all_variables(model)
 is_valid(model, x)
 
 
-#' # Modifying Constraints
+#' ## Modifying Constraints
 
 model = Model()
 @variable(model, x);
 
-#' ## Modifying a Variable Coefficient
+#' ### Modifying a Variable Coefficient
 #' It is also possible to modify the scalar coefficients 
 #' (but notably not yet the quadratic coefficients) using the `set_coefficient` function.
 
@@ -90,13 +90,13 @@ model = Model()
 set_coefficient(con, x, 3)
 con
 
-#' ## Deleting a Constraint
+#' ### Deleting a Constraint
 #' Just like for deleting variables, we can use the `delete` function for constraints as well.
 
 delete(model, con)
 is_valid(model, con)
 
-#' # Modifying the Objective
+#' ## Modifying the Objective
 
 model = Model()
 @variable(model, x)

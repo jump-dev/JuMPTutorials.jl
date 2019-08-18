@@ -4,19 +4,19 @@
 
 #' **Originally Contributed by**: Juan Pablo Vielma
 
-#' # Introduction
+#' ## Introduction
 
 #' Since JuMP is embedded in Julia, knowing some basic Julia is important 
 #' for learning JuMP. This notebook is designed to provide a minimalist 
 #' crash course in the basics of Julia. You can find resources that provide 
 #' a more comprehensive introduction to Julia [here](https://julialang.org/learning/).
 
-#' ## How to Print
+#' ### How to Print
 #' In Julia, we usually use println() to print
 
 println("Hello, World!")
 
-#' ## Basic Data Types
+#' ### Basic Data Types
 #' Integers
 
 typeof(1 + -2)
@@ -51,7 +51,7 @@ typeof("π is about 3.1415")
 :my_id
 typeof(:my_id)
 
-#' ## Arithmetic and Equality Testing
+#' ### Arithmetic and Equality Testing
 
 #' Julia is great for math
 
@@ -83,7 +83,7 @@ sin(2π/3) ≈ √3/2
 
 (1 + 1e-16) - 1e-16 == 1 + (1e-16 - 1e-16)
 
-#' ## Vectors, Matrices and Arrays
+#' ### Vectors, Matrices and Arrays
 #' Similar to Matlab, Julia has native support for vectors, matrices and tensors; all of which are represented by arrays of different dimensions.
 #' Vectors are constructed by comma-separated elements surrounded by square brackets:
 
@@ -115,7 +115,7 @@ b * b
 @show b' * b
 @show b * b';
 
-#' ## Tuples 
+#' ### Tuples 
 #' Julia makes extensive use of a simple data structure called Tuples.  Tuples are immutable collections of values.
 #' For example,
 
@@ -142,7 +142,7 @@ t = (word="hello", num=1.2, sym=:foo)
 
 t.word
 
-#' ## Dictionaries
+#' ### Dictionaries
 #' Similar to Python, Julia has native support for dictionaries.  Dictionaries provide a very generic way of mapping keys to values.  For example, a map of integers to strings, 
 
 d1 = Dict(1 => "A", 2 => "B", 4 => "D")
@@ -167,7 +167,7 @@ d2["B"]
 
 d2["D"][:foo]
  
-#' ## For-Each Loops 
+#' ### For-Each Loops 
 #' Julia has native support for for-each style loops with the syntax `for <value> in <collection> end`.
 
 for i in 1:5
@@ -187,7 +187,8 @@ for (key, value) in Dict("A" => 1, "B" => 2.5, "D" => 2 - 3im)
 end
 
 #' Note that in contrast to vector languages like Matlab and R, loops do not result in a significant performance degradation in Julia.
-#' ## Control Flow
+
+#' ### Control Flow
 #' Julia control flow is similar to Matlab, using the keywords `if-elseif-else-end`, and the logical operators `||` and `&&` for *or* and *and* respectively. 
 
 i = 10
@@ -205,7 +206,7 @@ for i in 0:3:15
     end
 end
 
-#' ## Comprehensions
+#' ### Comprehensions
 #' Similar to languages like Haskell and Python, Julia supports the use of simple loops in the construction of arrays and dictionaries, called comprehenions.
 #' 
 #' A list of increasing integers,
@@ -224,7 +225,7 @@ end
 
 Dict("$i" => i for i in 1:10 if i%2 == 1)
 
-#' ## Functions 
+#' ### Functions 
 #' A simple function is defined as follows,
 
 function print_hello()
@@ -260,7 +261,7 @@ mult(4.0)
 
 mult(4.0, y=5.0)
  
-#' ## Other notes on types 
+#' ### Other notes on types 
 #' Usually, specifing types is not required to use Julia.  However, it can be helpful to understand the basics of Julia types for debugging.
 #' For example this list has a type of `Array{Int64,1}` indicating that it is a one dimensional array of integer values.
 
@@ -270,7 +271,7 @@ mult(4.0, y=5.0)
 
 [1.0, 5.2, -2.1, 7]
 
-#' ## Mutable vs immutable objects 
+#' ### Mutable vs immutable objects 
 #' Some types in Julia are *mutable*, which means you can change the values inside them. A good example is an array. You can modify the contents of an array without having to make a new array.
 #' In contrast, types like `Float64` are *immutable*. You can't modify the contents of a `Float64`.
 #' This is something to be aware of when passing types into functions. For example:
@@ -295,7 +296,7 @@ println("immutable_type: $(immutable_type)")
 @show isimmutable([1, 2, 3])
 @show isimmutable(1);
 
-#' ## Using Packages and the Package Manager 
+#' ### Using Packages and the Package Manager 
 #' No matter how wonderful Julia's base language is, at some point you will want to use an extension package.  Some of these are built-in, for example random number generation is available in the `Random` package in the standard library. These packages are loaded with the commands `using` and `import`.
 
 using Random
@@ -322,11 +323,12 @@ import Pkg
 Pkg.activate(@__DIR__)
 Pkg.instantiate()
 
-#' ## HELP! 
+#' ### HELP! 
 #' Julia includes a help mode that can be accessed using `?`.  Entering any object (e.g. function, type, struct, ...) into the help mode will show its documentation, if any is available.
 
-#' ## Some Common Gotchas 
-#' ### MethodError
+#' ### Some Common Gotchas
+
+#' #### MethodError
 #' A common error in Julia is `MethodError`, which indicates that the function is not defined for the given value.  For example, by default the `ceil` function is not defined for complex numbers.  The "closest candidates" list suggest some Julia types that the function is defined for.
 #+ tangle = false
 
