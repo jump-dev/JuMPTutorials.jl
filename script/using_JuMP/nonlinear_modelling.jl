@@ -134,18 +134,6 @@ println("MLE objective: ", objective_value(mle))
 
 #+
 
-# constrained MLE
-
-@NLconstraint(mle, μ == σ^2)
-
-optimize!(mle)
-
-println("μ = ", value(μ))
-println("σ^2 = ", value(σ)^2)
-println("MLE objective: ", objective_value(mle))
-
-#+
-
 # Changing the data
 
 data = randn(n)
@@ -157,7 +145,7 @@ println("σ^2 = ", value(σ)^2)
 println("var(data) = ", var(data))
 println("MLE objective: ", objective_value(mle))
 
-#' # Disciplined Convex Programming
+#' # Writing Convex Models
 
 #' Nonlinear solvers like Ipopt are usually local solvers. 
 #' For convex problems, the local optima is also the global optima, 

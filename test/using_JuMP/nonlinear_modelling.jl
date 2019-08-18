@@ -54,17 +54,6 @@ println("var(data) = ", var(data))
 println("MLE objective: ", objective_value(mle))
 
 
-# constrained MLE
-
-@NLconstraint(mle, μ == σ^2)
-
-optimize!(mle)
-
-println("μ = ", value(μ))
-println("σ^2 = ", value(σ)^2)
-println("MLE objective: ", objective_value(mle))
-
-
 # Changing the data
 
 data = randn(n)

@@ -7,7 +7,7 @@
 #' This tutorial covers experiment design examples (D-optimal, A-optimal, and E-optimal) 
 #' from section 7.5 of the book Convex Optimization by Boyd and Vandenberghe[[1]](#c1)
 
-#' # Experiment Design
+#' ## Relaxed Experiment Design Problem
 
 #' The basic experiment design problem is as follows. 
 #' Given the menu of possible choices for experiments, $v_{1}, \ldots, v_{p}$, 
@@ -19,8 +19,6 @@
 #' $$
 #' \begin{array}{cl}{\operatorname{minimize}\left(\mathrm{w.r.t.} \mathbf{S}_{+}^{n}\right)} & {E=\left(\sum_{j=1}^{p} m_{j} v_{j} v_{j}^{T}\right)^{-1}} \\ {\text { subject to }} & {m_{i} \geq 0, \quad m_{1}+\cdots+m_{p}=m} \\ {} & {m_{i} \in \mathbf{Z}}\end{array}
 #' $$
-
-#' # Relaxed Experiment Design Problem
 
 #' The basic experiment design problem can be a hard combinatorial problem when $m,$ the total number of experiments, 
 #' is comparable to $n$ , since in this case the $m_{i}$ are all small integers. 
@@ -42,13 +40,13 @@
 #' \begin{array}{ll}{\operatorname{minimize}\left(\mathrm{w.r.t.} \mathbf{S}_{+}^{n}\right)} & {E=(1 / m)\left(\sum_{i=1}^{p} \lambda_{i} v_{i} v_{i}^{T}\right)^{-1}} \\ {\text { subject to }} & {\lambda \succeq 0, \quad \mathbf{1}^{T} \lambda=1}\end{array}
 #' $$
 
-#' # Types of Experiment Design Problems
+#' ## Types of Experiment Design Problems
 
 #' Several scalarizations have been proposed for the experiment design problem, 
 #' which is a vector optimization problem over the positive semidefinite cone.
 
 using JuMP
-using ECOS
+using SCS
 using LinearAlgebra
 
 q = 4 # dimension of estimate space
@@ -74,9 +72,9 @@ while rank(V) != q
     V = gen_V(q, p)
 end
 
-eye = Matrix{Float64}(I, q, q)
+eye = Matrix{Float64}(I, q, q);
 
-#' ## A-optimal design
+#' ### A-optimal design
 
 #' In A-optimal experiment design, we minimize tr $E$, the trace of the covariance matrix. 
 #' This objective is simply the mean of the norm of the error squared:
@@ -91,9 +89,8 @@ eye = Matrix{Float64}(I, q, q)
 #' \begin{array}{ll}{\operatorname{minimize}} & {\mathbf{1}^{T} u} \\ {\text { subject to }} & {\left[\begin{array}{cc}{\sum_{i=1}^{p} \lambda_{i} v_{i} v_{i}^{T}} & {e_{k}} \\ {e_{k}^{T}} & {u_{k}}\end{array}\right] \succeq 0, \quad k=1, \ldots, n} \\ {} & {\lambda \succeq 0, \quad \mathbf{1}^{T} \lambda=1}\end{array}
 #' $$
 
-#aOpt = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
-aOpt = Model()
-@variable(aOpt, np[1:p], Int, lower_bound = 0, upper_bound = nmax)
+aOpt = Model(with_optimizer(SCS.Optimizer, verbose = 0))
+@variable(aOpt, np[1:p], lower_bound = 0, upper_bound = nmax)
 @variable(aOpt, u[1:q], lower_bound = 0)
 
 @constraint(aOpt, sum(np) <= n)
@@ -108,7 +105,7 @@ optimize!(aOpt)
 @show objective_value(aOpt);
 @show value.(np);
 
-#' ## E-optimal design
+#' ### E-optimal design
 
 #' In $E$ -optimal design, we minimize the norm of the error covariance matrix, i.e. the maximum eigenvalue of $E$. 
 #' Since the diameter (twice the longest semi-axis) of the confidence ellipsoid $\mathcal{E}$ 
@@ -122,9 +119,8 @@ optimize!(aOpt)
 #' \begin{array}{cl}{\operatorname{maximize}} & {t} \\ {\text { subject to }} & {\sum_{i=1}^{p} \lambda_{i} v_{i} v_{i}^{T} \succeq t I} \\ {} & {\lambda \succeq 0, \quad \mathbf{1}^{T} \lambda=1}\end{array}
 #' $$
 
-#eOpt = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
-eOpt = Model()
-@variable(eOpt, np[1:p], Int, lower_bound = 0, upper_bound = nmax)
+eOpt = Model(with_optimizer(SCS.Optimizer, verbose = 0))
+@variable(eOpt, np[1:p], lower_bound = 0, upper_bound = nmax)
 @variable(eOpt, t)
 
 @SDconstraint(eOpt, V * diagm(0 => np ./ n) * V' - (t .* eye) >= 0)
@@ -137,7 +133,7 @@ optimize!(eOpt)
 @show objective_value(eOpt);
 @show value.(np);
 
-#' ## D-optimal design
+#' ### D-optimal design
 #' The most widely used scalarization is called $D$ -optimal design, 
 #' in which we minimize the determinant of the error covariance matrix $E$. 
 #' This corresponds to designing the experiment to minimize the volume of the resulting confidence ellipsoid 
@@ -149,8 +145,8 @@ optimize!(eOpt)
 #' \begin{array}{ll}{\operatorname{minimize}} & {\log \operatorname{det}\left(\sum_{i=1}^{p} \lambda_{i} v_{i} v_{i}^{T}\right)^{-1}} \\ {\text { subject to }} & {\lambda \succeq 0, \quad \mathbf{1}^{T} \lambda=1}\end{array}
 #' $$
 
-dOpt = Model()
-@variable(dOpt, np[1:p], Int, lower_bound = 0, upper_bound = nmax)
+dOpt = Model(with_optimizer(SCS.Optimizer, verbose = 0))
+@variable(dOpt, np[1:p], lower_bound = 0, upper_bound = nmax)
 @variable(dOpt, t)
 @objective(dOpt, Max, t)
 @constraint(dOpt, sum(np) <= n)
