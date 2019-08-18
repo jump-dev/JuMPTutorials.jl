@@ -6,7 +6,8 @@
 
 #' This notebook describes how to implement Benders decomposition in JuMP, which is a large scale optimization scheme. 
 #' We only discuss the classical approach (using loop) here as 
-#' the modern approach (using lazy constraints) requires solver callbacks which are not currently supported by JuMP.
+#' the modern approach (using lazy constraints) requires solver callbacks which are not currently supported by JuMP
+#' (see [#1849](https://github.com/JuliaOpt/JuMP.jl/pull/1849)).
  
 #' To illustrate implementation of Benders decomposition in JuMP,
 #' we apply it to the following general mixed integer problem:
@@ -88,7 +89,10 @@
 #'
 #'  * If $f_s(x^{(k)}) < f_m^{(k)}$ we get an suboptimal vertex $u^{(k)}$. 
 #' We add the corresponding Benders cut $u_0 + (A_1^T u^{(k)} - c_1)^T x \leq b^T u^{(k)}$ to the master problem, i.e., $T(k+1) := T(k) \cup \{u^{(k)}\}$. Take $k:=k+1$ and go to Step 3.
- 
+
+#' For a more general approach to Bender's Decomposition you can have a look at 
+#' [Mathieu Besançon's blog](https://matbesancon.github.io/post/2019-05-08-simple-benders/).
+
 #' ## Data for the problem
 
 #' The input data is from page 139, Integer programming by Garfinkel and Nemhauser[[1]](#c1).
