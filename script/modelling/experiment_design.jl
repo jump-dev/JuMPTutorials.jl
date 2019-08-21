@@ -51,26 +51,10 @@ using LinearAlgebra
 
 q = 4 # dimension of estimate space
 p = 8 # number of experimental vectors
-n = 12 # 
 nmax = 3 # upper bound on lambda
+n = 12 
 
-function gen_V(q, p)
-    V = Array{Float64}(undef, q, p)
-    for i in 1:q, j in 1:p
-        v = randn()
-        if abs(v) < 1e-2
-            v = 0.
-        end
-        V[i, j] = v
-    end
-    return V
-end
-
-V = gen_V(q, p)
-
-while rank(V) != q
-    V = gen_V(q, p)
-end
+V = randn(q, p)
 
 eye = Matrix{Float64}(I, q, q);
 
@@ -151,7 +135,7 @@ dOpt = Model(with_optimizer(SCS.Optimizer, verbose = 0))
 @objective(dOpt, Max, t)
 @constraint(dOpt, sum(np) <= n)
 E = V * diagm(0 => np ./ n) * V'
-@constraint(dOpt, [t, E[:]...] in MOI.LogDetConeSquare(q))
+@constraint(dOpt, [t, 1, (E[i, j] for i in 1:q for j in 1:i)...] in MOI.LogDetConeTriangle(q))
 
 optimize!(dOpt)
 
