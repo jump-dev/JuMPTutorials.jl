@@ -1,5 +1,7 @@
 
-using JuMP
+using JuMP, Random
+
+Random.seed!(1234);
 
 
 a = rand(1:100, 5, 5)

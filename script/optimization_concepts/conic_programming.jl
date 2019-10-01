@@ -39,6 +39,9 @@
 
 using JuMP
 using ECOS
+using Random
+
+Random.seed!(1234);
 
 #' By this point we have used quite a few different solvers. 
 #' To find out all the different solvers and their supported problem types, check out the 

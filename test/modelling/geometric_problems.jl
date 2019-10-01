@@ -1,9 +1,12 @@
 
 using JuMP
 using Ipopt
+using Random
 # for plots
 using Gadfly
 using DataFrames
+
+Random.seed!(1234);
 
 
 x = rand(10)

@@ -2,6 +2,9 @@
 using JuMP
 using SCS
 using LinearAlgebra
+using Random
+
+Random.seed!(1234);
 
 q = 4 # dimension of estimate space
 p = 8 # number of experimental vectors
