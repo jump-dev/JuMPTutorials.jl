@@ -5,7 +5,7 @@
 [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://www.juliaopt.org/JuMPTutorials.jl/dev/)
 
 
-This repository contains tutorials on JuMP, a domain-specific modeling language for [mathematical optimization](http://en.wikipedia.org/wiki/Mathematical_optimization) embedded in [Julia](http://julialang.org/). Tutorials can be viewed in the form of webpages, and interactive Jupyter notebooks. This set of tutorials is made to complement the documentation by providing practical examples of the concepts. For more details, please consult the [JuMP documentation](http://www.juliaopt.org/JuMP.jl/v0.19.1/).
+This repository contains tutorials on JuMP, a domain-specific modeling language for [mathematical optimization](http://en.wikipedia.org/wiki/Mathematical_optimization) embedded in [Julia](http://julialang.org/). Tutorials can be viewed in the form of webpages, and interactive Jupyter notebooks. This set of tutorials is made to complement the documentation by providing practical examples of the concepts. For more details, please consult the [JuMP documentation](https://www.juliaopt.org/JuMP.jl/v0.20/).
 
 These tutorials are currently under development as a part of a Google Summer of Code [project](https://summerofcode.withgoogle.com/projects/#5903911565656064). The current list of tutorials that are planned can be viewed at the following [issue](https://github.com/JuliaOpt/JuMPTutorials.jl/issues/1). If there is a tutorial you would like to request, please add a comment to the above issue. Any other suggestions are welcome as well.
 
