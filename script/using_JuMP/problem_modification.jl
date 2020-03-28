@@ -81,13 +81,13 @@ model = Model()
 
 #' ### Modifying a Variable Coefficient
 #' It is also possible to modify the scalar coefficients 
-#' (but notably not yet the quadratic coefficients) using the `set_coefficient` function.
+#' (but notably not yet the quadratic coefficients) using the `set_normalized_coefficient` function.
 
 @constraint(model, con, 2x <= 1);
 
 #+
 
-set_coefficient(con, x, 3)
+set_normalized_coefficient(con, x, 3)
 con
 
 #' ### Deleting a Constraint

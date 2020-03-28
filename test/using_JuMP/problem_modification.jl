@@ -50,7 +50,7 @@ model = Model()
 @constraint(model, con, 2x <= 1);
 
 
-set_coefficient(con, x, 3)
+set_normalized_coefficient(con, x, 3)
 con
 
 
