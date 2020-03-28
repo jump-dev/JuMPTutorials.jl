@@ -112,7 +112,7 @@ function solve_ed_inplace(c_w_scale)
         push!(g2_out, value(g[2]))
     end
     elapsed = time() - start
-    print(string("elapsed time:", elapsed, "seconds"))
+    print(string("elapsed time: ", elapsed, " seconds"))
     return obj_out, w_out, g1_out, g2_out
 end
 
@@ -162,6 +162,9 @@ function solve_uc(g_max, g_min, c_g, c_w, d, w_f)
     optimize!(uc)
     
     status = termination_status(uc)
+    if status != MOI.OPTIMAL
+        return status, zeros(length(g)), 0.0, 0.0, zeros(length(u)), Inf
+    end
     return status, value.(g), value(w), w_f - value(w), value.(u), objective_value(uc)
 end
 
