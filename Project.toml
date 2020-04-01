@@ -20,6 +20,7 @@ MathOptInterface = "b8f27783-ece8-5eb3-8dc8-9495eed66fee"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 SCS = "c946c3f1-0d1f-5ce8-9dea-7daa1f7e2d13"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 Weave = "44d3d7a6-8a23-5bf8-98c5-b353f8df5ec9"
 XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 
@@ -31,9 +32,3 @@ LightGraphs = "1"
 Weave = "0.9"
 XLSX = "0.6"
 julia = "1"
-
-[extras]
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-
-[targets]
-test = ["Test"]
