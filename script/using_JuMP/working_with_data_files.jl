@@ -44,7 +44,6 @@ using XLSX
 
 #+
 
-current_dir = @__DIR__
 data_dir = joinpath(@__DIR__, "data")
 excel_df = DataFrame(XLSX.readtable(joinpath(data_dir, "SalesData.xlsx"), "SalesOrders")...)
 
