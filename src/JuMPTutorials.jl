@@ -29,7 +29,7 @@ function weave_file(folder,file)
 
     if mtime(srcpath) > mtime(notebookpath) || mtime(notebookpath)==0
         @warn "Weaving $filename to Jupyter Notebook as it has been updated since the last weave."
-        notebook(srcpath, notebookpath, -1, "--allow-errors")
+        notebook(srcpath, out_path=notebookpath, timeout=-1, nbconvert_options="--allow-errors")
     else
         @warn "Skipping Jupyter Notebook for $filename as it has not been updated."
     end
