@@ -4,15 +4,16 @@ using GLPK
 using GraphPlot 
 using LightGraphs
 using Colors
+using LinearAlgebra
 
 
 G = [
-0 1 0 0 0 0;
-1 0 1 1 0 0;
-0 1 0 0 1 1;
-0 1 0 0 1 0;
-0 0 1 1 0 0;
-0 0 1 0 0 0
+    0 1 0 0 0 0;
+    1 0 1 1 0 0;
+    0 1 0 0 1 1;
+    0 1 0 0 1 0;
+    0 0 1 1 0 0;
+    0 0 1 0 0 0;
 ]
 
 g = SimpleGraph(G)
@@ -30,7 +31,7 @@ optimize!(vertex_cover)
 @show value.(y);
 
 
-membership = convert(Array{Int},value.(y)) # Change to Int 
+membership = convert(Array{Int}, value.(y)) # Change to Int 
 membership = membership + ones(Int, nv(g)) # Make the color groups one indexed
 nodecolor = [colorant"red", colorant"blue"] # Blue to represent vertices in the cover
 nodefillc = nodecolor[membership]
@@ -38,17 +39,17 @@ gplot(g, nodefillc = nodefillc)
 
 
 G = [
-0 1 0 0 0 0 0 0 0 1 0 ;
-1 0 1 0 0 0 0 0 0 0 1;
-0 1 0 1 0 1 0 0 0 0 0;
-0 0 1 0 1 0 0 0 0 0 0;
-0 0 0 1 0 1 0 0 0 0 0;
-0 0 1 0 1 0 1 0 0 0 0;
-0 0 0 0 0 1 0 1 0 0 0;
-0 0 0 0 0 0 1 0 1 0 1;
-0 0 0 0 0 0 0 1 0 1 1;
-1 0 0 0 0 0 0 0 1 0 1;
-0 1 0 0 0 0 0 1 1 1 0
+    0 1 0 0 0 0 0 0 0 1 0 ;
+    1 0 1 0 0 0 0 0 0 0 1;
+    0 1 0 1 0 1 0 0 0 0 0;
+    0 0 1 0 1 0 0 0 0 0 0;
+    0 0 0 1 0 1 0 0 0 0 0;
+    0 0 1 0 1 0 1 0 0 0 0;
+    0 0 0 0 0 1 0 1 0 0 0;
+    0 0 0 0 0 0 1 0 1 0 1;
+    0 0 0 0 0 0 0 1 0 1 1;
+    1 0 0 0 0 0 0 0 1 0 1;
+    0 1 0 0 0 0 0 1 1 1 0;
 ]
 
 g = SimpleGraph(G)
@@ -59,7 +60,7 @@ gplot(g)
 dominating_set = Model(GLPK.Optimizer)
 
 @variable(dominating_set, x[1:nv(g)], Bin)
-@constraint(dominating_set, [i = 1:nv(g)], sum(G[i,:] .* x) >= 1)
+@constraint(dominating_set, [i = 1:nv(g)], dot(G[i,:], x) >= 1)
 @objective(dominating_set, Min, sum(x))
 
 optimize!(dominating_set)
@@ -74,14 +75,14 @@ gplot(g, nodefillc = nodefillc)
 
 
 G = [
-0 0 0 0 1 0 0 0;
-0 0 0 0 0 1 0 0;
-0 0 0 0 0 0 1 0;
-0 0 0 0 0 0 0 1;
-1 0 0 0 0 1 0 1;
-0 1 0 0 1 0 1 0;
-0 0 1 0 0 1 0 1;
-0 0 0 1 1 0 1 0;
+    0 0 0 0 1 0 0 0;
+    0 0 0 0 0 1 0 0;
+    0 0 0 0 0 0 1 0;
+    0 0 0 0 0 0 0 1;
+    1 0 0 0 0 1 0 1;
+    0 1 0 0 1 0 1 0;
+    0 0 1 0 0 1 0 1;
+    0 0 0 1 1 0 1 0;
 ]
 
 g = SimpleGraph(G)
@@ -102,16 +103,16 @@ optimize!(matching)
 
 
 G = [
-0 1 0 0 1 1 0 0 0 0;
-1 0 1 0 0 0 1 0 0 0;
-0 1 0 1 0 0 0 1 0 0;
-0 0 1 0 1 0 0 0 1 0;
-1 0 0 1 0 0 0 0 0 1;
-1 0 0 0 0 0 1 0 0 1;
-0 1 0 0 0 1 0 1 0 0;
-0 0 1 0 0 0 1 0 1 0;
-0 0 0 1 0 0 0 1 0 1;
-0 0 0 0 1 1 0 0 1 0;
+    0 1 0 0 1 1 0 0 0 0;
+    1 0 1 0 0 0 1 0 0 0;
+    0 1 0 1 0 0 0 1 0 0;
+    0 0 1 0 1 0 0 0 1 0;
+    1 0 0 1 0 0 0 0 0 1;
+    1 0 0 0 0 0 1 0 0 1;
+    0 1 0 0 0 1 0 1 0 0;
+    0 0 1 0 0 0 1 0 1 0;
+    0 0 0 1 0 0 0 1 0 1;
+    0 0 0 0 1 1 0 0 1 0;
 ]
 
 g = SimpleGraph(G)
