@@ -14,7 +14,4 @@ makedocs(
     ]
 )
 
-Documenter.deploydocs(
-    repo = "github.com/barpit20/JuMPTutorials.jl.git",
-    target = "build"
-)
+Documenter.deploydocs(repo = "github.com/JuliaOpt/JuMPTutorials.jl.git")
