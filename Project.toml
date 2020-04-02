@@ -25,6 +25,10 @@ Weave = "44d3d7a6-8a23-5bf8-98c5-b353f8df5ec9"
 XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 
 [compat]
+CSV = "0.6"
+DataFrames = "0.20"
 JuMP = "0.20"
+LightGraphs = "1"
 Weave = "0.9"
+XLSX = "0.6"
 julia = "1"

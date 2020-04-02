@@ -44,7 +44,8 @@ using XLSX
 
 #+
 
-excel_df = DataFrame(XLSX.readtable("data/SalesData.xlsx", "SalesOrders")...)
+data_dir = joinpath(@__DIR__, "data")
+excel_df = DataFrame(XLSX.readtable(joinpath(data_dir, "SalesData.xlsx"), "SalesOrders")...)
 
 #' ### CSV Files
 #' CSV and other delimited text files can be read the CSV.jl package.
@@ -55,7 +56,7 @@ Pkg.add("CSV")
 #' To read a CSV file into a DataFrame, we use the `CSV.read` function. 
 
 using CSV
-csv_df = CSV.read("data/StarWars.csv")
+csv_df = CSV.read(joinpath(data_dir, "StarWars.csv"))
 
 #' ### Other Delimited Files
 #' We can also use the CSV.jl package to read any other delimited text file format. 
@@ -63,16 +64,16 @@ csv_df = CSV.read("data/StarWars.csv")
 #' Candidate delimiters include `','`, `'\t'`, `' '`, `'|'`, `';'`, and `':'`. If it can't auto-detect the delimiter, it will assume `','`.
 #' Let's take the example of space separated data.
 
-ss_df = CSV.read("data/Cereal.txt")
+ss_df = CSV.read(joinpath(data_dir, "Cereal.txt"))
 
 #' We can also specify the delimiter by passing the `delim` arguement.
 
-delim_df = CSV.read("data/Soccer.txt", delim = "::")
+delim_df = CSV.read(joinpath(data_dir, "Soccer.txt"), delim = "::")
 
 #' Note that by default, are read-only. If we wish to make changes to the data read, we pass the `copycols = true` arguement in the function call.
 #+ tangle = false
 
-ss_df = CSV.read("data/Cereal.txt", copycols = true)
+ss_df = CSV.read(joinpath(data_dir, "Cereal.txt"), copycols = true)
 
 
 #' ## Working with DataFrames
@@ -95,9 +96,9 @@ describe(ss_df)
 
 names(ss_df)
 
-#' Correspong data types are obtained using the `eltypes` function.
+#' Corresponding data types are obtained using the broadcasted `eltype` function.
 
-eltypes(ss_df)
+eltype.(ss_df)
 
 #' ### Accessing the Data
 #' Similar to regular arrays, we use numerical indexing to access elements of a DataFrame.
@@ -106,11 +107,11 @@ csv_df[1,1]
 
 #' The following are different ways to access a column.
 
-csv_df[1]
+csv_df[!, 1]
 
 #+
 
-csv_df[:Name]
+csv_df[!, :Name]
 
 #+
 
@@ -132,7 +133,7 @@ csv_df[1, :] # this produces a DataFrameRow
 
 #' Assign a range to scalar.
 
-excel_df[1:3, 5] = 1
+excel_df[1:3, 5] .= 1
 
 #' Vector to equal length vector.
 
@@ -140,7 +141,7 @@ excel_df[4:6, 5] = [4, 5, 6]
 
 #' Subset of the DataFrame to another data frame of matching size.
 
-excel_df[1:2, 6:7] = DataFrame([-2 -2; -2 -2])
+excel_df[1:2, 6:7] =  DataFrame([-2 -2; -2 -2], [Symbol("Unit Cost"), :Total])
 
 #+
 
@@ -168,7 +169,7 @@ excel_df
 #' Our task is to find out the minimum number of passports needed to visit every country without requiring a visa.
 #' Thus, the values we are interested in are -1 and 3. Let us modify the data in the following manner -
 
-passportdata = CSV.read("data/passport-index-matrix.csv", copycols = true)
+passportdata = CSV.read(joinpath(data_dir, "passport-index-matrix.csv"), copycols = true)
 
 for i in 1:nrow(passportdata)
     for j in 2:ncol(passportdata)

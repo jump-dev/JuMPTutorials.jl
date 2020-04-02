@@ -3,17 +3,18 @@ using DataFrames
 using XLSX
 
 
-excel_df = DataFrame(XLSX.readtable("data/SalesData.xlsx", "SalesOrders")...)
+data_dir = joinpath(@__DIR__, "data")
+excel_df = DataFrame(XLSX.readtable(joinpath(data_dir, "SalesData.xlsx"), "SalesOrders")...)
 
 
 using CSV
-csv_df = CSV.read("data/StarWars.csv")
+csv_df = CSV.read(joinpath(data_dir, "StarWars.csv"))
 
 
-ss_df = CSV.read("data/Cereal.txt")
+ss_df = CSV.read(joinpath(data_dir, "Cereal.txt"))
 
 
-delim_df = CSV.read("data/Soccer.txt", delim = "::")
+delim_df = CSV.read(joinpath(data_dir, "Soccer.txt"), delim = "::")
 
 
 size(ss_df)
@@ -28,16 +29,16 @@ describe(ss_df)
 names(ss_df)
 
 
-eltypes(ss_df)
+eltype.(ss_df)
 
 
 csv_df[1,1]
 
 
-csv_df[1]
+csv_df[!, 1]
 
 
-csv_df[:Name]
+csv_df[!, :Name]
 
 
 csv_df.Name
@@ -52,19 +53,19 @@ csv_df[1:1, :]
 csv_df[1, :] # this produces a DataFrameRow
 
 
-excel_df[1:3, 5] = 1
+excel_df[1:3, 5] .= 1
 
 
 excel_df[4:6, 5] = [4, 5, 6]
 
 
-excel_df[1:2, 6:7] = DataFrame([-2 -2; -2 -2])
+excel_df[1:2, 6:7] =  DataFrame([-2 -2; -2 -2], [Symbol("Unit Cost"), :Total])
 
 
 excel_df
 
 
-passportdata = CSV.read("data/passport-index-matrix.csv", copycols = true)
+passportdata = CSV.read(joinpath(data_dir, "passport-index-matrix.csv"), copycols = true)
 
 for i in 1:nrow(passportdata)
     for j in 2:ncol(passportdata)
