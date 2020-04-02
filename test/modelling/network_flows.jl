@@ -13,7 +13,7 @@ G = [
 
 n = size(G)[1]
 
-shortest_path = Model(with_optimizer(GLPK.Optimizer))
+shortest_path = Model(GLPK.Optimizer)
 
 @variable(shortest_path, x[1:n,1:n], Bin)
 @constraint(shortest_path, [i = 1:n, j = 1:n; G[i,j] == 0], x[i,j] == 0) # Arcs with zero cost are not a part of the path as they do no exist
@@ -36,7 +36,7 @@ G = [
 
 n = size(G)[1]
 
-assignment = Model(with_optimizer(GLPK.Optimizer))
+assignment = Model(GLPK.Optimizer)
 @variable(assignment, y[1:n,1:n], Bin)
 @constraint(assignment, [i = 1:n], sum(y[:,i]) == 1) # One person can only be assigned to one object
 @constraint(assignment, [j = 1:n], sum(y[j,:]) == 1) # One object can only be assigned to one person
@@ -60,7 +60,7 @@ G = [
 
 n = size(G)[1]
 
-max_flow = Model(with_optimizer(GLPK.Optimizer))
+max_flow = Model(GLPK.Optimizer)
 
 @variable(max_flow, f[1:n,1:n] >= 0)
 @constraint(max_flow, [i = 1:n, j = 1:n], f[i,j] <= G[i,j]) # Capacity constraints

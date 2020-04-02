@@ -20,7 +20,7 @@ g = SimpleGraph(G)
 gplot(g)
 
 
-vertex_cover = Model(with_optimizer(GLPK.Optimizer))
+vertex_cover = Model(GLPK.Optimizer)
 
 @variable(vertex_cover, y[1:nv(g)], Bin)
 @constraint(vertex_cover, [i = 1:nv(g), j = 1:nv(g); G[i,j] == 1], y[i] + y[j] >= 1)
@@ -56,7 +56,7 @@ g = SimpleGraph(G)
 gplot(g)
 
 
-dominating_set = Model(with_optimizer(GLPK.Optimizer))
+dominating_set = Model(GLPK.Optimizer)
 
 @variable(dominating_set, x[1:nv(g)], Bin)
 @constraint(dominating_set, [i = 1:nv(g)], sum(G[i,:] .* x) >= 1)
@@ -89,7 +89,7 @@ g = SimpleGraph(G)
 gplot(g)
 
 
-matching = Model(with_optimizer(GLPK.Optimizer))
+matching = Model(GLPK.Optimizer)
 
 @variable(matching, m[i = 1:nv(g), j = 1:nv(g)], Bin)
 @constraint(matching, [i = 1:nv(g)], sum(m[i,:]) <= 1)
@@ -121,7 +121,7 @@ gplot(g)
 
 k = nv(g)
 
-k_colouring = Model(with_optimizer(GLPK.Optimizer))
+k_colouring = Model(GLPK.Optimizer)
 
 @variable(k_colouring, z[1:k], Bin)
 @variable(k_colouring, c[1:nv(g),1:k], Bin)

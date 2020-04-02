@@ -51,7 +51,7 @@
 using JuMP, Ipopt
 
 # Create JuMP model, using Ipopt as the solver
-rocket = Model(with_optimizer(Ipopt.Optimizer, print_level=0))
+rocket = Model(optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0))
 
 # Constants
 # Note that all parameters in the model have been normalized

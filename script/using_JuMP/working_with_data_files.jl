@@ -209,7 +209,7 @@ using JuMP, GLPK
 # Finding number of countries
 n = ncol(passportdata) - 1 # Subtract 1 for column representing country of passport
 
-model = Model(with_optimizer(GLPK.Optimizer))
+model = Model(GLPK.Optimizer)
 @variable(model, pass[1:n], Bin)
 @constraint(model, [j = 2:n], sum(passportdata[i,j] * pass[i] for i in 1:n) >= 1)
 @objective(model, Min, sum(pass))

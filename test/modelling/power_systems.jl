@@ -22,7 +22,7 @@ w_f = 200;
 # In this cell we create function solve_ed, which solves the economic dispatch problem for a given set of input parameters.
 function solve_ed(g_max, g_min, c_g, c_w, d, w_f)
     #Define the economic dispatch (ED) model
-    ed = Model(with_optimizer(GLPK.Optimizer))
+    ed = Model(GLPK.Optimizer)
     
     # Define decision variables    
     @variable(ed, 0 <= g[i = 1:2] <= g_max[i]) # power output of generators
@@ -82,7 +82,7 @@ function solve_ed_inplace(c_w_scale)
     g1_out = Float64[]
     g2_out = Float64[]
     
-    ed = Model(with_optimizer(GLPK.Optimizer))
+    ed = Model(GLPK.Optimizer)
     
     # Define decision variables    
     @variable(ed, 0 <= g[i = 1:2] <= g_max[i]) # power output of generators
@@ -138,7 +138,7 @@ demandscale_df
 # In this cell we introduce binary decision u to the economic dispatch problem (function solve_ed)
 function solve_uc(g_max, g_min, c_g, c_w, d, w_f)
     #Define the unit commitment (UC) model
-    uc = Model(with_optimizer(GLPK.Optimizer))
+    uc = Model(GLPK.Optimizer)
     
     # Define decision variables    
     @variable(uc, 0 <= g[i=1:2] <= g_max[i]) # power output of generators

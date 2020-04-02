@@ -168,7 +168,7 @@ end
 
 using GLPK
 
-model = Model(with_optimizer(GLPK.Optimizer))
+model = Model(GLPK.Optimizer)
 @variable(model, x >= 0)
 @variable(model, y >= 0)
 set_objective_sense(model, MOI.MIN_SENSE)
@@ -204,7 +204,7 @@ objective_function_type(model)
 #' \end{align*}
 #' $$
 
-vector_model = Model(with_optimizer(GLPK.Optimizer))
+vector_model = Model(GLPK.Optimizer)
 
 A= [ 1 1 9  5;
      3 5 0  8;
