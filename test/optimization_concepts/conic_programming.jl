@@ -1,6 +1,9 @@
 
 using JuMP
 using ECOS
+using Random
+
+Random.seed!(1234);
 
 
 u0 = rand(10)

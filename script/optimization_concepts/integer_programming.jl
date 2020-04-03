@@ -7,7 +7,9 @@
 #' While we already know how to set a variable as integer or binary in the `@variable` macro, 
 #' this tutorial covers other JuMP features for integer programming along with some modelling techniques.
 
-using JuMP
+using JuMP, Random
+
+Random.seed!(1234);
 
 #' ## Modelling Logical Conditions
 #' Generally, in a mathematical programming problem, all constraints must hold. 
