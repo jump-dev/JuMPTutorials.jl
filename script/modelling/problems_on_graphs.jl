@@ -67,7 +67,7 @@ optimize!(vertex_cover)
 
 #+
 
-membership = convert(Array{Int}, value.(y)) # Change to Int 
+membership = round.(Int, value.(y)) # Change to Int 
 membership = membership + ones(Int, nv(g)) # Make the color groups one indexed
 nodecolor = [colorant"red", colorant"blue"] # Blue to represent vertices in the cover
 nodefillc = nodecolor[membership]

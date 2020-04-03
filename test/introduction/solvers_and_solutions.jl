@@ -22,7 +22,7 @@ optimize!(model_auto_no)
 objective_value(model_auto_no)
 
 
-model_manual = Model(GLPK.Optimizer,caching_mode = MOIU.MANUAL)
+model_manual = Model(GLPK.Optimizer, caching_mode = MOIU.MANUAL)
 @variable(model_manual, 0 <= x <= 1)
 @variable(model_manual, 0 <= y <= 1)
 @constraint(model_manual, x + y <= 1)

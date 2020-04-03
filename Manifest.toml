@@ -467,9 +467,9 @@ version = "1.0.2"
 
 [[MutableArithmetics]]
 deps = ["LinearAlgebra", "SparseArrays", "Test"]
-git-tree-sha1 = "020d4f22e1151e0613edf91a56535379564c1ce8"
+git-tree-sha1 = "be48bfee38b4cf3baaa3f0de5a769b607651e35d"
 uuid = "d8a4904e-b15c-11e9-3269-09a3773c0cb0"
-version = "0.2.7"
+version = "0.2.8"
 
 [[NLSolversBase]]
 deps = ["Calculus", "DiffEqDiffTools", "DiffResults", "Distributed", "ForwardDiff"]
