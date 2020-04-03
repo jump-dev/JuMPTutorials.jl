@@ -49,12 +49,6 @@ git-tree-sha1 = "5b08ed6036d9d3f0ee6369410b830f8873d4024c"
 uuid = "b99e7846-7c00-51b0-8f62-c81ae34c0232"
 version = "0.5.8"
 
-[[CSDP]]
-deps = ["BinDeps", "Glob", "Libdl", "LinearAlgebra", "MathOptInterface", "MathProgBase", "SemidefiniteModels", "SparseArrays"]
-git-tree-sha1 = "4e6e189ac8c05c9d31d36d9dff82f5aaab2d402d"
-uuid = "0a46da34-8e4b-519e-b418-48813639ff34"
-version = "0.5.4"
-
 [[CSV]]
 deps = ["CategoricalArrays", "DataFrames", "Dates", "FilePathsBase", "Mmap", "Parsers", "PooledArrays", "Tables", "Unicode", "WeakRefStrings"]
 git-tree-sha1 = "c0f38b559c40d954ca7170ab91248eb59c41932d"
@@ -260,23 +254,11 @@ git-tree-sha1 = "3420033e843e140d9237238d69937a5bc7292e5a"
 uuid = "60bf3e95-4087-53dc-ae20-288a0d20c6a6"
 version = "0.12.1"
 
-[[GZip]]
-deps = ["Libdl"]
-git-tree-sha1 = "039be665faf0b8ae36e089cd694233f5dee3f7d6"
-uuid = "92fee26a-97fe-5a0c-ad85-20a5f3185b63"
-version = "0.5.1"
-
 [[Gadfly]]
 deps = ["Base64", "CategoricalArrays", "Colors", "Compose", "Contour", "CoupledFields", "DataStructures", "Dates", "Distributions", "DocStringExtensions", "Hexagons", "IndirectArrays", "IterTools", "JSON", "Juno", "KernelDensity", "LinearAlgebra", "Loess", "Measures", "Printf", "REPL", "Random", "Requires", "Showoff", "Statistics"]
 git-tree-sha1 = "fb92aef6380b6d9a252b2200c9405fcfdad31065"
 uuid = "c91e804a-d5a3-530f-b6f0-dfbca275c004"
 version = "1.2.1"
-
-[[Glob]]
-deps = ["Compat", "Test"]
-git-tree-sha1 = "c72f1fcb7d17426de1e8af2e948dfb3de1116eed"
-uuid = "c27321d9-0574-5035-807b-f59d2c89b15c"
-version = "1.2.0"
 
 [[GraphPlot]]
 deps = ["ArnoldiMethod", "ColorTypes", "Colors", "Compose", "DelimitedFiles", "LightGraphs", "LinearAlgebra", "Random", "SparseArrays", "Test"]
@@ -586,12 +568,6 @@ version = "0.6.6"
 
 [[SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
-
-[[SemidefiniteModels]]
-deps = ["Compat", "GZip", "MathProgBase"]
-git-tree-sha1 = "9bda87fca08de6601f0ecbb5e812de14cd878b4a"
-uuid = "169818f4-1a3d-53bf-95b3-11177825b1e3"
-version = "0.1.1"
 
 [[Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"

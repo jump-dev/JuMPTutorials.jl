@@ -261,13 +261,13 @@ optimize!(model);
 #+ tangle = false
 
 using LinearAlgebra
-using CSDP
+using SCS
 
 A = [3 2 4;
      2 0 2;
      4 2 3]
 
-model = Model(optimizer_with_attributes(CSDP.Optimizer, "printlevel" => 0))
+model = Model(optimizer_with_attributes(SCS.Optimizer, "verbose" => 0))
 @variable(model, t)
 @objective(model, Min, t)
 @constraint(model, t .* Matrix{Float64}(I, 3, 3) - A in PSDCone())

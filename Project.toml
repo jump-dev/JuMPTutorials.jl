@@ -4,7 +4,6 @@ authors = ["Arpit Bhatia <arpit16229@iiitd.ac.in>"]
 version = "0.1.0"
 
 [deps]
-CSDP = "0a46da34-8e4b-519e-b418-48813639ff34"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 Cbc = "9961bab8-2fa3-5c5a-9d89-47fab24efd76"
 Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
@@ -26,7 +25,6 @@ Weave = "44d3d7a6-8a23-5bf8-98c5-b353f8df5ec9"
 XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 
 [compat]
-CSDP = "0.5"
 CSV = "0.6"
 DataFrames = "0.20"
 JuMP = "0.21"
