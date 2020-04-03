@@ -9,9 +9,12 @@
 
 using JuMP
 using Ipopt
+using Random
 # for plots
 using Gadfly
 using DataFrames
+
+Random.seed!(1234);
 
 #' ## Euclidean Projection on a Hyperplane
 #' For a given point $x_{0}$ and a set $C$, we refer to any point $z \in C$ 

@@ -32,6 +32,8 @@ register(model, :my_function, 2, my_function, autodiff = true)
 
 using Random, Statistics
 
+Random.seed!(1234)
+
 n = 1_000
 data = randn(n)
 

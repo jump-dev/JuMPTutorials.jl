@@ -4,15 +4,18 @@ os:
   - linux
 julia:
   - 1.0
-  - 1.1
+  - 1.4
+  - nightly
 notifications:
   email: false
 jobs:
+  allow_failures:
+    - julia: nightly
   include:
     - stage: "Documentation"
       julia: 1.0
       os: linux
       script:
-        - julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.instantiate()'
-        - julia --project=docs/ docs/make.jl
+        - julia --project=docs/ -e 'using Pkg; Pkg.instantiate(); Pkg.develop(PackageSpec(path=pwd()))'
+        - julia --color=yes --project=docs/ docs/make.jl
       after_success: skip

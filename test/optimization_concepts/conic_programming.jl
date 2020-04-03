@@ -2,6 +2,9 @@
 using JuMP
 using ECOS
 using LinearAlgebra
+using Random
+
+Random.seed!(1234);
 
 
 u0 = rand(10)
