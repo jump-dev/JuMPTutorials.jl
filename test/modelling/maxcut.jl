@@ -7,6 +7,8 @@ using JuMP
 using GLPK
 using LightGraphs
 using GraphPlot
+import SCS
+using Colors: @colorant_str
 
 
 # TODO explain problem
@@ -62,7 +64,16 @@ x_linear = value.(x)
 @show [(i,j) for i in 1:n-1 for j in i+1:n if JuMP.value.(z)[i,j] > 0.5];
 
 
-sdp_max_cut = Model(SCS.Optimizer)
+nodecolor = [colorant"lightseagreen", colorant"orange"]
+all_node_colors = [nodecolor[round(Int, xi + 1)]  for xi in x_linear]
+GraphPlot.gplot(g, nodelabel=1:6, nodefillc=all_node_colors)
+
+# membership color
+nodefillc = nodecolor[membership]
+gplot(g, nodefillc=nodefillc)
+
+
+sdp_max_cut = Model(optimizer_with_attributes(SCS.Optimizer, "verbose" => 0))
 
 @variable(sdp_max_cut, Y[1:n,1:n] in PSDCone())
 @constraint(sdp_max_cut, [i = 1:n], Y[i,i] == 1)
@@ -73,8 +84,6 @@ optimize!(sdp_max_cut)
 @test objective_value(linear_max_cut) >= 6.0
 @show objective_value(linear_max_cut);
 
-@show value.(Y);
-
 
 F = svd(value.(Y))
 xhat_unnormalized = F.U[:,1]
@@ -84,4 +93,9 @@ end
 
 @show collect(zip(round.(Int, x_linear), xhat))
 @test LinearAlgebra.norm1(round.(Int, x_linear) .- xhat) == 0 || LinearAlgebra.norm1(round.(Int, x_linear) .- xhat) == n
+
+
+nodecolor = [colorant"lightseagreen", colorant"orange"]
+all_node_colors = [nodecolor[xi + 1] for xi in xhat]
+GraphPlot.gplot(g, nodelabel=1:6, nodefillc=all_node_colors)
 
