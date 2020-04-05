@@ -4,7 +4,7 @@ using GLPK
 
 
 # Create a model
-sudoku = Model(with_optimizer(GLPK.Optimizer))
+sudoku = Model(GLPK.Optimizer)
 
 # Create our variables
 @variable(sudoku, x[i=1:9, j=1:9, k=1:9], Bin);

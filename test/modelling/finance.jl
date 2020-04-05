@@ -3,7 +3,7 @@ using JuMP
 using GLPK
 
 
-financing = Model(with_optimizer(GLPK.Optimizer))
+financing = Model(GLPK.Optimizer)
 
 @variables(financing, begin
     0 <= u[1:5] <= 100
@@ -30,7 +30,7 @@ optimize!(financing)
 bid_values = [6 3 12 12 8 16]
 bid_items = [[1], [2], [3 4], [1 3], [2 4], [1 3 4]]
 
-auction = Model(with_optimizer(GLPK.Optimizer))
+auction = Model(GLPK.Optimizer)
 @variable(auction, y[1:6], Bin)
 @objective(auction, Max, sum(y' .* bid_values))
 for i in 1:6
@@ -64,10 +64,10 @@ stock_data = [
 
 # Calculating stock returns
 
-stock_returns = Array{Float64}(undef, 12, 3) 
+stock_returns = Array{Float64}(undef, 12, 3)
 
 for i in 1:12
-    stock_returns[i, :] = (stock_data[i + 1, :] .- stock_data[i, :]) ./ stock_data[i, :] 
+    stock_returns[i, :] = (stock_data[i + 1, :] .- stock_data[i, :]) ./ stock_data[i, :]
 end
 
 # Calculating the expected value of monthly return
@@ -81,7 +81,7 @@ Q = Statistics.cov(stock_returns)
 
 # JuMP Model
 
-portfolio = Model(with_optimizer(Ipopt.Optimizer, print_level=0))
+portfolio = Model(optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0))
 @variable(portfolio, x[1:3] >= 0)
 @objective(portfolio, Min, x' * Q * x)
 @constraint(portfolio, sum(x) <= 1000)
@@ -91,4 +91,6 @@ optimize!(portfolio)
 
 @show objective_value(portfolio);
 @show value.(x);
+
+
 

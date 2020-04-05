@@ -45,14 +45,17 @@ Checks the files present in the specified folder for modifications and updates t
 * `folder` = Name of the folder to check
 """
 function weave_folder(folder)
-    for file in readdir(joinpath(repo_directory,"script",folder))
-        println("")
-        println("Building $(joinpath(folder,file))")
-        try
-            weave_file(folder,file)
-        catch
+    for file in readdir(joinpath(repo_directory, "script", folder))
+        if endswith(file, ".jl")
+            println("")
+            println("Building $(joinpath(folder,file))")
+            try
+                weave_file(folder,file)
+            catch e
+                @warn("Error weaving $folder/$file:\n$e")
+            end
+            println("")
         end
-        println("")
     end
 end
 
@@ -62,7 +65,7 @@ end
 Checks every tutorial for modifications and updates the notebook and tests accordingly.
 """
 function weave_all()
-    for folder in readdir(joinpath(repo_directory,"script"))
+    for folder in readdir(joinpath(repo_directory, "script"))
         weave_folder(folder)
     end
 end
@@ -83,7 +86,7 @@ function weave_file_f(folder,file)
     notebookpath = joinpath(repo_directory, "notebook", folder)
 
     tangle(srcpath, out_path = testpath)
-    notebook(srcpath, notebookpath, -1, "--allow-errors")
+    notebook(srcpath, out_path=notebookpath, timeout=-1, nbconvert_options="--allow-errors")
 
     cd(joinpath(repo_directory,"src"))
 end
@@ -96,14 +99,17 @@ Use Weave to convert every file in the specified folder irrespective of whether 
 * `folder` = Name of the folder the tutorial is in
 """
 function weave_folder_f(folder)
-    for file in readdir(joinpath(repo_directory,"script",folder))
-        println("")
-        println("Building $(joinpath(folder,file))")
-        try
-            weave_file_f(folder,file)
-        catch
+    for file in readdir(joinpath(repo_directory, "script", folder))
+        if endswith(file, ".jl")
+            println("")
+            println("Building $(joinpath(folder,file))")
+            try
+                weave_file_f(folder,file)
+            catch e
+                @warn("Error weaving $(folder)/$(file):\n$(e)")
+            end
+            println("")
         end
-        println("")
     end
 end
 
@@ -113,7 +119,7 @@ end
 Use Weave to convert every tutorial irrespective of whether it has been modified or not.
 """
 function weave_all_f()
-    for folder in readdir(joinpath(repo_directory,"script"))
+    for folder in readdir(joinpath(repo_directory, "script"))
         weave_folder_f(folder)
     end
 end

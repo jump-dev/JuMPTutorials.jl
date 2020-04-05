@@ -7,13 +7,13 @@
 #' This tutorial is aimed at providing a simplistic introduction to conic programming using JuMP.
 
 #' ## What is a Cone?
-#' A subset $C$ of a vector space $V$ is a cone if $\forall x \in C$ and positive scalars $\alpha$, 
-#' the product $\alpha x \in C$. A cone C is a convex cone if $\alpha x + \beta y \in C$, 
+#' A subset $C$ of a vector space $V$ is a cone if $\forall x \in C$ and positive scalars $\alpha$,
+#' the product $\alpha x \in C$. A cone C is a convex cone if $\alpha x + \beta y \in C$,
 #' for any positive scalars $\alpha, \beta$, and any $x, y \in C$.
 
 #' ## Conic Programming
 #' Conic programming problems are convex optimization problems in which a convex function is minimized
-#' over the intersection of an affine subspace and a convex cone. 
+#' over the intersection of an affine subspace and a convex cone.
 #' An example of a conic-form minimization problems, in the primal form is:
 
 #' $$
@@ -35,16 +35,17 @@
 
 #' where each $\mathcal{C}_i$ is a closed convex cone and $\mathcal{C}_i^*$ is its dual cone.
 
-#' ## Some of the Types of Cones Supported by JuMP 
+#' ## Some of the Types of Cones Supported by JuMP
 
 using JuMP
 using ECOS
+using LinearAlgebra
 using Random
 
 Random.seed!(1234);
 
-#' By this point we have used quite a few different solvers. 
-#' To find out all the different solvers and their supported problem types, check out the 
+#' By this point we have used quite a few different solvers.
+#' To find out all the different solvers and their supported problem types, check out the
 #' [solver table](http://www.juliaopt.org/JuMP.jl/v0.19.0/installation/#Getting-Solvers-1) in the docs.
 
 #' ### Second-Order Cone
@@ -64,8 +65,8 @@ Random.seed!(1234);
 #' These cones are represented in JuMP using the MOI sets `SecondOrderCone` and `RotatedSecondOrderCone`.
 
 #' #### Example: Euclidean Projection on a Hyperplane
-#' For a given point $u_{0}$ and a set $K$, we refer to any point $u \in K$ 
-#' which is closest to $u_{0}$ as a projection of $u_{0}$ on $K$. 
+#' For a given point $u_{0}$ and a set $K$, we refer to any point $u \in K$
+#' which is closest to $u_{0}$ as a projection of $u_{0}$ on $K$.
 #' The projection of a point $u_{0}$ on a hyperplane $K = \{u | p' \cdot u = q\}$ is given by
 
 #' $$
@@ -112,16 +113,16 @@ q = rand();
 #' & \max & y_1 + (0, u_0)^T y_2 \\
 #' & \;\;\text{s.t.} & e_1 - (0,p)^T y_1 - y_2 = 0 \\
 #' & & y_1 \in \mathbb{R}_- \\
-#' & & y_2 \in Q^{n+1} 
+#' & & y_2 \in Q^{n+1}
 #' \end{align*}
 #' $$
 
-model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
+model = Model(optimizer_with_attributes(ECOS.Optimizer, "printlevel" => 0))
 @variable(model, u[1:10])
 @variable(model, t)
 @objective(model, Min, t)
 @constraint(model, [t, (u - u0)...] in SecondOrderCone())
-@constraint(model, u' * p == q) 
+@constraint(model, u' * p == q)
 optimize!(model)
 
 #+
@@ -132,10 +133,10 @@ optimize!(model)
 #+
 
 e1 = [1, zeros(10)...]
-dual_model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
+dual_model = Model(optimizer_with_attributes(ECOS.Optimizer, "printlevel" => 0))
 @variable(dual_model, y1 <= 0)
 @variable(dual_model, y2[1:11])
-@objective(dual_model, Max, q * y1 + [0, u0...]' * y2)
+@objective(dual_model, Max, q * y1 + dot(vcat(0, u0), y2))
 @constraint(dual_model, e1 - [0, p...] .* y1 - y2 .== 0)
 @constraint(dual_model, y2 in SecondOrderCone())
 optimize!(dual_model)
@@ -151,16 +152,16 @@ optimize!(dual_model)
 #' \begin{align*}
 #' & \min & t \\
 #' & \;\;\text{s.t.} & p' \cdot u = q \\
-#' & & (t, 1/2, u - u_{0})\in Q_r^{n+2} 
+#' & & (t, 1/2, u - u_{0})\in Q_r^{n+2}
 #' \end{align*}
 #' $$
 
-model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
+model = Model(optimizer_with_attributes(ECOS.Optimizer, "printlevel" => 0))
 @variable(model, u[1:10])
 @variable(model, t)
 @objective(model, Min, t)
 @constraint(model, [t, 0.5, (u - u0)...] in RotatedSecondOrderCone())
-@constraint(model, u' * p == q) 
+@constraint(model, u' * p == q)
 optimize!(model)
 
 #+
@@ -212,10 +213,10 @@ optimize!(model)
 
 n = 15;
 m = 10;
-A = randn(m, n); 
+A = randn(m, n);
 b = rand(m, 1);
 
-model = Model(with_optimizer(ECOS.Optimizer, printlevel = 0))
+model = Model(optimizer_with_attributes(ECOS.Optimizer, "printlevel" => 0))
 @variable(model, t[1:n])
 @variable(model, x[1:n])
 @objective(model, Max, sum(t))
@@ -232,22 +233,22 @@ optimize!(model);
 
 #' ### Positive Semidefinite Cone
 #' The set of Positive Semidefinite Matrices of dimension $n$ form a cone in $\mathbb{R}^n$.
-#' We write this set mathematically as 
+#' We write this set mathematically as
 
 #' $$
 #' \mathcal{S}_{+}^n = \{ X \in \mathcal{S}^n \mid z^T X z \geq 0, \: \forall z\in \mathbb{R}^n \}.
 #' $$
 
-#' A PSD cone is represented in JuMP using the MOI sets 
+#' A PSD cone is represented in JuMP using the MOI sets
 #' `PositiveSemidefiniteConeTriangle` (for upper triangle of a PSD matrix) and
-#' `PositiveSemidefiniteConeSquare` (for a complete PSD matrix). 
+#' `PositiveSemidefiniteConeSquare` (for a complete PSD matrix).
 #' However, it is prefferable to use the `PSDCone` shortcut as illustrated below.
 
 #' #### Example: Largest Eigenvalue of a Symmetric Matrix
-#' Suppose $A$ has eigenvalues $\lambda_{1} \geq \lambda_{2} \ldots \geq \lambda_{n}$. 
-#' Then the matrix $t I-A$ has eigenvalues $t-\lambda_{1}, t-\lambda_{2}, \ldots, t-\lambda_{n}$. 
-#' Note that $t I-A$ is PSD exactly when all these eigenvalues are non-negative, 
-#' and this happens for values $t \geq \lambda_{1} .$ 
+#' Suppose $A$ has eigenvalues $\lambda_{1} \geq \lambda_{2} \ldots \geq \lambda_{n}$.
+#' Then the matrix $t I-A$ has eigenvalues $t-\lambda_{1}, t-\lambda_{2}, \ldots, t-\lambda_{n}$.
+#' Note that $t I-A$ is PSD exactly when all these eigenvalues are non-negative,
+#' and this happens for values $t \geq \lambda_{1} .$
 #' Thus, we can model the problem of finding the largest eigenvalue of a symmetric matrix as:
 
 #' $$
@@ -260,13 +261,13 @@ optimize!(model);
 #+ tangle = false
 
 using LinearAlgebra
-using CSDP
+using SCS
 
 A = [3 2 4;
      2 0 2;
      4 2 3]
 
-model = Model(with_optimizer(CSDP.Optimizer, printlevel = 0))
+model = Model(optimizer_with_attributes(SCS.Optimizer, "verbose" => 0))
 @variable(model, t)
 @objective(model, Min, t)
 @constraint(model, t .* Matrix{Float64}(I, 3, 3) - A in PSDCone())
@@ -278,9 +279,9 @@ optimize!(model)
 @show objective_value(model);
 
 #' ## Other Cones and Functions
-#' For other cones supported by JuMP, check out the 
+#' For other cones supported by JuMP, check out the
 #' [MathOptInterface Manual](http://www.juliaopt.org/MathOptInterface.jl/dev/apimanual/#Standard-form-problem-1).
-#' A good resource for learning more about functions which can be modelled using cones is the 
+#' A good resource for learning more about functions which can be modelled using cones is the
 #' MOSEK Modeling Cookbook[[1]](#c1).
 
 #' ### References

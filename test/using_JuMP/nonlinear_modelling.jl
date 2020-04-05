@@ -1,6 +1,6 @@
 
 using JuMP, Ipopt
-model = Model(with_optimizer(Ipopt.Optimizer));
+model = Model(Ipopt.Optimizer);
 
 
 @variable(model, x, start = 4)
@@ -37,11 +37,11 @@ Random.seed!(1234)
 n = 1_000
 data = randn(n)
 
-mle = Model(with_optimizer(Ipopt.Optimizer, print_level = 0))
+mle = Model(optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0))
 @NLparameter(mle, problem_data[i = 1:n] == data[i])
 @variable(mle, μ, start = 0.0)
 @variable(mle, σ >= 0.0, start = 1.0)
-@NLexpression(mle, likelihood, 
+@NLexpression(mle, likelihood,
 (2 * π * σ^2)^(-n / 2) * exp(-(sum((problem_data[i] - μ)^2 for i in 1:n) / (2 * σ^2)))
 )
 
@@ -66,4 +66,6 @@ println("mean(data) = ", mean(data))
 println("σ^2 = ", value(σ)^2)
 println("var(data) = ", var(data))
 println("MLE objective: ", objective_value(mle))
+
+
 

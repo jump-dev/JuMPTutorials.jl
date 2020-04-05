@@ -5,27 +5,27 @@
 #' **Originally Contributed by**: Arpit Bhatia
 
 #' This tutorial provides a breif introduction to nonlinear modelling in JuMP.
-#' For more details and specifics, visit the [JuMP docs](http://www.juliaopt.org/JuMP.jl/stable/nlp/).  
+#' For more details and specifics, visit the [JuMP docs](http://www.juliaopt.org/JuMP.jl/stable/nlp/).
 
 #' ## Nonlinear Programs
-#' While we have already seen examples of linear, quadratic and conic programs, 
+#' While we have already seen examples of linear, quadratic and conic programs,
 #' JuMP also supports other general smooth nonlinear (convex and nonconvex) optimization problems.
 
 #' A JuMP model object can contain a mix of linear, quadratic, and nonlinear contraints or objective functions.
 #' Thus, a model object for a nonlinear program is constructed in the same way as before.
 
 using JuMP, Ipopt
-model = Model(with_optimizer(Ipopt.Optimizer));
+model = Model(Ipopt.Optimizer);
 
 #' ### Variables
-#' Variables are modelled using the `@variable` macro as usual and 
+#' Variables are modelled using the `@variable` macro as usual and
 #' a starting point may be provided by using the `start` keyword argument
 
 @variable(model, x, start = 4)
 @variable(model, y, start = -9.66);
 
 #' ### Parameters
-#' Only in the case of nonlinear models, JuMP offers a syntax for "parameter" objects 
+#' Only in the case of nonlinear models, JuMP offers a syntax for "parameter" objects
 #' which can refer to a numerical value.
 
 @NLparameter(model, p == 0.003); # Providing a starting value is necessary for parameters
@@ -50,10 +50,10 @@ value(l[1])
 @NLexpression(model, expr_1, sin(x))
 @NLexpression(model, expr_2, asin(expr_1)); # Inserting one expression into another
 
-#' There are some [syntax rules](https://pkg.julialang.org/docs/JuMP/DmXqY/0.19.2/nlp/#Syntax-notes-1) 
-#' which must be followed while writing a nonlinear expression. 
+#' There are some [syntax rules](https://pkg.julialang.org/docs/JuMP/DmXqY/0.19.2/nlp/#Syntax-notes-1)
+#' which must be followed while writing a nonlinear expression.
 
-#' Note that JuMP also supports linear and quadratic expression. 
+#' Note that JuMP also supports linear and quadratic expression.
 #' You can find out more about this functionality in the [docs](https://pkg.julialang.org/docs/JuMP/DmXqY/0.19.2/expressions/).
 
 #' ### Nonlinear Objectives and Constraints
@@ -63,7 +63,7 @@ value(l[1])
 @NLobjective(model, Min, tan(x) + log(y))
 
 #' ### User-defined Functions
-#' In addition to supporting a library of built-in functions, 
+#' In addition to supporting a library of built-in functions,
 #' JuMP supports the creation of user-defined nonlinear functions to use within nonlinear expressions.
 #' The `register` function is used to enable this functionality.
 
@@ -73,7 +73,7 @@ register(model, :my_function, 2, my_function, autodiff = true)
 #' The arguements to the function are:
 #' - model for which the function is being registered
 #' - Julia symbol object corresponding to the name of the function
-#' - Number of arguments the function takes 
+#' - Number of arguments the function takes
 #' - name of the Julia method
 #' - instruction for JuMP to compute exact gradients automatically
 
@@ -81,19 +81,19 @@ register(model, :my_function, 2, my_function, autodiff = true)
 
 #' Since we already have a bit of JuMP experience at this point,
 #' let's try a modelling example and apply what we have learnt.
-#' In this example, we compute the maximum likelihood estimate (MLE) of 
+#' In this example, we compute the maximum likelihood estimate (MLE) of
 #' the parameters of a Gaussian distribution i.e. the sample mean and variance.
 
-#' If $X_{1}, \ldots, X_{n}$ are an id sample from a population with pdf or pmf 
+#' If $X_{1}, \ldots, X_{n}$ are an id sample from a population with pdf or pmf
 #' $f\left(x | \theta_{1}, \ldots, \theta_{k}\right),$ the likelihood function is defined by
 
 #' $$
 #' L(\theta | \mathbf{x})=L\left(\theta_{1}, \ldots, \theta_{k} | x_{1}, \ldots, x_{n}\right)=\prod_{i=1}^{n} f\left(x_{i} | \theta_{1}, \ldots, \theta_{k}\right)
 #' $$
 
-#' For each sample point $\mathbf{x}$, let $\hat{\theta}(\mathbf{x})$ be a parameter value 
-#' at which $L(\theta | \mathbf{x})$ attains its maximum as a function of $\theta,$ with $\mathbf{x}$ held fixed. 
-#' A maximum likelihood estimator (MLE) of the parameter $\theta$ based on a sample $\mathbf{X}$ is 
+#' For each sample point $\mathbf{x}$, let $\hat{\theta}(\mathbf{x})$ be a parameter value
+#' at which $L(\theta | \mathbf{x})$ attains its maximum as a function of $\theta,$ with $\mathbf{x}$ held fixed.
+#' A maximum likelihood estimator (MLE) of the parameter $\theta$ based on a sample $\mathbf{X}$ is
 #' $\hat{\theta}(\mathbf{X})$.
 
 #'The Gaussian likelihood is -
@@ -102,11 +102,11 @@ register(model, :my_function, 2, my_function, autodiff = true)
 #' L(\theta | \mathbf{x})=\prod_{i=1}^{n} \frac{1}{(2 \pi)^{1 / 2}} e^{-(1 / 2)\left(x_{i}-\theta\right)^{2}}=\frac{1}{(2 \pi)^{n / 2}} e^{(-1 / 2) \Sigma_{i=1}^{n}\left(x_{i}-\theta\right)^{2}}
 #' $$
 
-#' In most cases, the natural logarithm of 
-#' $L(\theta | \mathbf{x}), \log L(\theta | \mathbf{x})$ (known as the log likelihood), 
-#' is used rather than $L(\theta | \mathbf{x})$ directly. 
+#' In most cases, the natural logarithm of
+#' $L(\theta | \mathbf{x}), \log L(\theta | \mathbf{x})$ (known as the log likelihood),
+#' is used rather than $L(\theta | \mathbf{x})$ directly.
 #' The reason is that the log likelihood is easier to differentiate.
-#' This substituion is possible because the log function is strictly increasing on $(0, \infty)$, 
+#' This substituion is possible because the log function is strictly increasing on $(0, \infty)$,
 #' which implies that the extrema of $L(\theta | \mathbf{x})$ and $\log L(\theta | \mathbf{x})$ coincide.
 
 using Random, Statistics
@@ -116,11 +116,11 @@ Random.seed!(1234)
 n = 1_000
 data = randn(n)
 
-mle = Model(with_optimizer(Ipopt.Optimizer, print_level = 0))
+mle = Model(optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0))
 @NLparameter(mle, problem_data[i = 1:n] == data[i])
 @variable(mle, μ, start = 0.0)
 @variable(mle, σ >= 0.0, start = 1.0)
-@NLexpression(mle, likelihood, 
+@NLexpression(mle, likelihood,
 (2 * π * σ^2)^(-n / 2) * exp(-(sum((problem_data[i] - μ)^2 for i in 1:n) / (2 * σ^2)))
 )
 
@@ -149,12 +149,12 @@ println("MLE objective: ", objective_value(mle))
 
 #' ## Writing Convex Models
 
-#' Nonlinear solvers like Ipopt are usually local solvers. 
-#' For convex problems, the local optima is also the global optima, 
-#' and thus Ipopt is able to provide us with the correct solution. 
-#' However, in case a problem is not written in the convex form, then we may be unable to solve it. 
+#' Nonlinear solvers like Ipopt are usually local solvers.
+#' For convex problems, the local optima is also the global optima,
+#' and thus Ipopt is able to provide us with the correct solution.
+#' However, in case a problem is not written in the convex form, then we may be unable to solve it.
 
 #' A tool that helps us in dealing with this issue is [Disciplined Convex Programming](https://dcp.stanford.edu) (DCP).
-#' DCP is a system for constructing mathematical expressions with known curvature from a given library of base functions. 
-#' Specifically, it helps us to construct convex optimization models when possible, 
+#' DCP is a system for constructing mathematical expressions with known curvature from a given library of base functions.
+#' Specifically, it helps us to construct convex optimization models when possible,
 #' i.e. minimize convex function or maximize concave function and use constraints that are convex $f$ <= concave $g$

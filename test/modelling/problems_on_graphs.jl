@@ -4,15 +4,16 @@ using GLPK
 using GraphPlot 
 using LightGraphs
 using Colors
+using LinearAlgebra
 
 
 G = [
-0 1 0 0 0 0;
-1 0 1 1 0 0;
-0 1 0 0 1 1;
-0 1 0 0 1 0;
-0 0 1 1 0 0;
-0 0 1 0 0 0
+    0 1 0 0 0 0;
+    1 0 1 1 0 0;
+    0 1 0 0 1 1;
+    0 1 0 0 1 0;
+    0 0 1 1 0 0;
+    0 0 1 0 0 0;
 ]
 
 g = SimpleGraph(G)
@@ -20,7 +21,7 @@ g = SimpleGraph(G)
 gplot(g)
 
 
-vertex_cover = Model(with_optimizer(GLPK.Optimizer))
+vertex_cover = Model(GLPK.Optimizer)
 
 @variable(vertex_cover, y[1:nv(g)], Bin)
 @constraint(vertex_cover, [i = 1:nv(g), j = 1:nv(g); G[i,j] == 1], y[i] + y[j] >= 1)
@@ -30,7 +31,7 @@ optimize!(vertex_cover)
 @show value.(y);
 
 
-membership = convert(Array{Int},value.(y)) # Change to Int 
+membership = round.(Int, value.(y)) # Change to Int 
 membership = membership + ones(Int, nv(g)) # Make the color groups one indexed
 nodecolor = [colorant"red", colorant"blue"] # Blue to represent vertices in the cover
 nodefillc = nodecolor[membership]
@@ -38,17 +39,17 @@ gplot(g, nodefillc = nodefillc)
 
 
 G = [
-0 1 0 0 0 0 0 0 0 1 0 ;
-1 0 1 0 0 0 0 0 0 0 1;
-0 1 0 1 0 1 0 0 0 0 0;
-0 0 1 0 1 0 0 0 0 0 0;
-0 0 0 1 0 1 0 0 0 0 0;
-0 0 1 0 1 0 1 0 0 0 0;
-0 0 0 0 0 1 0 1 0 0 0;
-0 0 0 0 0 0 1 0 1 0 1;
-0 0 0 0 0 0 0 1 0 1 1;
-1 0 0 0 0 0 0 0 1 0 1;
-0 1 0 0 0 0 0 1 1 1 0
+    0 1 0 0 0 0 0 0 0 1 0 ;
+    1 0 1 0 0 0 0 0 0 0 1;
+    0 1 0 1 0 1 0 0 0 0 0;
+    0 0 1 0 1 0 0 0 0 0 0;
+    0 0 0 1 0 1 0 0 0 0 0;
+    0 0 1 0 1 0 1 0 0 0 0;
+    0 0 0 0 0 1 0 1 0 0 0;
+    0 0 0 0 0 0 1 0 1 0 1;
+    0 0 0 0 0 0 0 1 0 1 1;
+    1 0 0 0 0 0 0 0 1 0 1;
+    0 1 0 0 0 0 0 1 1 1 0;
 ]
 
 g = SimpleGraph(G)
@@ -56,10 +57,10 @@ g = SimpleGraph(G)
 gplot(g)
 
 
-dominating_set = Model(with_optimizer(GLPK.Optimizer))
+dominating_set = Model(GLPK.Optimizer)
 
 @variable(dominating_set, x[1:nv(g)], Bin)
-@constraint(dominating_set, [i = 1:nv(g)], sum(G[i,:] .* x) >= 1)
+@constraint(dominating_set, [i = 1:nv(g)], dot(G[i,:], x) >= 1)
 @objective(dominating_set, Min, sum(x))
 
 optimize!(dominating_set)
@@ -74,14 +75,14 @@ gplot(g, nodefillc = nodefillc)
 
 
 G = [
-0 0 0 0 1 0 0 0;
-0 0 0 0 0 1 0 0;
-0 0 0 0 0 0 1 0;
-0 0 0 0 0 0 0 1;
-1 0 0 0 0 1 0 1;
-0 1 0 0 1 0 1 0;
-0 0 1 0 0 1 0 1;
-0 0 0 1 1 0 1 0;
+    0 0 0 0 1 0 0 0;
+    0 0 0 0 0 1 0 0;
+    0 0 0 0 0 0 1 0;
+    0 0 0 0 0 0 0 1;
+    1 0 0 0 0 1 0 1;
+    0 1 0 0 1 0 1 0;
+    0 0 1 0 0 1 0 1;
+    0 0 0 1 1 0 1 0;
 ]
 
 g = SimpleGraph(G)
@@ -89,7 +90,7 @@ g = SimpleGraph(G)
 gplot(g)
 
 
-matching = Model(with_optimizer(GLPK.Optimizer))
+matching = Model(GLPK.Optimizer)
 
 @variable(matching, m[i = 1:nv(g), j = 1:nv(g)], Bin)
 @constraint(matching, [i = 1:nv(g)], sum(m[i,:]) <= 1)
@@ -102,16 +103,16 @@ optimize!(matching)
 
 
 G = [
-0 1 0 0 1 1 0 0 0 0;
-1 0 1 0 0 0 1 0 0 0;
-0 1 0 1 0 0 0 1 0 0;
-0 0 1 0 1 0 0 0 1 0;
-1 0 0 1 0 0 0 0 0 1;
-1 0 0 0 0 0 1 0 0 1;
-0 1 0 0 0 1 0 1 0 0;
-0 0 1 0 0 0 1 0 1 0;
-0 0 0 1 0 0 0 1 0 1;
-0 0 0 0 1 1 0 0 1 0;
+    0 1 0 0 1 1 0 0 0 0;
+    1 0 1 0 0 0 1 0 0 0;
+    0 1 0 1 0 0 0 1 0 0;
+    0 0 1 0 1 0 0 0 1 0;
+    1 0 0 1 0 0 0 0 0 1;
+    1 0 0 0 0 0 1 0 0 1;
+    0 1 0 0 0 1 0 1 0 0;
+    0 0 1 0 0 0 1 0 1 0;
+    0 0 0 1 0 0 0 1 0 1;
+    0 0 0 0 1 1 0 0 1 0;
 ]
 
 g = SimpleGraph(G)
@@ -121,7 +122,7 @@ gplot(g)
 
 k = nv(g)
 
-k_colouring = Model(with_optimizer(GLPK.Optimizer))
+k_colouring = Model(GLPK.Optimizer)
 
 @variable(k_colouring, z[1:k], Bin)
 @variable(k_colouring, c[1:nv(g),1:k], Bin)

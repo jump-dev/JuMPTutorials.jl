@@ -32,7 +32,7 @@ x = rand(10)
 a = rand(10)
 b = rand()
 
-projection = Model(with_optimizer(Ipopt.Optimizer, print_level=0))
+projection = Model(optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0))
 @variable(projection, x0[1:10])
 @objective(projection, Min, sum((x - x0) .* (x - x0))) # We minimize the square of the distance here
 @constraint(projection, x0' * a == b)                  # Point must lie on the hyperplane
@@ -58,7 +58,7 @@ A_2 = rand(10, 10)
 b_1 = rand(10)
 b_2 = rand(10)
 
-polyhedra_distance = Model(with_optimizer(Ipopt.Optimizer, print_level=0))
+polyhedra_distance = Model(optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0))
 @variable(polyhedra_distance, x[1:10])                       # Point closest on the first polyhedron
 @variable(polyhedra_distance, y[1:10])                       # Point closest on the second polyhedron
 @objective(polyhedra_distance, Min, sum((x - y) .* (x - y))) # We minimize the square of the distance here as above
@@ -114,7 +114,7 @@ A = [ 1  0  0 -1  0  0    0  0  0  0  0  0  0  0;    # Matrix on links
       0  0  0  0  0  1    0  0 -1  0  0  0  0  0;
       0  0  0  0  0  1    0  0  0  0 -1  0  0  0;]
 
-placement = Model(with_optimizer(Ipopt.Optimizer, print_level=0))
+placement = Model(optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0))
 @variable(placement, p[1:M + N, 1:2])                     # A variable array for the coordinates of each point
 @constraint(placement, p[N + 1:N + M, :] .== fixed')      # We had a constraint for the fixed points
 dist = A * p                                         # Matrix of differences between coordinates of 2 points with a link
@@ -173,7 +173,7 @@ figs=[]
 for i = 1:4
     A = Amin[i, :]
 
-    floor_planning = Model(with_optimizer(Ipopt.Optimizer, print_level=0))
+    floor_planning = Model(optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0))
 
     @variables(floor_planning, begin
         x[1:n] >= r

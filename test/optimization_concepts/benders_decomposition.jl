@@ -24,7 +24,7 @@ using LinearAlgebra
 # Master Problem Description
 # --------------------------
 
-master_problem_model = Model(with_optimizer(GLPK.Optimizer))
+master_problem_model = Model(GLPK.Optimizer)
 
 # Variable Definition 
 # ----------------------------------------------------------------
@@ -75,7 +75,7 @@ while(true)
             "\nwith fm_current = ", fm_current, 
             "\nx_current = ", x_current)
 
-    sub_problem_model = Model(with_optimizer(GLPK.Optimizer))
+    sub_problem_model = Model(GLPK.Optimizer)
 
     c_sub = b - A1 * x_current
 
