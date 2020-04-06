@@ -1,5 +1,5 @@
 #' ---
-#' title: Maximum cut problem, linear and semi-definite optimization formulations
+#' title: Maximum cut problem, linear and semidefinite optimization formulations
 #' ---
 
 #' **Originally Contributed by**: Mathieu Besançon
@@ -95,7 +95,7 @@ GraphPlot.gplot(g, nodelabel=1:6, nodefillc=all_node_colors)
 nodefillc = nodecolor[membership]
 gplot(g, nodefillc=nodefillc)
 
-#' ### Semi-definite formulation
+#' ### Semidefinite formulation
 
 #' The maximum cut problem can also be formulated as a quadratic optimization model.
 #' If the solution vector is composed of $\{-1, 1\}$ for belonging to the subset or not.
@@ -122,10 +122,10 @@ gplot(g, nodefillc=nodefillc)
 #' \end{align*}
 #' $$
 
-#' The constraint $Y = x x^T$ requires $Y$ to be a Positive Semi-Definite matrix
+#' The constraint $Y = x x^T$ requires $Y$ to be a Positive Semidefinite matrix
 #' of rank one. This optimization problem is fully equivalent to the initial
 #' quadratic problem and hard to solve.
-#' A possible relaxation is to remove the rank-1, yielding the following problem:
+#' A possible relaxation is to remove the rank-1 constraint, yielding the following problem:
 #' $$
 #' \begin{align*}
 #' \max_{Y} & \frac{w_{ij}}{4} (1 - Y_{ij}) \\
@@ -134,9 +134,9 @@ gplot(g, nodefillc=nodefillc)
 #' \end{align*}
 #' $$
 
-#' with $\mathcal{S}_n^+$ the set of positive semi-definite matrices.
+#' with $\mathcal{S}_n^+$ the set of positive semidefinite matrices.
 #' Such model can be implemented in JuMP and solved using an underlying solver
-#' which supports semi-definite optimization.
+#' which supports semidefinite optimization.
 
 sdp_max_cut = Model(optimizer_with_attributes(SCS.Optimizer, "verbose" => 0))
 
@@ -151,12 +151,14 @@ optimize!(sdp_max_cut)
 
 #' Re-computing the vector:
 #' $Y$ approximates $x x^T$, we can compute the estimate by randomized rounding.
-#' TODO add paper.
+#' Goemans, M. X., & Williamson, D. P. (1995).
+#' Improved approximation algorithms for maximum cut and satisfiability problems using semidefinite programming.
+#' Journal of the ACM (JACM), 42(6), 1115-1145.
 
 F = svd(value.(Y))
 xhat_unnormalized = F.U[:,1]
 xhat = map(xhat_unnormalized) do v
-    (v >= 0) * 1 
+    ifelse(v >= 0, 1, 0)
 end
 
 @show collect(zip(round.(Int, x_linear), xhat))
