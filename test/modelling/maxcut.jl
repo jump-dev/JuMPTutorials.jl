@@ -2,6 +2,7 @@
 using LinearAlgebra
 using SparseArrays
 using Test
+import Random
 
 using JuMP
 using GLPK
@@ -68,10 +69,6 @@ nodecolor = [colorant"lightseagreen", colorant"orange"]
 all_node_colors = [nodecolor[round(Int, xi + 1)]  for xi in x_linear]
 GraphPlot.gplot(g, nodelabel=1:6, nodefillc=all_node_colors)
 
-# membership color
-nodefillc = nodecolor[membership]
-gplot(g, nodefillc=nodefillc)
-
 
 sdp_max_cut = Model(optimizer_with_attributes(SCS.Optimizer, "verbose" => 0))
 
@@ -86,10 +83,11 @@ optimize!(sdp_max_cut)
 
 
 F = svd(value.(Y))
-xhat_unnormalized = F.U[:,1]
-xhat = map(xhat_unnormalized) do v
-    (v >= 0) * 1 
-end
+U = F.U * Diagonal(sqrt.(F.S))
+
+Random.seed!(33)
+x = rand(size(U, 2)) .- 0.5 # random vector of mean 0
+xhat = sign.(U * x) .> 0
 
 @show collect(zip(round.(Int, x_linear), xhat))
 @test LinearAlgebra.norm1(round.(Int, x_linear) .- xhat) == 0 || LinearAlgebra.norm1(round.(Int, x_linear) .- xhat) == n
