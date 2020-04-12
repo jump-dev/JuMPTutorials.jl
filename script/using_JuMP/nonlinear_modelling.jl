@@ -116,15 +116,18 @@ Random.seed!(1234)
 n = 1_000
 data = randn(n)
 
-mle = Model(optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0))
+mle = Model(optimizer_with_attributes(Ipopt.Optimizer))
 @NLparameter(mle, problem_data[i = 1:n] == data[i])
-@variable(mle, μ, start = 0.0)
-@variable(mle, σ >= 0.0, start = 1.0)
-@NLexpression(mle, likelihood,
-(2 * π * σ^2)^(-n / 2) * exp(-(sum((problem_data[i] - μ)^2 for i in 1:n) / (2 * σ^2)))
+μ0 = randn()
+σ0 = rand() + 1
+@info "Starting guess, mean: $μ0, std: $σ0"
+@variable(mle, μ, start = μ0)
+@variable(mle, σ >= 0.0, start = σ0)
+@NLexpression(mle, loglikelihood,
+    -(n / 2) * (log(2π) + 2 * log(σ)) - inv(2 * σ^2) * sum((xi - μ)^2 for xi in problem_data)
 )
 
-@NLobjective(mle, Max, log(likelihood))
+@NLobjective(mle, Max, loglikelihood)
 
 optimize!(mle)
 
@@ -132,7 +135,7 @@ println("μ = ", value(μ))
 println("mean(data) = ", mean(data))
 println("σ^2 = ", value(σ)^2)
 println("var(data) = ", var(data))
-println("MLE objective: ", objective_value(mle))
+println("MLE value: ", exp(objective_value(mle)))
 
 #+
 
