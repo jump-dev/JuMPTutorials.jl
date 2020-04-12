@@ -5,13 +5,12 @@
 #' **Originally Contributed by**: Shuvomoy Das Gupta
 
 #' This notebook describes how to implement Benders decomposition in JuMP, which is a large scale optimization scheme. 
-#' We only discuss the classical approach (using loop) here as 
-#' the modern approach (using lazy constraints) requires solver callbacks which are not currently supported by JuMP
-#' (see [#1849](https://github.com/JuliaOpt/JuMP.jl/pull/1849)).
+#' We only discuss the classical approach (using loops) here.
+#' The approach using lazy constraints is showed in the correponding notebook.
  
-#' To illustrate implementation of Benders decomposition in JuMP,
+#' To illustrate an implementation of the Benders decomposition in JuMP,
 #' we apply it to the following general mixed integer problem:
- 
+
 #' \begin{align*}
 #' & \text{maximize} \quad &&c_1^T x+c_2^T v \\
 #' & \text{subject to} \quad &&A_1 x+ A_2 v \preceq b \\
@@ -135,6 +134,7 @@ M = 1000;
 using JuMP 
 using GLPK
 using LinearAlgebra
+using Test
 
 # Master Problem Description
 # --------------------------
@@ -175,20 +175,15 @@ while(true)
         break
     end
 
-    if t_status == MOI.INFEASIBLE_OR_UNBOUNDED
-        fm_current = M
-        x_current = M * ones(dim_x)
+    (fm_current, x_current) = if t_status == MOI.INFEASIBLE_OR_UNBOUNDED
+        (M, M * ones(dim_x))        
+    elseif p_status == MOI.FEASIBLE_POINT
+        (value(t), value.(x))
+    else
+        error("Unexpected status: $((t_status, p_status))")
     end
 
-    if p_status == MOI.FEASIBLE_POINT
-        fm_current = value(t)
-        x_current = Float64[]
-            for i in 1:dim_x
-            push!(x_current, value(x[i]))
-        end
-    end
-
-    println("Status of the master problem is", t_status, 
+    println("Status of the master problem is ", t_status, 
             "\nwith fm_current = ", fm_current, 
             "\nx_current = ", x_current)
 
@@ -198,11 +193,12 @@ while(true)
 
     @variable(sub_problem_model, u[1:dim_u] >= 0)
 
-    @constraint(sub_problem_model, constr_ref_subproblem[j = 1:size(A2, 2)], sum(A2[i, j] * u[i] for i in 1:size(A2, 1)) >= c2[j])
-    # The second argument of @constraint macro, constr_ref_subproblem[j=1:size(A2,2)] means that the j-th constraint is
-    # referenced by constr_ref_subproblem[j]. 
+    @constraint(sub_problem_model, constr_ref_subproblem[j = 1:size(A2, 2)], dot(A2[:, j], u) >= c2[j])
+    # The second argument of @constraint macro,
+    # constr_ref_subproblem[j=1:size(A2,2)] means that the j-th constraint is
+    # referenced by constr_ref_subproblem[j].
     
-    @objective(sub_problem_model, Min, dot(c1, x_current) + sum(c_sub[i] * u[i] for i in 1:dim_u))
+    @objective(sub_problem_model, Min, dot(c1, x_current) + dot(c_sub, u))
 
     print("\nThe current subproblem model is \n", sub_problem_model)
 
@@ -213,11 +209,7 @@ while(true)
 
     fs_x_current = objective_value(sub_problem_model) 
 
-    u_current = Float64[]
-
-    for i in 1:dim_u
-        push!(u_current, value(u[i]))
-    end
+    u_current = value.(u)
 
     γ = dot(b, u_current)
 
@@ -238,19 +230,21 @@ while(true)
     if p_status_sub == MOI.FEASIBLE_POINT && fs_x_current < fm_current
         println("\nThere is a suboptimal vertex, add the corresponding constraint")
         cv = A1' * u_current - c1
-        @constraint(master_problem_model, t + sum(cv[i] * x[i] for i in 1:dim_x) <= γ)
+        @constraint(master_problem_model, t + dot(cv, x) <= γ)
         println("t + ", cv, "ᵀ x <= ", γ)
     end 
     
     if t_status_sub == MOI.INFEASIBLE_OR_UNBOUNDED
         println("\nThere is an  extreme ray, adding the corresponding constraint")
         ce = A1'* u_current
-        @constraint(master_problem_model, sum(ce[i] * x[i] for i in 1:dim_x) <= γ)
+        @constraint(master_problem_model, dot(ce, x) <= γ)
         println(ce, "ᵀ x <= ", γ)
     end
     
     global iter_num += 1
 end
+
+@test value(t) ≈ -4
 
 #' ### References
 #' <a id='c1'></a>

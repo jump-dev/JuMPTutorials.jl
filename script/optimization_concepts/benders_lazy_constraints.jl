@@ -98,9 +98,17 @@ master_problem_model = Model(GLPK.Optimizer)
 
 print(master_problem_model)
 
+#' Track the calls to the callback
+
+iter_num = 0
+
 #' Define lazy constraints
 
 function benders_lazy_constraint_callback(cb_data)
+    global iter_num
+    iter_num += 1
+    println("Iteration number = ", iter_num)
+
     x_current = [callback_value(cb_data, x[j]) for j in eachindex(x)]
     fm_current = callback_value(cb_data, t)
     
