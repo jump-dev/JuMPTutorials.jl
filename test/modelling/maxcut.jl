@@ -86,7 +86,9 @@ F = svd(value.(Y))
 U = F.U * Diagonal(sqrt.(F.S))
 
 Random.seed!(33)
-x = randn(size(U, 2)) # random vector of mean 0
+
+
+x = randn(size(U, 2))
 xhat = sign.(U * x) .> 0
 
 @show collect(zip(round.(Int, x_linear), xhat))
