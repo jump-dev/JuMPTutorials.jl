@@ -19,8 +19,8 @@ include("using_JuMP/working_with_data_files.jl")
 @test countryindex == [1, 5, 9, 10, 38, 39, 55, 63, 64, 75, 78, 81, 89, 104, 107, 130, 138, 158, 162, 167, 182, 188, 190]
 include("using_JuMP/problem_modification.jl")
 include("using_JuMP/nonlinear_modelling.jl")
-@test value(μ) ≈ 0 atol=0.02
-@test value(σ)^2 ≈ 1 atol=0.02
+@test value(μ) ≈ mean(problem_data)
+@test value(σ)^2 ≈ var(problem_data)
 end
 cd("..")
 
