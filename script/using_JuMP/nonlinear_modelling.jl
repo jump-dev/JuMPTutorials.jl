@@ -15,7 +15,7 @@
 #' Thus, a model object for a nonlinear program is constructed in the same way as before.
 
 using JuMP, Ipopt
-model = Model(optimizer_with_attributes(Ipopt.Optimizer, \"print_level\" => 0));
+model = Model(optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0));
 
 #' ### Variables
 #' Variables are modelled using the `@variable` macro as usual and
@@ -116,7 +116,7 @@ Random.seed!(1234)
 n = 1_000
 data = randn(n)
 
-mle = Model(optimizer_with_attributes(Ipopt.Optimizer, \"print_level\" => 0))
+mle = Model(optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0))
 @NLparameter(mle, problem_data[i = 1:n] == data[i])
 μ0 = randn()
 σ0 = rand() + 1
