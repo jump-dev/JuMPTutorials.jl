@@ -300,6 +300,8 @@ println("immutable_type: $(immutable_type)")
 #' No matter how wonderful Julia's base language is, at some point you will want to use an extension package.  Some of these are built-in, for example random number generation is available in the `Random` package in the standard library. These packages are loaded with the commands `using` and `import`.
 
 using Random
+Random.seed!(33);
+
 [rand() for i in 1:10]
 
 #' The Package Manager is used to install packages that are not part of Julia's standard library. 
