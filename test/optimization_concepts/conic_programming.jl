@@ -62,12 +62,9 @@ model = Model(optimizer_with_attributes(ECOS.Optimizer, "printlevel" => 0))
 @constraint(model, sum(x) == 1)
 @constraint(model, A * x .<= b )
 # Cannot use the exponential cone directly in JuMP, hence we use MOI to specify the set.
-@constraint(model, con[i = 1:n], [1, x[i], t[i]] in MOI.ExponentialCone())
+@constraint(model, con[i = 1:n], [t[i], x[i], 1.0] in MOI.ExponentialCone())
 
 optimize!(model);
 
-
 @show objective_value(model);
-
-
 
