@@ -32,7 +32,7 @@ Random.seed!(1234);
         @constraint(dual_model, e1 - [0, p...] .* y1 - y2 .== 0)
         @constraint(dual_model, y2 in SecondOrderCone())
         optimize!(dual_model)
-        @test JuMP.termination_status(model) == MOI.OPTIMAL
+        @test JuMP.termination_status(dual_model) == MOI.OPTIMAL
         @test objective_value(dual_model) ≈ optimal_value_soc atol=1e-6
     end
 end
