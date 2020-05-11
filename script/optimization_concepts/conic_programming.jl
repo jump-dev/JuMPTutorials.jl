@@ -49,7 +49,7 @@ Random.seed!(1234);
 #' [solver table](http://www.juliaopt.org/JuMP.jl/v0.19.0/installation/#Getting-Solvers-1) in the docs.
 
 #' ### Second-Order Cone
-#' The Second-Order Cone (or Lorenz Cone) of dimension $n$ is of the form:
+#' The Second-Order Cone (or Lorentz Cone) of dimension $n$ is of the form:
 
 #' $$
 #' Q^n = \{ (t,x) \in \mathbb{R}^\mbox{n} : t \ge ||x||_2 \}
@@ -64,7 +64,7 @@ Random.seed!(1234);
 
 #' These cones are represented in JuMP using the MOI sets `SecondOrderCone` and `RotatedSecondOrderCone`.
 
-#' #### Example: Euclidean Projection on a Hyperplane
+#' #### Example: Euclidean Projection on a hyperplane
 #' For a given point $u_{0}$ and a set $K$, we refer to any point $u \in K$
 #' which is closest to $u_{0}$ as a projection of $u_{0}$ on $K$.
 #' The projection of a point $u_{0}$ on a hyperplane $K = \{u | p' \cdot u = q\}$ is given by
@@ -197,7 +197,7 @@ optimize!(model)
 #' We can model this problem using an exponential cone by using the following transformation:
 
 #' $$
-#' t\leq -x\log{x} \iff t\leq x\log(1/x)  \iff (1, x, t) \in K_{exp}
+#' t\leq -x\log{x} \iff t\leq x\log(1/x)  \iff (t, x, 1) \in K_{exp}
 #' $$
 
 #' Thus, our problem becomes,
@@ -207,7 +207,7 @@ optimize!(model)
 #' & \max & 1^Tt \\
 #' & \;\;\text{s.t.} & Ax \leq b \\
 #' & & 1^T x = 1 \\
-#' & & (1, x_i, t_i) \in K_{exp} && \forall i = 1 \ldots n \\
+#' & & (t_i, x_i, 1) \in K_{exp} && \forall i = 1 \ldots n \\
 #' \end{align*}
 #' $$
 
@@ -223,7 +223,7 @@ model = Model(optimizer_with_attributes(ECOS.Optimizer, "printlevel" => 0))
 @constraint(model, sum(x) == 1)
 @constraint(model, A * x .<= b )
 # Cannot use the exponential cone directly in JuMP, hence we use MOI to specify the set.
-@constraint(model, con[i = 1:n], [1, x[i], t[i]] in MOI.ExponentialCone())
+@constraint(model, con[i = 1:n], [t[i], x[i], 1] in MOI.ExponentialCone())
 
 optimize!(model);
 
@@ -242,7 +242,7 @@ optimize!(model);
 #' A PSD cone is represented in JuMP using the MOI sets
 #' `PositiveSemidefiniteConeTriangle` (for upper triangle of a PSD matrix) and
 #' `PositiveSemidefiniteConeSquare` (for a complete PSD matrix).
-#' However, it is prefferable to use the `PSDCone` shortcut as illustrated below.
+#' However, it is preferable to use the `PSDCone` shortcut as illustrated below.
 
 #' #### Example: Largest Eigenvalue of a Symmetric Matrix
 #' Suppose $A$ has eigenvalues $\lambda_{1} \geq \lambda_{2} \ldots \geq \lambda_{n}$.
