@@ -35,6 +35,18 @@ cd("..")
 
 cd("modelling")
 @testset "Modelling Examples" begin
+    include("modelling/n-queens.jl")
+    @test sol == [
+            0 0 0 0 0 1 0 0;
+            0 0 0 0 0 0 0 1;
+            0 1 0 0 0 0 0 0;
+            0 0 0 1 0 0 0 0;
+            1 0 0 0 0 0 0 0;
+            0 0 0 0 0 0 1 0;
+            0 0 0 0 1 0 0 0;
+            0 0 1 0 0 0 0 0
+        ]
+
     include("modelling/sudoku.jl")
     @test sol == [
         5  3  4  6  7  8  9  1  2;
