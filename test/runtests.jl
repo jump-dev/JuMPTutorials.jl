@@ -36,7 +36,7 @@ cd("..")
 cd("modelling")
 @testset "Modelling Examples" begin
     include("modelling/n-queens.jl")
-    @test sol == [
+    @test solution == [
             0 0 0 0 0 1 0 0;
             0 0 0 0 0 0 0 1;
             0 1 0 0 0 0 0 0;

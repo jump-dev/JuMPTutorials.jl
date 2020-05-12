@@ -46,27 +46,6 @@ optimize!(model)
 
 #' We can now review the solution that our model found:
 
-solution = value.(x)
+solution = convert.(Int,value.(x))
 
 #' <img src="img/n_queens.png" style="width: auto; height: auto" alt="4 Queens">
-
-#' ** Bonus content:**
-
-#' Here is the code to plot your solutions with Makie.jl:
-
-using Base.Iterators: repeated
-using Makie
-
-r = 1:N
-board = isodd.(r .+ r')
-scene = Scene(resolution = (250, 250))
-heatmap!(scene, board, scale_plot = false, show_axis = false, colormap=:Paired)
-queens = [repeated('♕', N)...]
-x_positions = [findall(isequal(1.0), value.(x)[i,:])[1] for i = N:-1:1]
-y_positions = 1:N
-w_positions = Point2.(x_positions, y_positions)
-game = scatter!(
-    scene, w_positions, marker = queens,
-    scale_plot = false, show_axis = false,
-    markersize = 0.5, marker_offset = Vec2f0(-0.7)
-)[end]

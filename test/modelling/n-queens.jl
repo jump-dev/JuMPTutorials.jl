@@ -24,4 +24,4 @@ end
 
 optimize!(model)
 
-sol = value.(x)
+solution = convert.(Int,value.(x))
