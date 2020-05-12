@@ -34,6 +34,12 @@ for i=1:N
     @constraint(model, sum(x[:, i]) == 1)
 end
 
+# There can only be one queen on any given diagonal
+for i in -(N-1):(N-1)
+    @constraint(model, sum(diag(x,i)) <= 1)
+    @constraint(model, sum(diag(reverse(x,dims=1), i)) <=1)
+end
+
 #' That's it! We are ready to put our model to work and see if it is able to find a feasible solution:
 
 optimize!(model)

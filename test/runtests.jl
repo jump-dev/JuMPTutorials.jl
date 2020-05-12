@@ -46,6 +46,7 @@ cd("modelling")
             0 0 0 0 1 0 0 0;
             0 0 1 0 0 0 0 0
         ]
+    @test JuMP.termination_status(model) == MOI.OPTIMAL
 
     include("modelling/sudoku.jl")
     @test sol == [
