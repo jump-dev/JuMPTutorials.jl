@@ -36,16 +36,10 @@ cd("..")
 cd("modelling")
 @testset "Modelling Examples" begin
     include("modelling/n-queens.jl")
-    @test solution == [
-            0 0 0 0 0 1 0 0;
-            0 0 0 0 0 0 0 1;
-            0 1 0 0 0 0 0 0;
-            0 0 0 1 0 0 0 0;
-            1 0 0 0 0 0 0 0;
-            0 0 0 0 0 0 1 0;
-            0 0 0 0 1 0 0 0;
-            0 0 1 0 0 0 0 0
-        ]
+    @test sum([sum(value.(x)[i, :]) == 1 for i=1:N]) == N
+    @test sum([sum(value.(x)[:, i]) == 1 for i=1:N]) == N
+    @test sum([sum(diag(value.(x),i)) <= 1 for i in -(N-1):(N-1)]) == length(-(N-1):(N-1))
+    @test sum([sum(diag(reverse(value.(x),dims=1), i)) <=1 for i in -(N-1):(N-1)]) == length(-(N-1):(N-1))
     @test JuMP.termination_status(model) == MOI.OPTIMAL
 
     include("modelling/sudoku.jl")
