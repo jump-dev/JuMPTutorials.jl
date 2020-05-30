@@ -114,7 +114,11 @@ cd("modelling")
         0.1         1.0]
     include("modelling/rocket_control.jl")
     @test objective_value(rocket) ≈ 1.0128340648308058
-
     include("modelling/facility_location.jl")
+    include("modelling/logistic_regression.jl")
+    @test JuMP.termination_status(model) == MOI.OPTIMAL
+    @test JuMP.objective_value(model) ≈ 841.6779472247331
+    @test JuMP.termination_status(sparse_model) == MOI.OPTIMAL
+    @test JuMP.objective_value(sparse_model) ≈ 956.4575122281545
 end
 cd("..")
