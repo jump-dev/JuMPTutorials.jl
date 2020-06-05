@@ -65,7 +65,6 @@ ufl = Model(GLPK.Optimizer)
 optimize!(ufl)
 println("Optimal value: ", objective_value(ufl))
 
-
 x_ = value.(x) .> 1 - 1e-4
 y_ = value.(y) .> 1 - 1e-4
 
@@ -157,4 +156,3 @@ for i in 1:m
 end
 
 display(p)
-

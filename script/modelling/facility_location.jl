@@ -4,8 +4,6 @@
 
 #' **Originally Contributed by**: Mathieu Tanneau and Alexis Montoison
 
-#' Benchmark instances: https://resources.mpi-inf.mpg.de/departments/d1/projects/benchmarks/UflLib/
-
 #+
 using Random
 using LinearAlgebra
