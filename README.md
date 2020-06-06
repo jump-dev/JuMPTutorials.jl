@@ -40,3 +40,4 @@ To try out any of the tutorials in the browser without downloading Julia, click 
   - [Geometric Problems](https://nbviewer.jupyter.org/github/JuliaOpt/JuMPTutorials.jl/blob/master/notebook/modelling/geometric_problems.ipynb)
   - [Experiment Design](https://nbviewer.jupyter.org/github/JuliaOpt/JuMPTutorials.jl/blob/master/notebook/modelling/experiment_design.ipynb)
   - [Rocket Control](https://nbviewer.jupyter.org/github/JuliaOpt/JuMPTutorials.jl/blob/master/notebook/modelling/rocket_control.ipynb)
+  - [N-Queens](https://nbviewer.jupyter.org/github/JuliaOpt/JuMPTutorials.jl/blob/master/notebook/modelling/N-Queens.ipynb)
