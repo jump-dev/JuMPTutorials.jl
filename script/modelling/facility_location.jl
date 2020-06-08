@@ -33,7 +33,7 @@ using Plots
 #' * Cost of serving clients from the assigned facility.
 #' In this example, the cost $c_{i, j}$
 #' of serving client $i$ from facility $j$
-#' is the euclidean distance between the two.
+#' is the Euclidean distance between the two.
 #' 
 #' **Constraints**
 #' * Each customer must be served by exactly one facility
@@ -125,8 +125,9 @@ println("Optimal value: ", objective_value(ufl))
 #' ### Visualizing the solution
 
 #+
-x_ = value.(x) .> 1 - 1e-4
-y_ = value.(y) .> 1 - 1e-4
+# The threshold 1e-5 ensure that edges between clients and facilities are drawn when x[i, j] ≈ 1.
+x_ = value.(x) .> 1 - 1e-5
+y_ = value.(y) .> 1 - 1e-5
 
 # Display clients
 p = scatter(Xc, Yc, markershape=:circle, markercolor=:blue, label=nothing)
@@ -228,6 +229,7 @@ println("Optimal value: ", objective_value(cfl))
 #' ### Visualizing the solution
 
 #+
+# The threshold 1e-5 ensure that edges between clients and facilities are drawn when x[i, j] ≈ 1.
 x_ = value.(x) .> 1 - 1e-5
 y_ = value.(y) .> 1 - 1e-5
 
@@ -256,7 +258,7 @@ display(p)
 
 
 #' ## Further
-#' * Benders decomposition is a method of choice for solving
-#' facility location problems
-#' * Benchmark instances cat be found
-#' [here](https://resources.mpi-inf.mpg.de/departments/d1/projects/benchmarks/UflLib/)
+#' * [Benders decomposition](https://github.com/JuliaOpt/JuMPTutorials.jl/blob/master/script/optimization_concepts/benders_decomposition.jl)
+#' is a method of choice for solving facility location problems.
+#' * Benchmark instances can be found
+#' [here](https://resources.mpi-inf.mpg.de/departments/d1/projects/benchmarks/UflLib/).

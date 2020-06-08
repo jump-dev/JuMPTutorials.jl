@@ -65,8 +65,8 @@ ufl = Model(GLPK.Optimizer)
 optimize!(ufl)
 println("Optimal value: ", objective_value(ufl))
 
-x_ = value.(x) .> 1 - 1e-4
-y_ = value.(y) .> 1 - 1e-4
+x_ = value.(x) .> 1 - 1e-5
+y_ = value.(y) .> 1 - 1e-5
 
 # Display clients
 p = scatter(Xc, Yc, markershape=:circle, markercolor=:blue, label=nothing)
@@ -129,6 +129,7 @@ cfl = Model(GLPK.Optimizer)
 # Solve the problem
 optimize!(cfl)
 println("Optimal value: ", objective_value(cfl))
+@test termination_status(cfl) == MOI.OPTIMAL
 
 
 x_ = value.(x) .> 1 - 1e-5

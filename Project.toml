@@ -4,6 +4,7 @@ authors = ["Arpit Bhatia <arpit16229@iiitd.ac.in>"]
 version = "0.1.0"
 
 [deps]
+Base64 = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 Cbc = "9961bab8-2fa3-5c5a-9d89-47fab24efd76"
 Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
