@@ -14,4 +14,4 @@ makedocs(
     ]
 )
 
-Documenter.deploydocs(repo = "github.com/JuliaOpt/JuMPTutorials.jl.git")
+Documenter.deploydocs(repo = "github.com/jump-dev/JuMPTutorials.jl.git")

@@ -63,4 +63,4 @@ Finally, add the tutorial to the table of contents in the `README.md` file.
 We use nbviewer to render the notebooks as webpages. 
 Link the name of the tutorial to a URL of the following form:
 
-`https://nbviewer.jupyter.org/github/JuliaOpt/JuMPTutorials.jl/blob/master/notebook/subfolder_name/tutorial_name.ipynb`
+`https://nbviewer.jupyter.org/github/jump-dev/JuMPTutorials.jl/blob/master/notebook/subfolder_name/tutorial_name.ipynb`
