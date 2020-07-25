@@ -104,4 +104,4 @@ end
 #' The populations of each group are fairly even and we can see from the plot below that the groupings look good in terms of
 #' geographic proximity:
 
-#' ![Results](results.png)
+#' <img src="img/geo_clusters.png" style="width: auto; height: auto" alt="Geographic Clusters">
