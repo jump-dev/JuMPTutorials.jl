@@ -2,7 +2,7 @@
 #' title: N-Queens
 #' ---
 
-#' **Originally Contributed by**: Matthew Helm
+#' **Originally Contributed by**: Matthew Helm ([with help from @mtanneau on Julia Discourse](https://discourse.julialang.org/t/which-jump-jl-solver-for-this-problem/43350/17?u=mthelm85))
 
 #' The N-Queens problem involves placing N queens on an N x N chessboard such that none of the queens attacks another. In chess, a 
 #' queen can move vertically, horizontally, and diagonally so there cannot be more than one queen on any given row, column, or 

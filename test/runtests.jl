@@ -35,6 +35,10 @@ cd("..")
 
 cd("modelling")
 @testset "Modelling Examples" begin
+    include("modelling/geographic_clustering.jl")
+    @test JuMP.termination_status(model) == MOI.OPTIMAL
+    @test objective_value(model) ≈ 38460.224
+
     include("modelling/n-queens.jl")
     @test sum([sum(value.(x)[i, :]) == 1 for i=1:N]) == N
     @test sum([sum(value.(x)[:, i]) == 1 for i=1:N]) == N
