@@ -73,6 +73,19 @@ for i in 1:k
     @constraint(model, (x' * cities.population)[i] - P >= α)
 end
 
+#' Now we need to add one last binary variable $z_{i,j}$ to our model that we'll use to compute the total distance between the 
+#' cities in our groups, defined as  $\sum_{i,j}d_{i,j}z_{i,j}$. Variable $z_{i,j}$ will equal $1$ if cities $i$ and $j$ are 
+#' in the same group, and $0$ if they are not in the same group.
+
+#' To ensure that $z_{i,j} = 1$ if and only if cities $i$ and $j$ are in the same group, we add the constraints $z_{i,j} \geq 
+#' x_{i,k} + x_{j,k} - 1$ for every pair $i,j$ and every $k$:
+
+@variable(model, z[1:n,1:n], Bin)
+
+for k in 1:k, i in 1:n, j in 1:n
+    @constraint(model, z[i,j] >= x[i,k] + x[j,k] - 1)
+end
+
 #' We can now add an objective to our model which will simply be to minimize the dot product of $z$ and our distance matrix,
 #' `dm`. We can then call `optimize!` and review the results.
 

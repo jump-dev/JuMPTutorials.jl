@@ -41,4 +41,5 @@ To try out any of the tutorials in the browser without downloading Julia, click 
   - [Experiment Design](https://nbviewer.jupyter.org/github/JuliaOpt/JuMPTutorials.jl/blob/master/notebook/modelling/experiment_design.ipynb)
   - [Rocket Control](https://nbviewer.jupyter.org/github/JuliaOpt/JuMPTutorials.jl/blob/master/notebook/modelling/rocket_control.ipynb)
   - [N-Queens](https://nbviewer.jupyter.org/github/JuliaOpt/JuMPTutorials.jl/blob/master/notebook/modelling/N-Queens.ipynb)
+  - [Facility Location](https://nbviewer.jupyter.org/github/jump-dev/JuMPTutorials.jl/blob/master/notebook/modelling/facility_location.ipynb)
   - [Geographic Clustering With Additional Constraint](https://nbviewer.jupyter.org/github/JuliaOpt/JuMPTutorials.jl/blob/master/notebook/modelling/geographic_clustering.ipynb)
