@@ -4,6 +4,7 @@ authors = ["Arpit Bhatia <arpit16229@iiitd.ac.in>"]
 version = "0.1.0"
 
 [deps]
+Base64 = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 Cbc = "9961bab8-2fa3-5c5a-9d89-47fab24efd76"
 Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
@@ -18,6 +19,7 @@ JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
 LightGraphs = "093fc24a-ae57-5d10-9952-331d41423f4d"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 MathOptInterface = "b8f27783-ece8-5eb3-8dc8-9495eed66fee"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 SCS = "c946c3f1-0d1f-5ce8-9dea-7daa1f7e2d13"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
