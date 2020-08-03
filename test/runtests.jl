@@ -115,5 +115,7 @@ cd("modelling")
         0.1         1.0]
     include("modelling/rocket_control.jl")
     @test objective_value(rocket) ≈ 1.0128340648308058
+
+    include("modelling/facility_location.jl")
 end
 cd("..")
