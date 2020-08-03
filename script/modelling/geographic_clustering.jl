@@ -2,7 +2,7 @@
 #' title: Geographical Clustering With Additional Constraint
 #' ---
 
-#' **Originally Contributed by**: Matthew Helm ([with help from @mtanneau on Julia Discourse](https://discourse.julialang.org/t/which-jump-jl-solver-for-this-problem/43350/17?u=mthelm85))
+#' **Originally Contributed by**: Matthew Helm ([with help from Mathieu Tanneau on Julia Discourse](https://discourse.julialang.org/t/which-jump-jl-solver-for-this-problem/43350/17?u=mthelm85))
 
 #' The goal of this exercise is to cluster $n$ cities into $k$ groups, minimizing the total pairwise distance between cities 
 #' *and* ensuring that the variance in the total populations of each group is relatively small. 
