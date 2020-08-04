@@ -203,5 +203,7 @@ println("immutable_type: $(immutable_type)")
 
 
 using Random
+Random.seed!(33);
+
 [rand() for i in 1:10]
 
