@@ -1,12 +1,4 @@
-<<<<<<< HEAD
 # This file is machine-generated - editing it directly is not advised
-=======
-[[ASL_jll]]
-deps = ["Libdl", "Pkg"]
-git-tree-sha1 = "7fa8d4626ddb4a142e82a8ce07279c1315803433"
-uuid = "ae81ac8f-d209-56e5-92de-9978fef736f9"
-version = "0.1.1+3"
->>>>>>> 8113743ed648854aa13876e9cf2469d1ce71c4a6
 
 [[AbstractFFTs]]
 deps = ["LinearAlgebra"]
