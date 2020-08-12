@@ -1,3 +1,4 @@
+
 using GLPK
 using JuMP
 using LinearAlgebra
@@ -5,10 +6,11 @@ using LinearAlgebra
 # N-Queens
 N = 8
 
-model = Model(GLPK.Optimizer)
+model = Model(GLPK.Optimizer);
 
-# Create the board
+
 @variable(model, x[i=1:N, j=1:N], Bin)
+
 
 # There must be exactly one queen in a given row/column
 for i=1:N
@@ -22,6 +24,11 @@ for i in -(N-1):(N-1)
     @constraint(model, sum(diag(reverse(x,dims=1), i)) <=1)
 end
 
+
 optimize!(model)
 
+
 solution = convert.(Int,value.(x))
+
+
+

@@ -5,11 +5,11 @@
 [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://jump.dev/JuMPTutorials.jl/dev/)
 
 
-This repository contains tutorials on JuMP, a domain-specific modeling language for [mathematical optimization](http://en.wikipedia.org/wiki/Mathematical_optimization) embedded in [Julia](http://julialang.org/). Tutorials can be viewed in the form of webpages, and interactive Jupyter notebooks. This set of tutorials is made to complement the documentation by providing practical examples of the concepts. For more details, please consult the [JuMP documentation](https://jump.dev/JuMP.jl/v0.20/).
+This repository contains tutorials on JuMP, a domain-specific modeling language for [mathematical optimization](http://en.wikipedia.org/wiki/Mathematical_optimization) embedded in [Julia](http://julialang.org/). Tutorials can be viewed in the form of webpages, and interactive Jupyter notebooks. This set of tutorials is made to complement the documentation by providing practical examples of the concepts. For more details, please consult the [JuMP documentation](https://jump.dev/JuMP.jl/stable/).
 
 These tutorials are currently under development as a part of a Google Summer of Code [project](https://summerofcode.withgoogle.com/projects/#5903911565656064). The current list of tutorials that are planned can be viewed at the following [issue](https://github.com/jump-dev/JuMPTutorials.jl/issues/1). If there is a tutorial you would like to request, please add a comment to the above issue. Any other suggestions are welcome as well.
 
-There are also some older notebooks available at [juliaopt-notebooks](https://github.com/JuliaOpt/juliaopt-notebooks) repository. Most of these were built using prior versions of JuMP and may not function correctly, but they can assist in implementing some concepts. There are also some code examples available in the main [JuMP repo](https://github.com/jump-dev/JuMP.jl/tree/release-0.19/examples).
+There are also some older notebooks available at [juliaopt-notebooks](https://github.com/JuliaOpt/juliaopt-notebooks) repository. Most of these were built using prior versions of JuMP and may not function correctly, but they can assist in implementing some concepts. There are also some code examples available in the main [JuMP repo](https://github.com/jump-dev/JuMP.jl/tree/master/examples).
 
 ## Run Notebooks in the Browser
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jump-dev/JuMPTutorials.jl/master)
@@ -42,3 +42,4 @@ To try out any of the tutorials in the browser without downloading Julia, click 
   - [Rocket Control](https://nbviewer.jupyter.org/github/jump-dev/JuMPTutorials.jl/blob/master/notebook/modelling/rocket_control.ipynb)
   - [N-Queens](https://nbviewer.jupyter.org/github/jump-dev/JuMPTutorials.jl/blob/master/notebook/modelling/n-queens.ipynb)
   - [Facility Location](https://nbviewer.jupyter.org/github/jump-dev/JuMPTutorials.jl/blob/master/notebook/modelling/facility_location.ipynb)
+  - [Geographic Clustering With Additional Constraint](https://nbviewer.jupyter.org/github/jump-dev/JuMPTutorials.jl/blob/master/notebook/modelling/geographic_clustering.ipynb)
