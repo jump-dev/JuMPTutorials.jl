@@ -7,9 +7,9 @@
 #' This tutorial shows how to solve a logistic regression problem
 #' with JuMP. Logistic regression is a well known method in machine learning,
 #' useful when we want to classify binary variables with the help of
-#' a given set of features. Fitting a logistic
-#' regression problem sums up to find the optimal combination of features maximizing
-#' the (log)-likelihood onto a training set. In the point of view of optimization,
+#' a given set of features. To this goal,
+#' we find the optimal combination of features maximizing
+#' the (log)-likelihood onto a training set. From a modern optimization glance,
 #' the resulting problem is convex and differentiable. On a modern optimization
 #' glance, it is even conic representable.
 #'
@@ -23,10 +23,9 @@
 #' $$
 #' l(\theta) = \sum_{i=1}^n \log(\dfrac{1}{1 + \exp(-y_i \theta^\top x_i)})
 #' $$
-#' and finding the optimal parameter $\theta$ sums up to find the vector
-#' $\theta$ minimizing the logistic loss function:
+#' and the optimal $\theta$ minimizes the logistic loss function:
 #' $$
-#' \min_{\theta}\; \sum_{i=1}^n \log(1 + \exp(-y_i \theta^\top x_i)) .
+#' \min_{\theta}\; \sum_{i=1}^n \log(1 + \exp(-y_i \theta^\top x_i)).
 #' $$
 #' Most of the time, instead of solving directly the previous optimization problem, we
 #' prefer to add a regularization term:
@@ -82,9 +81,8 @@
 #' \end{aligned}
 #' $$
 #' and thus encompasses $3n + p + 1$ variables and $3n + 1$ constraints ($u_i = -y_i \theta^\top x_i$
-#' is only a temporary constraint used to clarify the notation).
-#' Thus, if $n \gg 1$, we get a large number of variables and constraints which
-#' could imped the resolution in the conic solver.
+#' is only a virtual constraint used to clarify the notation).
+#' Thus, if $n \gg 1$, we get a large number of variables and constraints.
 
 #' ## Fitting logistic regression with a conic solver
 #' It is now time to pass to the implementation. We choose ECOS as a conic solver.
@@ -97,12 +95,12 @@ Random.seed!(2713);
 #' We start by implementing a function to generate a fake dataset, and where
 #' we could tune the correlation between the feature variables. The function
 #' is a direct transcription of the one used in [this blog post](http://fa.bianp.net/blog/2013/numerical-optimizers-for-logistic-regression/).
-function generate_dataset(n_samples=100, n_features=10; corr=0.0)
+function generate_dataset(n_samples=100, n_features=10; shift=0.0)
     X = randn(n_samples, n_features)
     w = randn(n_features)
     y = sign.(X * w)
     X .+= 0.8 * randn(n_samples, n_features) # add noise
-    X .+= corr # this makes it correlated by adding a constant term
+    X .+= shift # shift the points in the feature space
     X = hcat(X, ones(n_samples, 1))
     return X, y
 end
@@ -137,10 +135,10 @@ function build_logit_model(X, y, λ)
     return model
 end
 
-#' We build one dataset with low correlation.
+#' Generate one dataset
 # Be careful here, for large n and p ECOS could fail to converge!
 n, p = 2000, 100
-X, y = generate_dataset(n, p, corr=1.0);
+X, y = generate_dataset(n, p, shift=10.0);
 
 #' We could now solve the logistic regression problem
 λ = 10.0
