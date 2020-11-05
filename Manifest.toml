@@ -1,3 +1,5 @@
+# This file is machine-generated - editing it directly is not advised
+
 [[ASL_jll]]
 deps = ["Libdl", "Pkg"]
 git-tree-sha1 = "7fa8d4626ddb4a142e82a8ce07279c1315803433"
@@ -356,12 +358,6 @@ git-tree-sha1 = "de4a6f9e7c4710ced6838ca906f81905f7385fd6"
 uuid = "a1b4810d-1bce-5fbd-ac56-80944d57a21f"
 version = "0.2.0"
 
-[[Highlights]]
-deps = ["DocStringExtensions", "InteractiveUtils", "REPL"]
-git-tree-sha1 = "f823a2d04fb233d52812c8024a6d46d9581904a4"
-uuid = "eafb193a-b7ab-5a9e-9068-77385905fa72"
-version = "0.4.5"
-
 [[IndirectArrays]]
 git-tree-sha1 = "c2a145a145dc03a7620af1444e0264ef907bd44f"
 uuid = "9b13fd28-a010-5f03-acff-a1bbcff69959"
@@ -536,12 +532,6 @@ version = "0.4.3"
 
 [[Mmap]]
 uuid = "a63ad114-7e13-5084-954f-fe012c677804"
-
-[[Mustache]]
-deps = ["Printf", "Tables"]
-git-tree-sha1 = "fcfc8266461f2905534aa00c0fc59b8751b1026e"
-uuid = "ffc61752-8dc7-55ee-8c37-f3e9cdd09e70"
-version = "1.0.3"
 
 [[MutableArithmetics]]
 deps = ["LinearAlgebra", "SparseArrays", "Test"]
@@ -820,12 +810,6 @@ git-tree-sha1 = "28807f85197eaad3cbd2330386fac1dcb9e7e11d"
 uuid = "ea10d353-3f73-51f8-a26c-33c1cb351aa5"
 version = "0.6.2"
 
-[[Weave]]
-deps = ["Base64", "Dates", "Highlights", "JSON", "Markdown", "Mustache", "Pkg", "Printf", "REPL", "Requires", "Serialization", "YAML"]
-git-tree-sha1 = "f4c004ae4ca7200a46fe1b454e11a0c7cec107c4"
-uuid = "44d3d7a6-8a23-5bf8-98c5-b353f8df5ec9"
-version = "0.9.4"
-
 [[WoodburyMatrices]]
 deps = ["LinearAlgebra", "SparseArrays"]
 git-tree-sha1 = "28ffe06d28b1ba8fdb2f36ec7bb079fac81bac0d"
@@ -837,12 +821,6 @@ deps = ["Dates", "EzXML", "Printf", "ZipFile"]
 git-tree-sha1 = "1512a46bb6155c692f7e040205967a7276490cb7"
 uuid = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 version = "0.6.2"
-
-[[YAML]]
-deps = ["Base64", "Dates", "Printf"]
-git-tree-sha1 = "c5e2eaa5ce818c5277388377d592eb4c81f27c00"
-uuid = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
-version = "0.4.0"
 
 [[ZipFile]]
 deps = ["BinaryProvider", "Libdl", "Printf"]
