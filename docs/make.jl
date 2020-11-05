@@ -1,17 +1,15 @@
-using Documenter, JuMPTutorials
+using Documenter
 
 makedocs(
-    modules = [JuMPTutorials],
     format = Documenter.HTML(),
     sitename = "JuMPTutorials.jl",
-    authors  = "Arpit Bhatia",
+    authors  = "JuMP-dev",
     pages = [
         "Home" => "index.md",
-        "Adding a New Tutorial" => "new.md",
+        "Adding a new tutorial" => "new.md",
         "Notes" => "notes.md",
-        "Future Work" => "future.md",
-        "Function Index" => "api.md"
-    ]
+        "Future work" => "future.md",
+    ],
 )
 
 Documenter.deploydocs(repo = "github.com/jump-dev/JuMPTutorials.jl.git")

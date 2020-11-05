@@ -323,7 +323,7 @@ Pkg.add("https://github.com/user-name/MyPackage.jl.git")
 #+ tangle = false
 import Pkg
 Pkg.activate(@__DIR__)
-Pkg.instantiate()
+# Pkg.instantiate()
 
 #' ### HELP! 
 #' Julia includes a help mode that can be accessed using `?`.  Entering any object (e.g. function, type, struct, ...) into the help mode will show its documentation, if any is available.
