@@ -1,7 +1,7 @@
 name = "JuMPTutorials"
 uuid = "767a2c38-803a-11e9-191e-47b580bc80c9"
 authors = ["Arpit Bhatia <arpit16229@iiitd.ac.in>"]
-version = "0.1.0"
+version = "0.2.0"
 
 [deps]
 Base64 = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
