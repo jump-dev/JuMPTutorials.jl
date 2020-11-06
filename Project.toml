@@ -27,9 +27,9 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 
 [compat]
-CSV = "0.6"
-DataFrames = "0.20"
+CSV = "0.7"
+DataFrames = "0.21"
 JuMP = "0.21"
 LightGraphs = "1"
-XLSX = "0.6"
+XLSX = "0.7"
 julia = "1"
