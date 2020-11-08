@@ -1,4 +1,3 @@
-using JuMPTutorials
 using Test
 using Statistics
 

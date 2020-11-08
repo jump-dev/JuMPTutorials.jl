@@ -1,7 +1,7 @@
 name = "JuMPTutorials"
 uuid = "767a2c38-803a-11e9-191e-47b580bc80c9"
 authors = ["Arpit Bhatia <arpit16229@iiitd.ac.in>"]
-version = "0.1.0"
+version = "0.2.0"
 
 [deps]
 Base64 = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
@@ -24,14 +24,12 @@ Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 SCS = "c946c3f1-0d1f-5ce8-9dea-7daa1f7e2d13"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-Weave = "44d3d7a6-8a23-5bf8-98c5-b353f8df5ec9"
 XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 
 [compat]
-CSV = "0.6"
-DataFrames = "0.20"
+CSV = "0.7"
+DataFrames = "0.21"
 JuMP = "0.21"
 LightGraphs = "1"
-Weave = "0.9"
-XLSX = "0.6"
+XLSX = "0.7"
 julia = "1"

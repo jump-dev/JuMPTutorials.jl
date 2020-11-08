@@ -13,8 +13,8 @@ Checks if the file has been modified since the last Weave and updates the notebo
 * `file` = Name of the tutorial file
 """
 function weave_file(folder,file)
-    cd(joinpath(repo_directory,"script",folder))
-    
+    cd(joinpath(repo_directory, "script", folder))
+
     filename = split(file, ".")[1]
     srcpath = joinpath(repo_directory, "script", folder, file)
     testpath = joinpath(repo_directory, "test", folder, file)
@@ -80,7 +80,7 @@ Use Weave to convert the given file irrespective of whether it has been modified
 """
 function weave_file_f(folder,file)
     cd(joinpath(repo_directory,"script",folder))
-    
+
     srcpath = joinpath(repo_directory, "script", folder, file)
     testpath = joinpath(repo_directory, "test", folder, file)
     notebookpath = joinpath(repo_directory, "notebook", folder)

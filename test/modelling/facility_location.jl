@@ -65,6 +65,8 @@ ufl = Model(GLPK.Optimizer)
 optimize!(ufl)
 println("Optimal value: ", objective_value(ufl))
 
+
+# The threshold 1e-5 ensure that edges between clients and facilities are drawn when x[i, j] ≈ 1.
 x_ = value.(x) .> 1 - 1e-5
 y_ = value.(y) .> 1 - 1e-5
 
@@ -129,9 +131,9 @@ cfl = Model(GLPK.Optimizer)
 # Solve the problem
 optimize!(cfl)
 println("Optimal value: ", objective_value(cfl))
-@test termination_status(cfl) == MOI.OPTIMAL
 
 
+# The threshold 1e-5 ensure that edges between clients and facilities are drawn when x[i, j] ≈ 1.
 x_ = value.(x) .> 1 - 1e-5
 y_ = value.(y) .> 1 - 1e-5
 
@@ -157,3 +159,6 @@ for i in 1:m
 end
 
 display(p)
+
+
+
