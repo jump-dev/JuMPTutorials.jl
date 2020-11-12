@@ -13,3 +13,16 @@ makedocs(
 )
 
 Documenter.deploydocs(repo = "github.com/jump-dev/JuMPTutorials.jl.git")
+
+const converter_path = joinpath(@__DIR__, "../converter")
+
+# notebook deployment phase
+using Pkg
+Pkg.activate(converter_path)
+include(joinpath(converter_path, "convert_pages.jl"))
+
+Documenter.deploydocs(
+    repo = "github.com/jump-dev/JuMPTutorials.jl.git",
+    target = "../notebook",
+    branch = "notebook",
+)
