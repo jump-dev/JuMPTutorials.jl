@@ -19,6 +19,8 @@ const converter_path = joinpath(@__DIR__, "../converter")
 # notebook deployment phase
 using Pkg
 Pkg.activate(converter_path)
+Pkg.instantiate()
+
 include(joinpath(converter_path, "convert_pages.jl"))
 
 Documenter.deploydocs(
