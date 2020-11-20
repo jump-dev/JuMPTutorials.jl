@@ -66,7 +66,7 @@ c_g_scale_df = DataFrame(Symbol("Dispatch of Generator 1(MW)") => Float64[],
                Symbol("Total cost(\$)") => Float64[])
 for c_g1_scale = 0.5:0.1:3.0
     c_g_scale = [c_g[1] * c_g1_scale, c_g[2]] # update the incremental cost of the first generator at every iteration
-    g_opt, w_opt, ws_opt, obj = solve_ed(g_max, g_min, c_g_scale, c_w, d, w_f) # solve the ed problem with the updated incremental cost
+    local g_opt, w_opt, ws_opt, obj = solve_ed(g_max, g_min, c_g_scale, c_w, d, w_f) # solve the ed problem with the updated incremental cost
     push!(c_g_scale_df, (g_opt[1], g_opt[2], w_opt, ws_opt, obj))
 end
 
@@ -126,7 +126,7 @@ demandscale_df = DataFrame(Symbol("Dispatch of Generators(MW)") => Float64[],
                Symbol("Total cost(\$)") => Float64[])
 
 for demandscale = 0.2:0.1:1.5
-    g_opt,w_opt,ws_opt,obj = solve_ed(g_max, g_min, c_g, c_w, demandscale*d, w_f)
+    local g_opt,w_opt,ws_opt,obj = solve_ed(g_max, g_min, c_g, c_w, demandscale*d, w_f)
 
     push!(demandscale_df, (g_opt[1], g_opt[2], w_opt, ws_opt, obj))
 end
@@ -189,10 +189,10 @@ uc_df = DataFrame(Symbol("Commitment of Generator 1(MW)") => Float64[],
                Symbol("Total cost(\$)") => Float64[])
 
 for demandscale = 0.2:0.1:1.5
-    status, g_opt, w_opt, ws_opt, u_opt, obj = solve_uc(g_max, g_min, c_g, c_w, demandscale*d, w_f)
+    local status, g_opt, w_opt, ws_opt, u_opt, obj = solve_uc(g_max, g_min, c_g, c_w, demandscale*d, w_f)
  
     if status == MOI.OPTIMAL
-    push!(uc_df, (u_opt[1], u_opt[2], g_opt[1], g_opt[2], w_opt, ws_opt, obj))
+        push!(uc_df, (u_opt[1], u_opt[2], g_opt[1], g_opt[2], w_opt, ws_opt, obj))
     else
         println("Status: $status for demandscale = $demandscale \n")
     end

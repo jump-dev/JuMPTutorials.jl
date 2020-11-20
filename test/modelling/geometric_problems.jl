@@ -106,10 +106,10 @@ r = 1
 figs=[]
 
 for i = 1:4
-    A = Amin[i, :]
+    local A = Amin[i, :]
 
     floor_planning = Model(optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0))
-
+    local x, y, w, h, W, H
     @variables(floor_planning, begin
         x[1:n] >= r
         y[1:n] >= r
@@ -142,10 +142,12 @@ for i = 1:4
     @show objective_value(floor_planning);
 
     D = DataFrame(x = value.(x), y = value.(y), x2 = value.(x) .+ value.(w), y2 = value.(y) .+ value.(h))
-    plt = plot(D, xmin = :x, ymin = :y, xmax = :x2, ymax = :y2, Geom.rect)
+    local plt = plot(D, xmin = :x, ymin = :y, xmax = :x2, ymax = :y2, Geom.rect)
     push!(figs, plt)
 end
 
 
 draw(SVG(6inch, 6inch), vstack(hstack(figs[1], figs[2]), hstack(figs[3], figs[4])))
+
+
 

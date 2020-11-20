@@ -48,7 +48,7 @@ while(true)
     println("-----------------------\n")
     println("The current master problem is")
     print(master_problem_model)
-     
+    
     optimize!(master_problem_model)
     
     t_status = termination_status(master_problem_model)
@@ -75,7 +75,7 @@ while(true)
 
     c_sub = b - A1 * x_current
 
-    @variable(sub_problem_model, u[1:dim_u] >= 0)
+    local u = @variable(sub_problem_model, u[1:dim_u] >= 0)
 
     @constraint(sub_problem_model, constr_ref_subproblem[j = 1:size(A2, 2)], dot(A2[:, j], u) >= c2[j])
     # The second argument of @constraint macro,

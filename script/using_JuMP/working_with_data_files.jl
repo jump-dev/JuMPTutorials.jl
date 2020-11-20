@@ -56,7 +56,7 @@ Pkg.add("CSV")
 #' To read a CSV file into a DataFrame, we use the `CSV.read` function. 
 
 using CSV
-csv_df = CSV.read(joinpath(data_dir, "StarWars.csv"))
+csv_df = CSV.read(joinpath(data_dir, "StarWars.csv"), DataFrame)
 
 #' ### Other Delimited Files
 #' We can also use the CSV.jl package to read any other delimited text file format. 
@@ -64,16 +64,16 @@ csv_df = CSV.read(joinpath(data_dir, "StarWars.csv"))
 #' Candidate delimiters include `','`, `'\t'`, `' '`, `'|'`, `';'`, and `':'`. If it can't auto-detect the delimiter, it will assume `','`.
 #' Let's take the example of space separated data.
 
-ss_df = CSV.read(joinpath(data_dir, "Cereal.txt"))
+ss_df = CSV.read(joinpath(data_dir, "Cereal.txt"), DataFrame)
 
 #' We can also specify the delimiter by passing the `delim` arguement.
 
-delim_df = CSV.read(joinpath(data_dir, "Soccer.txt"), delim = "::")
+delim_df = CSV.read(joinpath(data_dir, "Soccer.txt"), DataFrame, delim = "::")
 
 #' Note that by default, are read-only. If we wish to make changes to the data read, we pass the `copycols = true` arguement in the function call.
 #+ tangle = false
 
-ss_df = CSV.read(joinpath(data_dir, "Cereal.txt"), copycols = true)
+ss_df = CSV.read(joinpath(data_dir, "Cereal.txt"), DataFrame, copycols = true)
 
 
 #' ## Working with DataFrames
@@ -169,7 +169,7 @@ excel_df
 #' Our task is to find out the minimum number of passports needed to visit every country without requiring a visa.
 #' Thus, the values we are interested in are -1 and 3. Let us modify the data in the following manner -
 
-passportdata = CSV.read(joinpath(data_dir, "passport-index-matrix.csv"), copycols = true)
+passportdata = CSV.read(joinpath(data_dir, "passport-index-matrix.csv"), DataFrame, copycols = true)
 
 for i in 1:nrow(passportdata)
     for j in 2:ncol(passportdata)
