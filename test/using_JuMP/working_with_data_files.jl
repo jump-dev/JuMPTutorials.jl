@@ -8,13 +8,13 @@ excel_df = DataFrame(XLSX.readtable(joinpath(data_dir, "SalesData.xlsx"), "Sales
 
 
 using CSV
-csv_df = CSV.read(joinpath(data_dir, "StarWars.csv"))
+csv_df = CSV.read(joinpath(data_dir, "StarWars.csv"), DataFrame)
 
 
-ss_df = CSV.read(joinpath(data_dir, "Cereal.txt"))
+ss_df = CSV.read(joinpath(data_dir, "Cereal.txt"), DataFrame)
 
 
-delim_df = CSV.read(joinpath(data_dir, "Soccer.txt"), delim = "::")
+delim_df = CSV.read(joinpath(data_dir, "Soccer.txt"), DataFrame, delim = "::")
 
 
 size(ss_df)
@@ -65,7 +65,7 @@ excel_df[1:2, 6:7] =  DataFrame([-2 -2; -2 -2], [Symbol("Unit Cost"), :Total])
 excel_df
 
 
-passportdata = CSV.read(joinpath(data_dir, "passport-index-matrix.csv"), copycols = true)
+passportdata = CSV.read(joinpath(data_dir, "passport-index-matrix.csv"), DataFrame, copycols = true)
 
 for i in 1:nrow(passportdata)
     for j in 2:ncol(passportdata)
