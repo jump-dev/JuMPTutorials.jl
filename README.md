@@ -1,7 +1,7 @@
 # JuMPTutorials.jl
 
 [![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](http://numfocus.org)
-[![Build Status](https://travis-ci.com/jump-dev/JuMPTutorials.jl.svg?branch=master)](https://travis-ci.com/jump-dev/JuMPTutorials.jl)
+[![Build Status](https://github.com/jump-dev/JuMPTutorials.jl/workflows/CI/badge.svg)](https://github.com/jump-dev/JuMPTutorials.jl/actions)
 [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://jump.dev/JuMPTutorials.jl/dev/)
 
 
@@ -9,7 +9,9 @@ This repository contains tutorials on JuMP, a domain-specific modeling language 
 
 These tutorials are currently under development as a part of a Google Summer of Code [project](https://summerofcode.withgoogle.com/projects/#5903911565656064). The current list of tutorials that are planned can be viewed at the following [issue](https://github.com/jump-dev/JuMPTutorials.jl/issues/1). If there is a tutorial you would like to request, please add a comment to the above issue. Any other suggestions are welcome as well.
 
-There are also some older notebooks available at [juliaopt-notebooks](https://github.com/JuliaOpt/juliaopt-notebooks) repository. Most of these were built using prior versions of JuMP and may not function correctly, but they can assist in implementing some concepts. There are also some code examples available in the main [JuMP repo](https://github.com/jump-dev/JuMP.jl/tree/master/examples).
+There are also some older notebooks available at [juliaopt-notebooks](https://github.com/jump-dev/juliaopt-notebooks) repository.
+Most of these were built using prior versions of JuMP and may not function correctly, but they can assist in implementing some concepts.
+There are also some code examples available in the main [JuMP repo](https://github.com/jump-dev/JuMP.jl/tree/master/docs/src/examples).
 
 ## Run Notebooks in the Browser
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jump-dev/JuMPTutorials.jl/master)
