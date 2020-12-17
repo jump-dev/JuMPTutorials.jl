@@ -51,7 +51,7 @@ model = Model()
 #' \end{align*}
 #' $$
 
-#' If we know in advance an upper bound $a^Tx\leq b$. Then we can write the above as a linear inequality
+#' If we know in advance an upper bound $a^Tx\leq M$. Then we can write the above as a linear inequality
 
 #' $$
 #' \begin{align*}
