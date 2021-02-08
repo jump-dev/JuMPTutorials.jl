@@ -28,7 +28,7 @@ XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 
 [compat]
 CSV = "0.7"
-DataFrames = "0.21"
+DataFrames = "0.21, 0.22"
 JuMP = "0.21"
 LightGraphs = "1"
 XLSX = "0.7"
