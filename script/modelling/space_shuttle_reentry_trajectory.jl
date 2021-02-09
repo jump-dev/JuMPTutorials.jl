@@ -102,9 +102,9 @@ using JuMP, Ipopt  # , KNITRO
 #+
 
 # Global variables
-const w  = 203000  # weight (lb)
-const g₀ = 32.174  # acceleration (ft/sec^2)
-const m  = w / g₀  # mass (slug)
+const w  = 203000.0  # weight (lb)
+const g₀ = 32.174    # acceleration (ft/sec^2)
+const m  = w / g₀    # mass (slug)
 
 # Aerodynamic and atmospheric forces on the vehicle
 const ρ₀ =  0.002378
