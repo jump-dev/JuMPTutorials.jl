@@ -18,6 +18,7 @@ the src folder has the Weave.jl utilities used for conversion.
 
 - Arpit Bhatia ([@barpit20](https://github.com/barpit20))
 - Chris Coey ([@chriscoey](https://github.com/chriscoey))
+- Henrique Ferrolho ([@ferrolho](https://github.com/ferrolho))
 - Lea Kapelevich ([@lkapelevich](https://github.com/lkapelevich))
 - Joaquim Dias Garcia ([@joaquimg](https://github.com/joaquimg))
 - Juan Pablo Vielma ([@juan-pablo-vielma](https://github.com/juan-pablo-vielma))

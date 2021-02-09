@@ -42,6 +42,7 @@ To try out any of the tutorials in the browser without downloading Julia, click 
   - [Geometric Problems](https://nbviewer.jupyter.org/github/jump-dev/JuMPTutorials.jl/blob/master/notebook/modelling/geometric_problems.ipynb)
   - [Experiment Design](https://nbviewer.jupyter.org/github/jump-dev/JuMPTutorials.jl/blob/master/notebook/modelling/experiment_design.ipynb)
   - [Rocket Control](https://nbviewer.jupyter.org/github/jump-dev/JuMPTutorials.jl/blob/master/notebook/modelling/rocket_control.ipynb)
+  - [Space Shuttle Reentry Trajectory](https://nbviewer.jupyter.org/github/jump-dev/JuMPTutorials.jl/blob/master/notebook/modelling/space_shuttle_reentry_trajectory.ipynb)
   - [N-Queens](https://nbviewer.jupyter.org/github/jump-dev/JuMPTutorials.jl/blob/master/notebook/modelling/n-queens.ipynb)
   - [Facility Location](https://nbviewer.jupyter.org/github/jump-dev/JuMPTutorials.jl/blob/master/notebook/modelling/facility_location.ipynb)
   - [Geographic Clustering With Additional Constraint](https://nbviewer.jupyter.org/github/jump-dev/JuMPTutorials.jl/blob/master/notebook/modelling/geographic_clustering.ipynb)
