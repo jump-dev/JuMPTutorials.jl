@@ -29,7 +29,7 @@ XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 [compat]
 CSV = "0.7, 0.8"
 Cbc = "0.7"
-Colors = "0.12"
+Colors = "0.11, 0.12"
 DataFrames = "0.21, 0.22"
 Distances = "0.10"
 ECOS = "0.12"
