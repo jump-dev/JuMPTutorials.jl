@@ -4,9 +4,9 @@ using JuMP, Ipopt  # , KNITRO
 
 
 # Global variables
-const w  = 203000  # weight (lb)
-const g₀ = 32.174  # acceleration (ft/sec^2)
-const m  = w / g₀  # mass (slug)
+const w  = 203000.0  # weight (lb)
+const g₀ = 32.174    # acceleration (ft/sec^2)
+const m  = w / g₀    # mass (slug)
 
 # Aerodynamic and atmospheric forces on the vehicle
 const ρ₀ =  0.002378
@@ -24,10 +24,34 @@ const c₁ = -0.19213774e-1
 const c₂ =  0.21286289e-3
 const c₃ = -0.10117249e-5
 
+# Initial conditions
+const hₛ = 2.6          # altitude (ft) / 1e5
+const ϕₛ = deg2rad(0)   # longitude (rad)
+const θₛ = deg2rad(0)   # latitude (rad)
+const vₛ = 2.56         # velocity (ft/sec) / 1e4
+const γₛ = deg2rad(-1)  # flight path angle (rad)
+const ψₛ = deg2rad(90)  # azimuth (rad)
+const αₛ = deg2rad(0)   # angle of attack (rad)
+const βₛ = deg2rad(0)   # banck angle (rad)
+const tₛ = 1.00         # time step (sec)
+
+# Final conditions, the so-called Terminal Area Energy Management (TAEM)
+const hₜ = 0.8          # altitude (ft) / 1e5
+const vₜ = 0.25         # velocity (ft/sec) / 1e4
+const γₜ = deg2rad(-5)  # flight path angle (rad)
+
+# Number of mesh points (knots) to be used
+const n = 2009
+
+# Integration scheme to be used for the dynamics
+const integration_rule = "rectangular"
+
 
 user_options_ipopt = (
     "mu_strategy" => "monotone",
-    "linear_solver" => "ma27",
+    "linear_solver" => "ma27",  # For the best results, it is advised to experiment different linear solvers.
+                                # If Ipopt is not compiled with MA27/MA57, it may fallback to 'MUMPS'.
+                                # In general, the linear solver MA27 is much faster than MUMPS.
 )
 
 # user_options_knitro = (
@@ -39,8 +63,6 @@ user_options_ipopt = (
 # Create JuMP model, using Ipopt as the solver
 model = Model(optimizer_with_attributes(Ipopt.Optimizer, user_options_ipopt...))
 # model = Model(optimizer_with_attributes(KNITRO.Optimizer, user_options_knitro...))
-
-n = 2009  # number of mesh points (knots)
 
 @variables(model, begin
                0 ≤ scaled_h[1:n]                # altitude (ft) / 1e5
@@ -54,22 +76,6 @@ n = 2009  # number of mesh points (knots)
     #        0.5 ≤       Δt[1:n] ≤ 1.5          # time step (sec)
                          Δt[1:n] == 1.0         # time step (sec)
 end)
-
-# Initial conditions
-hₛ = 2.6          # altitude (ft) / 1e5
-ϕₛ = deg2rad(0)   # longitude (rad)
-θₛ = deg2rad(0)   # latitude (rad)
-vₛ = 2.56         # velocity (ft/sec) / 1e4
-γₛ = deg2rad(-1)  # flight path angle (rad)
-ψₛ = deg2rad(90)  # azimuth (rad)
-αₛ = deg2rad(0)   # angle of attack (rad)
-βₛ = deg2rad(0)   # banck angle (rad)
-tₛ = 1.00         # time step (sec)
-
-# Final conditions, the so-called Terminal Area Energy Management (TAEM)
-hₜ = 0.8          # altitude (ft) / 1e5
-vₜ = 0.25         # velocity (ft/sec) / 1e4
-γₜ = deg2rad(-5)  # flight path angle (rad)
 
 # Fix initial conditions
 fix(scaled_h[1], hₛ; force=true)
@@ -118,21 +124,25 @@ set_start_value.(all_variables(model), vec(initial_guess))
 for j in 2:n
     i = j - 1  # index of previous knot
 
-    # Rectangular integration
-    @NLconstraint(model, h[j] == h[i] + Δt[i] * δh[i])
-    @NLconstraint(model, ϕ[j] == ϕ[i] + Δt[i] * δϕ[i])
-    @NLconstraint(model, θ[j] == θ[i] + Δt[i] * δθ[i])
-    @NLconstraint(model, v[j] == v[i] + Δt[i] * δv[i])
-    @NLconstraint(model, γ[j] == γ[i] + Δt[i] * δγ[i])
-    @NLconstraint(model, ψ[j] == ψ[i] + Δt[i] * δψ[i])
-
-    # # Trapezoidal integration
-    # @NLconstraint(model, h[j] == h[i] + 0.5 * Δt[i] * (δh[j] + δh[i]))
-    # @NLconstraint(model, ϕ[j] == ϕ[i] + 0.5 * Δt[i] * (δϕ[j] + δϕ[i]))
-    # @NLconstraint(model, θ[j] == θ[i] + 0.5 * Δt[i] * (δθ[j] + δθ[i]))
-    # @NLconstraint(model, v[j] == v[i] + 0.5 * Δt[i] * (δv[j] + δv[i]))
-    # @NLconstraint(model, γ[j] == γ[i] + 0.5 * Δt[i] * (δγ[j] + δγ[i]))
-    # @NLconstraint(model, ψ[j] == ψ[i] + 0.5 * Δt[i] * (δψ[j] + δψ[i]))
+    if integration_rule == "rectangular"
+        # Rectangular integration
+        @NLconstraint(model, h[j] == h[i] + Δt[i] * δh[i])
+        @NLconstraint(model, ϕ[j] == ϕ[i] + Δt[i] * δϕ[i])
+        @NLconstraint(model, θ[j] == θ[i] + Δt[i] * δθ[i])
+        @NLconstraint(model, v[j] == v[i] + Δt[i] * δv[i])
+        @NLconstraint(model, γ[j] == γ[i] + Δt[i] * δγ[i])
+        @NLconstraint(model, ψ[j] == ψ[i] + Δt[i] * δψ[i])
+    elseif integration_rule == "trapezoidal"
+        # Trapezoidal integration
+        @NLconstraint(model, h[j] == h[i] + 0.5 * Δt[i] * (δh[j] + δh[i]))
+        @NLconstraint(model, ϕ[j] == ϕ[i] + 0.5 * Δt[i] * (δϕ[j] + δϕ[i]))
+        @NLconstraint(model, θ[j] == θ[i] + 0.5 * Δt[i] * (δθ[j] + δθ[i]))
+        @NLconstraint(model, v[j] == v[i] + 0.5 * Δt[i] * (δv[j] + δv[i]))
+        @NLconstraint(model, γ[j] == γ[i] + 0.5 * Δt[i] * (δγ[j] + δγ[i]))
+        @NLconstraint(model, ψ[j] == ψ[i] + 0.5 * Δt[i] * (δψ[j] + δψ[i]))
+    else
+        @error "Unexpected integration rule '$(integration_rule)'"
+    end
 end
 
 # Objective: Maximize crossrange

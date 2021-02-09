@@ -122,6 +122,28 @@ const c₁ = -0.19213774e-1
 const c₂ =  0.21286289e-3
 const c₃ = -0.10117249e-5
 
+# Initial conditions
+const hₛ = 2.6          # altitude (ft) / 1e5
+const ϕₛ = deg2rad(0)   # longitude (rad)
+const θₛ = deg2rad(0)   # latitude (rad)
+const vₛ = 2.56         # velocity (ft/sec) / 1e4
+const γₛ = deg2rad(-1)  # flight path angle (rad)
+const ψₛ = deg2rad(90)  # azimuth (rad)
+const αₛ = deg2rad(0)   # angle of attack (rad)
+const βₛ = deg2rad(0)   # banck angle (rad)
+const tₛ = 1.00         # time step (sec)
+
+# Final conditions, the so-called Terminal Area Energy Management (TAEM)
+const hₜ = 0.8          # altitude (ft) / 1e5
+const vₜ = 0.25         # velocity (ft/sec) / 1e4
+const γₜ = deg2rad(-5)  # flight path angle (rad)
+
+# Number of mesh points (knots) to be used
+const n = 2009
+
+# Integration scheme to be used for the dynamics
+const integration_rule = "rectangular"
+
 #+
 
 user_options_ipopt = (
@@ -141,8 +163,6 @@ user_options_ipopt = (
 model = Model(optimizer_with_attributes(Ipopt.Optimizer, user_options_ipopt...))
 # model = Model(optimizer_with_attributes(KNITRO.Optimizer, user_options_knitro...))
 
-n = 2009  # number of mesh points (knots)
-
 @variables(model, begin
                0 ≤ scaled_h[1:n]                # altitude (ft) / 1e5
                           ϕ[1:n]                # longitude (rad)
@@ -155,22 +175,6 @@ n = 2009  # number of mesh points (knots)
     #        0.5 ≤       Δt[1:n] ≤ 1.5          # time step (sec)
                          Δt[1:n] == 1.0         # time step (sec)
 end)
-
-# Initial conditions
-hₛ = 2.6          # altitude (ft) / 1e5
-ϕₛ = deg2rad(0)   # longitude (rad)
-θₛ = deg2rad(0)   # latitude (rad)
-vₛ = 2.56         # velocity (ft/sec) / 1e4
-γₛ = deg2rad(-1)  # flight path angle (rad)
-ψₛ = deg2rad(90)  # azimuth (rad)
-αₛ = deg2rad(0)   # angle of attack (rad)
-βₛ = deg2rad(0)   # banck angle (rad)
-tₛ = 1.00         # time step (sec)
-
-# Final conditions, the so-called Terminal Area Energy Management (TAEM)
-hₜ = 0.8          # altitude (ft) / 1e5
-vₜ = 0.25         # velocity (ft/sec) / 1e4
-γₜ = deg2rad(-5)  # flight path angle (rad)
 
 # Fix initial conditions
 fix(scaled_h[1], hₛ; force=true)
@@ -214,8 +218,6 @@ set_start_value.(all_variables(model), vec(initial_guess))
 @NLexpression(model, δv[j = 1:n], -(D[j] / m) - g[j] * sin(γ[j]))
 @NLexpression(model, δγ[j = 1:n], (L[j] / (m * v[j])) * cos(β[j]) + cos(γ[j]) * ((v[j] / r[j]) - (g[j] / v[j])))
 @NLexpression(model, δψ[j = 1:n], (1 / (m * v[j] * cos(γ[j]))) * L[j] * sin(β[j]) + (v[j] / (r[j] * cos(θ[j]))) * cos(γ[j]) * sin(ψ[j]) * sin(θ[j]))
-
-integration_rule = "rectangular"
 
 # System dynamics
 for j in 2:n
