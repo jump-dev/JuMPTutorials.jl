@@ -126,7 +126,9 @@ const c₃ = -0.10117249e-5
 
 user_options_ipopt = (
     "mu_strategy" => "monotone",
-    "linear_solver" => "ma27",
+    "linear_solver" => "ma27",  # For the best results, it is advised to experiment different linear solvers.
+                                # If Ipopt is not compiled with MA27/MA57, it may fallback to 'MUMPS'.
+                                # In general, the linear solver MA27 is much faster than MUMPS.
 )
 
 # user_options_knitro = (
