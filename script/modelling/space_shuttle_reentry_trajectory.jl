@@ -213,25 +213,31 @@ set_start_value.(all_variables(model), vec(initial_guess))
 @NLexpression(model, δγ[j = 1:n], (L[j] / (m * v[j])) * cos(β[j]) + cos(γ[j]) * ((v[j] / r[j]) - (g[j] / v[j])))
 @NLexpression(model, δψ[j = 1:n], (1 / (m * v[j] * cos(γ[j]))) * L[j] * sin(β[j]) + (v[j] / (r[j] * cos(θ[j]))) * cos(γ[j]) * sin(ψ[j]) * sin(θ[j]))
 
+integration_rule = "rectangular"
+
 # System dynamics
 for j in 2:n
     i = j - 1  # index of previous knot
 
-    # Rectangular integration
-    @NLconstraint(model, h[j] == h[i] + Δt[i] * δh[i])
-    @NLconstraint(model, ϕ[j] == ϕ[i] + Δt[i] * δϕ[i])
-    @NLconstraint(model, θ[j] == θ[i] + Δt[i] * δθ[i])
-    @NLconstraint(model, v[j] == v[i] + Δt[i] * δv[i])
-    @NLconstraint(model, γ[j] == γ[i] + Δt[i] * δγ[i])
-    @NLconstraint(model, ψ[j] == ψ[i] + Δt[i] * δψ[i])
-
-    # # Trapezoidal integration
-    # @NLconstraint(model, h[j] == h[i] + 0.5 * Δt[i] * (δh[j] + δh[i]))
-    # @NLconstraint(model, ϕ[j] == ϕ[i] + 0.5 * Δt[i] * (δϕ[j] + δϕ[i]))
-    # @NLconstraint(model, θ[j] == θ[i] + 0.5 * Δt[i] * (δθ[j] + δθ[i]))
-    # @NLconstraint(model, v[j] == v[i] + 0.5 * Δt[i] * (δv[j] + δv[i]))
-    # @NLconstraint(model, γ[j] == γ[i] + 0.5 * Δt[i] * (δγ[j] + δγ[i]))
-    # @NLconstraint(model, ψ[j] == ψ[i] + 0.5 * Δt[i] * (δψ[j] + δψ[i]))
+    if integration_rule == "rectangular"
+        # Rectangular integration
+        @NLconstraint(model, h[j] == h[i] + Δt[i] * δh[i])
+        @NLconstraint(model, ϕ[j] == ϕ[i] + Δt[i] * δϕ[i])
+        @NLconstraint(model, θ[j] == θ[i] + Δt[i] * δθ[i])
+        @NLconstraint(model, v[j] == v[i] + Δt[i] * δv[i])
+        @NLconstraint(model, γ[j] == γ[i] + Δt[i] * δγ[i])
+        @NLconstraint(model, ψ[j] == ψ[i] + Δt[i] * δψ[i])
+    elseif integration_rule == "trapezoidal"
+        # Trapezoidal integration
+        @NLconstraint(model, h[j] == h[i] + 0.5 * Δt[i] * (δh[j] + δh[i]))
+        @NLconstraint(model, ϕ[j] == ϕ[i] + 0.5 * Δt[i] * (δϕ[j] + δϕ[i]))
+        @NLconstraint(model, θ[j] == θ[i] + 0.5 * Δt[i] * (δθ[j] + δθ[i]))
+        @NLconstraint(model, v[j] == v[i] + 0.5 * Δt[i] * (δv[j] + δv[i]))
+        @NLconstraint(model, γ[j] == γ[i] + 0.5 * Δt[i] * (δγ[j] + δγ[i]))
+        @NLconstraint(model, ψ[j] == ψ[i] + 0.5 * Δt[i] * (δψ[j] + δψ[i]))
+    else
+        @error "Unexpected integration rule '$(integration_rule)'"
+    end
 end
 
 # Objective: Maximize crossrange
