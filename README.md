@@ -1,3 +1,6 @@
+**Update: April 2021: The JuMPTutorials.jl repository is archived and will not be maintained.**
+**The tutorials from this repository have been moved to the [JuMP documentation](https://jump.dev/JuMP.jl/v0.21.7/tutorials/Getting%20started/an_introduction_to_julia/).**
+
 # JuMPTutorials.jl
 
 [![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](http://numfocus.org)
